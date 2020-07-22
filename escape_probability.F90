@@ -19,6 +19,7 @@ integer(kind=i4b), intent(in) :: nlev
 integer(kind=i4b), intent(in) :: maxpoints
 integer(kind=i4b), intent(in) :: s_jjr(0:nrays-1)
 integer(kind=i4b), intent(in) :: coolant
+real(kind=dp), allocatable :: transition_profile(:,:,:)
 real(kind=dp), intent(inout) :: transition(1:nlev,1:nlev)
 real(kind=dp), intent(in) :: A_COEFFS(1:nlev, 1:nlev)
 real(kind=dp), intent(in) :: B_COEFFS(1:nlev, 1:nlev)
@@ -32,9 +33,10 @@ real(kind=dp), intent(in) :: s_pop(1:nlev)
 real(kind=dp), intent(in) :: dust_temperature,density,metallicity
 
 integer(kind=i4b) :: i, j
-integer(kind=i4b) :: nfreq
+integer(kind=i4b) :: ifreq,nfreq
 integer(kind=i4b) :: ilevel, jlevel
 real(kind=dp) :: beta_ij, beta_ij_sum
+real(kind=dp), allocatable :: beta_ij_profile(:), beta_ij_sum_profile(:)
 real(kind=dp) :: frac1, frac2, frac3, rhs2 
 real(kind=dp) :: thermal_velocity, doppler_width
 real(kind=dp) :: tpop, tmp2
@@ -46,11 +48,15 @@ real(kind=dp), allocatable :: doppler_profile(:)
 real(kind=dp), allocatable :: tau_ij(:)
 real(kind=dp), allocatable :: tau_ij_profile(:,:)
 real(kind=dp), allocatable :: field(:,:)
+real(kind=dp), allocatable :: field_profile(:,:,:)
 real(kind=dp) :: beta_ij_ray(0:nrays-1)
+real(kind=dp), allocatable :: beta_ij_ray_profile(:,:)
 real(kind=dp), intent(out) :: line(1:nlev,1:nlev)
 real(kind=dp), intent(out) :: cooling_rate
 real(kind=dp), intent(out) :: tau(1:nlev,1:nlev,0:nrays-1)
+real(kind=dp), allocatable :: tau_profile(:,:,:,:)
 real(kind=dp),intent(out) :: bbeta(1:nlev,1:nlev,0:nrays-1)
+real(kind=dp), allocatable :: bbeta_profile(:,:,:,:)
 real(kind=dp) :: emissivity, bb_ij_dust, ngrain, rho_grain
 
 
@@ -62,7 +68,13 @@ nfreq = 100
     allocate(tau_ij(0:nrays-1))
     allocate(tau_increment_profile(0:nfreq-1))
     allocate(tau_ij_profile(0:nfreq-1,0:nrays-1))
+    allocate(tau_profile(1:nlev,1:nlev,0:nfreq-1,0:nrays-1))
+    allocate(beta_ij_ray_profile(0:nfreq-1,0:nrays-1))
+    allocate(bbeta_profile(1:nlev,1:nlev,0:nfreq-1,0:nrays-1))
+    allocate(beta_ij_profile(0:nfreq-1))
+    allocate(beta_ij_sum_profile(0:nfreq-1))
     allocate(field(1:nlev,1:nlev))
+    allocate(transition_profile(1:nlev,1:nlev,0:nfreq-1))
     frequancy(0:nfreq-1)=frequencies(ilevel,jlevel) !temp init
     field=0.0D0
     frac2=1.0D0/sqrt(8.0*KB*Tguess/PI/MP + v_turb**2)
@@ -74,7 +86,8 @@ nfreq = 100
        do jlevel=1,nlev !i>j
          if (jlevel.ge.ilevel) exit
          tau_ij=0.0D0; tau_ij_profile(0:nfreq-1,0:nrays-1)=0.0D0
-         beta_ij=0.0D0; beta_ij_ray=0.0D0; beta_ij_sum=0.0D0
+         beta_ij=0.0D0; beta_ij_ray=0.0D0; beta_ij_ray_profile=0.0D0
+	 beta_ij_sum=0.0D0
          frac1=(A_COEFFS(ilevel,jlevel)*(C**3))/(8.0*pi*(frequencies(ilevel,jlevel)**3))
          TMP2=2.0D0*HP*(FREQUENCIES(ilevel,jlevel)**3)/(C**2)
 
@@ -148,10 +161,23 @@ nfreq = 100
               beta_ij_ray(j)=(1.0D0-EXP(-tau_ij(j)))/tau_ij(j)
            endif
 
-        !=============
-        tau(ilevel,jlevel,j)=tau_ij(j)
-        bbeta(ilevel,jlevel,j)=beta_ij_ray(j)
-        !=============
+	!standard escape probability formalism
+	beta_ij_ray_profile(:,j)=(1.0D0-EXP(-tau_ij_profile(:,j)))/tau_ij_profile(:,j)
+	! Prevent exploding beta values caused by strong masing (tau < -10)
+	! Assume tau = -10 and calculate the escape probability accordingly
+	where(tau_ij_profile(:,j).lt.-5.0D0)
+	beta_ij_ray_profile(:,j)=(1.0D0-EXP(5.0D0))/(-5.0D0)
+        ! Prevent floating point overflow caused by very low opacity (tau < 1e-6)
+	elsewhere(abs(tau_ij_profile(:,j)).lt.1.0D-8)
+	beta_ij_ray_profile(:,j)=1.0D0 !was D-6
+	end where
+
+	!=============
+	tau(ilevel,jlevel,j)=tau_ij(j)
+	tau_profile(ilevel,jlevel,:,j)=tau_ij_profile(:,j)
+	bbeta(ilevel,jlevel,j)=beta_ij_ray(j)
+	bbeta_profile(ilevel,jlevel,:,j)=beta_ij_ray_profile(:,j)
+	!=============
 
          enddo !j=0,nrays-1
          beta_ij_sum=sum(beta_ij_ray)
@@ -164,14 +190,31 @@ nfreq = 100
          beta_ij = beta_ij_sum / real(nrays,kind=DP) 
 #endif
 
+	 do ifreq=0,nfreq-1
+	 beta_ij_sum_profile(ifreq)=sum(beta_ij_ray_profile(ifreq,:))
+	 enddo
+	 !calculation of average beta_ij in the origin grid point
+#ifdef PSEUDO_1D
+         beta_ij_profile(:) = beta_ij_sum_profile(:)
+#elif PSEUDO_2D
+         beta_ij_profile(:) = beta_ij_sum_profile(:)/ 4.
+#else
+         beta_ij_profile(:) = beta_ij_sum_profile(:)/real(nrays,kind=DP) 
+#endif
+
 1 continue
          line(ilevel,jlevel) = A_COEFFS(ilevel,jlevel)*HP*frequencies(ilevel,jlevel) * &
                              & s_pop(ilevel)*beta_ij*(S_ij-BB_ij)/S_ij
          cooling_rate = cooling_rate + line(ilevel,jlevel)
 2 continue
+
          !<J_ij>
          field(ilevel,jlevel) = (1.0D0-beta_ij)*S_ij + beta_ij*BB_ij
          field(jlevel,ilevel) = field(ilevel,jlevel)
+
+         !J_ij(p)
+         field_profile(ilevel,jlevel,:) = (1.0D0-beta_ij_profile(:))*S_ij + beta_ij_profile(:)*BB_ij !need to add frequancy dependence in S_ij
+         field_profile(jlevel,ilevel,:) = field_profile(ilevel,jlevel,:)
        enddo !jlevel=1,nlev
      enddo !ilevel=1,nlev
  
@@ -184,10 +227,27 @@ nfreq = 100
         & +B_COEFFS(ilevel,jlevel)*FIELD(ilevel,jlevel)&
         & +C_COEFFS(ilevel,jlevel)
         IF(ABS(TRANSITION(ilevel,jlevel)).LT.1.0D-50) TRANSITION(ilevel,jlevel)=0.0D0
+
+        transition_profile(ilevel,jlevel,:)=A_COEFFS(ilevel,jlevel)&
+        & +B_COEFFS(ilevel,jlevel)*field_profile(ilevel,jlevel,:)&
+        & +C_COEFFS(ilevel,jlevel)
+        where(ABS(transition_profile(ilevel,jlevel,:)).lt.1.0D-50)
+	transition_profile(ilevel,jlevel,:)=0.0D0
+	endwhere
+
       ENDDO !jlevel=1,nlev
     ENDDO !ilevel=1,nlev
 
+    deallocate(frequancy)
+    deallocate(doppler_profile)
     deallocate(tau_ij)
+    deallocate(tau_increment_profile)
+    deallocate(tau_ij_profile)
+    deallocate(tau_profile)
+    deallocate(beta_ij_ray_profile)
+    deallocate(bbeta_profile)
+    deallocate(beta_ij_profile)
+    deallocate(beta_ij_sum_profile)
     deallocate(field)
 
   return
