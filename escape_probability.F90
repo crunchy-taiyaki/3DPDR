@@ -32,13 +32,19 @@ real(kind=dp), intent(in) :: s_pop(1:nlev)
 real(kind=dp), intent(in) :: dust_temperature,density,metallicity
 
 integer(kind=i4b) :: i, j
+integer(kind=i4b) :: nfreq
 integer(kind=i4b) :: ilevel, jlevel
 real(kind=dp) :: beta_ij, beta_ij_sum
-real(kind=dp) :: frac1, frac2, frac3, rhs2
+real(kind=dp) :: frac1, frac2, frac3, rhs2 
+real(kind=dp) :: thermal_velocity, doppler_width
 real(kind=dp) :: tpop, tmp2
 real(kind=dp) :: S_ij, BB_ij
 real(kind=dp) :: tau_increment
+real(kind=dp), allocatable :: tau_increment_profile(:)
+real(kind=dp), allocatable :: frequancy(:)
+real(kind=dp), allocatable :: doppler_profile(:)
 real(kind=dp), allocatable :: tau_ij(:)
+real(kind=dp), allocatable :: tau_ij_profile(:,:)
 real(kind=dp), allocatable :: field(:,:)
 real(kind=dp) :: beta_ij_ray(0:nrays-1)
 real(kind=dp), intent(out) :: line(1:nlev,1:nlev)
@@ -50,15 +56,25 @@ real(kind=dp) :: emissivity, bb_ij_dust, ngrain, rho_grain
 
 line=0.0D0
 cooling_rate = 0.0D0
+nfreq = 100
+    allocate(frequancy(0:nfreq-1))
+    allocate(doppler_profile(0:nfreq-1))
     allocate(tau_ij(0:nrays-1))
+    allocate(tau_increment_profile(0:nfreq-1))
+    allocate(tau_ij_profile(0:nfreq-1,0:nrays-1))
     allocate(field(1:nlev,1:nlev))
+    frequancy(0:nfreq-1)=frequencies(ilevel,jlevel) !temp init
     field=0.0D0
     frac2=1.0D0/sqrt(8.0*KB*Tguess/PI/MP + v_turb**2)
     !frac2=1.0D0/sqrt(KB*Tguess/PI/MP+v_turb**2/2.)/sqrt(2.*PI)
+    thermal_velocity=sqrt(2*KB*Tguess/MP+v_turb**2)
+    doppler_width=frequencies(ilevel,jlevel)*thermal_velocity/C
+    doppler_profile(0:nfreq-1)=exp(-(frequancy(0:nfreq-1)-frequencies(ilevel,jlevel))**2/doppler_width**2)/doppler_width/sqrt(PI)
     do ilevel=1,nlev
        do jlevel=1,nlev !i>j
          if (jlevel.ge.ilevel) exit
-         tau_ij=0.0D0; beta_ij=0.0D0; beta_ij_ray=0.0D0; beta_ij_sum=0.0D0
+         tau_ij=0.0D0; tau_ij_profile(0:nfreq-1,0:nrays-1)=0.0D0
+         beta_ij=0.0D0; beta_ij_ray=0.0D0; beta_ij_sum=0.0D0
          frac1=(A_COEFFS(ilevel,jlevel)*(C**3))/(8.0*pi*(frequencies(ilevel,jlevel)**3))
          TMP2=2.0D0*HP*(FREQUENCIES(ilevel,jlevel)**3)/(C**2)
 
@@ -75,7 +91,7 @@ cooling_rate = 0.0D0
             goto 2
          endif
          TPOP=(s_pop(jlevel)*WEIGHTS(ilevel))/(s_pop(ilevel)*WEIGHTS(jlevel))-1.0D0
-         IF(abs(TPOP).lt.1.0D-50) then
+         if(abs(TPOP).lt.1.0D-50) then
               S_ij=HP*FREQUENCIES(ilevel,jlevel)*s_pop(ilevel)*A_COEFFS(ilevel,jlevel)/4./pi
               beta_ij=1.0D0
               goto 1
@@ -87,10 +103,13 @@ cooling_rate = 0.0D0
 #ifdef PSEUDO_1D
          if (j.ne.6) then
            tau_ij(j) = 1.0D50
+	   tau_ij_profile(0:nfreq-1,j) = 1.0D50
          else
 #endif
 #ifdef PSEUDO_2D
-         if (abs(vectors(3,j).gt.1d-10) tau_ij(j) = 1.0D50 !Not in Equator
+         if (abs(vectors(3,j).gt.1d-10) then
+	     tau_ij(j) = 1.0D50 !Not in Equator
+	     tau_ij_profile(0:nfreq-1,j) = 1.0D50
 #endif
 
 
@@ -102,7 +121,9 @@ cooling_rate = 0.0D0
               &(s_evalpoint(2,j,i-1)-s_evalpoint(2,j,i))**2+&
               &(s_evalpoint(3,j,i-1)-s_evalpoint(3,j,i))**2) !adaptive step
      tau_increment=frac1*frac2*frac3*rhs2*PC
+     tau_increment_profile(0:nfreq-1)=frac1*doppler_profile(0:nfreq-1)*frac3*rhs2*PC
      tau_ij(j)=tau_ij(j)+tau_increment !optical depth
+     tau_ij_profile(0:nfreq-1,j)=tau_ij_profile(0:nfreq-1,j)+tau_increment_profile(0:nfreq-1) !optical depth depending on frequancy
  enddo !i=1,jr(j)
 #ifdef PSEUDO_1D
          endif
