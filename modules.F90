@@ -32,6 +32,7 @@ MODULE maincode_module
   INTEGER(KIND=I4B) :: NLEV,NTEMP
   integer(kind=i4b) :: iteration, ITERTOT
   integer(kind=i4b) :: iterstep     ! output interval (per how many iterations)
+  integer(kind=i4b) :: nfreq = 3
   integer(kind=i4b) :: NSPEC, NREAC
   integer(kind=i4b) :: CII_NLEV, CII_NTEMP   !CII cooling variables
   integer(kind=i4b) :: CI_NLEV, CI_NTEMP     !CI cooling variables
@@ -258,6 +259,9 @@ real(kind=dp),allocatable :: C12O_cool(:)
 real(kind=dp),allocatable :: total_cooling_rate(:)
 real(kind=dp),allocatable :: dummyarray_CII(:,:), dummyarray_CI(:,:)
 real(kind=dp),allocatable :: dummyarray_OI(:,:), dummyarray_C12O(:,:)
+real(kind=dp),allocatable :: dummyarray_CII_profile(:,:,:), dummyarray_CI_profile(:,:,:)
+real(kind=dp),allocatable :: dummyarray_OI_profile(:,:,:), dummyarray_C12O_profile(:,:,:)
+
 !=================
 real(kind=dp),allocatable :: dummyarray_CII_tau(:,:,:), dummyarray_CI_tau(:,:,:)
 real(kind=dp),allocatable :: dummyarray_OI_tau(:,:,:), dummyarray_C12O_tau(:,:,:)

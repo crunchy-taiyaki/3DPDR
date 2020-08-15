@@ -1,9 +1,9 @@
 !T.Bisbas, T.Bell
 
-subroutine escape_probability(transition, dust_temperature, nrays, nlev, &
+subroutine escape_probability(transition, dust_temperature, nrays, nlev,nfreq, &
                    &A_COEFFS, B_COEFFS, C_COEFFS, &
                    &frequencies,s_evalpop, maxpoints, Tguess, v_turb,&
-                   &s_jjr, s_pop, s_evalpoint, weights,cooling_rate,line,tau,coolant,density,metallicity,bbeta)
+                   &s_jjr, s_pop, s_evalpoint, weights,cooling_rate,line,line_profile,tau,coolant,density,metallicity,bbeta)
 
 
 use definitions
@@ -16,6 +16,7 @@ implicit none
 
 integer(kind=i4b), intent(in) :: nrays
 integer(kind=i4b), intent(in) :: nlev
+integer(kind=i4b), intent(in) :: nfreq
 integer(kind=i4b), intent(in) :: maxpoints
 integer(kind=i4b), intent(in) :: s_jjr(0:nrays-1)
 integer(kind=i4b), intent(in) :: coolant
@@ -33,8 +34,9 @@ real(kind=dp), intent(in) :: s_pop(1:nlev)
 real(kind=dp), intent(in) :: dust_temperature,density,metallicity
 
 integer(kind=i4b) :: i, j
-integer(kind=i4b) :: ifreq,nfreq
+integer(kind=i4b) :: ifreq
 integer(kind=i4b) :: ilevel, jlevel
+real(kind=dp) :: freq_CII_2_1 = 492.16065
 real(kind=dp) :: beta_ij, beta_ij_sum
 real(kind=dp), allocatable :: beta_ij_profile(:), beta_ij_sum_profile(:)
 real(kind=dp) :: frac1, frac2, frac3, rhs2 
@@ -43,7 +45,7 @@ real(kind=dp) :: tpop, tmp2
 real(kind=dp) :: S_ij, BB_ij
 real(kind=dp) :: tau_increment
 real(kind=dp), allocatable :: tau_increment_profile(:)
-real(kind=dp), allocatable :: frequancy(:)
+real(kind=dp), allocatable :: frequency(:)
 real(kind=dp), allocatable :: doppler_profile(:)
 real(kind=dp), allocatable :: tau_ij(:)
 real(kind=dp), allocatable :: tau_ij_profile(:,:)
@@ -52,6 +54,7 @@ real(kind=dp), allocatable :: field_profile(:,:,:)
 real(kind=dp) :: beta_ij_ray(0:nrays-1)
 real(kind=dp), allocatable :: beta_ij_ray_profile(:,:)
 real(kind=dp), intent(out) :: line(1:nlev,1:nlev)
+real(kind=dp), intent(out) :: line_profile(1:nlev,1:nlev,0:nfreq-1)
 real(kind=dp), intent(out) :: cooling_rate
 real(kind=dp), intent(out) :: tau(1:nlev,1:nlev,0:nrays-1)
 real(kind=dp), allocatable :: tau_profile(:,:,:,:)
@@ -59,11 +62,10 @@ real(kind=dp),intent(out) :: bbeta(1:nlev,1:nlev,0:nrays-1)
 real(kind=dp), allocatable :: bbeta_profile(:,:,:,:)
 real(kind=dp) :: emissivity, bb_ij_dust, ngrain, rho_grain
 
-
 line=0.0D0
+line_profile=0.0D0
 cooling_rate = 0.0D0
-nfreq = 100
-    allocate(frequancy(0:nfreq-1))
+    allocate(frequency(0:nfreq-1))
     allocate(doppler_profile(0:nfreq-1))
     allocate(tau_ij(0:nrays-1))
     allocate(tau_increment_profile(0:nfreq-1))
@@ -74,17 +76,22 @@ nfreq = 100
     allocate(beta_ij_profile(0:nfreq-1))
     allocate(beta_ij_sum_profile(0:nfreq-1))
     allocate(field(1:nlev,1:nlev))
+    allocate(field_profile(1:nlev,1:nlev,0:nfreq-1))
     allocate(transition_profile(1:nlev,1:nlev,0:nfreq-1))
-    frequancy(0:nfreq-1)=frequencies(ilevel,jlevel) !temp init
     field=0.0D0
     frac2=1.0D0/sqrt(8.0*KB*Tguess/PI/MP + v_turb**2)
     !frac2=1.0D0/sqrt(KB*Tguess/PI/MP+v_turb**2/2.)/sqrt(2.*PI)
     thermal_velocity=sqrt(2*KB*Tguess/MP+v_turb**2)
-    doppler_width=frequencies(ilevel,jlevel)*thermal_velocity/C
-    doppler_profile(0:nfreq-1)=exp(-(frequancy(0:nfreq-1)-frequencies(ilevel,jlevel))**2/doppler_width**2)/doppler_width/sqrt(PI)
     do ilevel=1,nlev
        do jlevel=1,nlev !i>j
          if (jlevel.ge.ilevel) exit
+	 doppler_width=frequencies(ilevel,jlevel)*thermal_velocity/C
+	 !scary frequency initialization
+	 do ifreq=0,nfreq-1
+	 frequency(ifreq)=frequencies(ilevel,jlevel)-3*doppler_width**2+ifreq*6*doppler_width**2/nfreq
+	 enddo
+	 doppler_profile(0:nfreq-1)=exp(-(frequency(0:nfreq-1)-frequencies(ilevel,jlevel))**2/doppler_width**2)/doppler_width/sqrt(PI)
+	 !doppler_profile(0:nfreq-1)=exp(-(frequency(0:nfreq-1)-frequencies(ilevel,jlevel))**2/doppler_width**2)*
          tau_ij=0.0D0; tau_ij_profile(0:nfreq-1,0:nrays-1)=0.0D0
          beta_ij=0.0D0; beta_ij_ray=0.0D0; beta_ij_ray_profile=0.0D0
 	 beta_ij_sum=0.0D0
@@ -101,12 +108,14 @@ nfreq = 100
          if (s_pop(ilevel).eq.0) then
             S_ij=0.0D0
             beta_ij=1.0D0
+	    beta_ij_profile=1.0D0
             goto 2
          endif
          TPOP=(s_pop(jlevel)*WEIGHTS(ilevel))/(s_pop(ilevel)*WEIGHTS(jlevel))-1.0D0
          if(abs(TPOP).lt.1.0D-50) then
               S_ij=HP*FREQUENCIES(ilevel,jlevel)*s_pop(ilevel)*A_COEFFS(ilevel,jlevel)/4./pi
               beta_ij=1.0D0
+	      beta_ij_profile=1.0D0
               goto 1
          else
          !calculation of source function (taken from UCL_PDR)
@@ -136,7 +145,7 @@ nfreq = 100
      tau_increment=frac1*frac2*frac3*rhs2*PC
      tau_increment_profile(0:nfreq-1)=frac1*doppler_profile(0:nfreq-1)*frac3*rhs2*PC
      tau_ij(j)=tau_ij(j)+tau_increment !optical depth
-     tau_ij_profile(0:nfreq-1,j)=tau_ij_profile(0:nfreq-1,j)+tau_increment_profile(0:nfreq-1) !optical depth depending on frequancy
+     tau_ij_profile(0:nfreq-1,j)=tau_ij_profile(0:nfreq-1,j)+tau_increment_profile(0:nfreq-1) !optical depth depending on frequency
  enddo !i=1,jr(j)
 #ifdef PSEUDO_1D
          endif
@@ -178,8 +187,8 @@ nfreq = 100
 	bbeta(ilevel,jlevel,j)=beta_ij_ray(j)
 	bbeta_profile(ilevel,jlevel,:,j)=beta_ij_ray_profile(:,j)
 	!=============
-
          enddo !j=0,nrays-1
+
          beta_ij_sum=sum(beta_ij_ray)
          !calculation of average beta_ij in the origin grid point
 #ifdef PSEUDO_1D
@@ -193,6 +202,7 @@ nfreq = 100
 	 do ifreq=0,nfreq-1
 	 beta_ij_sum_profile(ifreq)=sum(beta_ij_ray_profile(ifreq,:))
 	 enddo
+
 	 !calculation of average beta_ij in the origin grid point
 #ifdef PSEUDO_1D
          beta_ij_profile(:) = beta_ij_sum_profile(:)
@@ -205,15 +215,15 @@ nfreq = 100
 1 continue
          line(ilevel,jlevel) = A_COEFFS(ilevel,jlevel)*HP*frequencies(ilevel,jlevel) * &
                              & s_pop(ilevel)*beta_ij*(S_ij-BB_ij)/S_ij
+	 line_profile(ilevel,jlevel,:) = A_COEFFS(ilevel,jlevel)*HP*frequencies(ilevel,jlevel) * &
+                             & s_pop(ilevel)*beta_ij_profile(:)*(S_ij-BB_ij)/S_ij
          cooling_rate = cooling_rate + line(ilevel,jlevel)
 2 continue
-
          !<J_ij>
          field(ilevel,jlevel) = (1.0D0-beta_ij)*S_ij + beta_ij*BB_ij
          field(jlevel,ilevel) = field(ilevel,jlevel)
-
          !J_ij(p)
-         field_profile(ilevel,jlevel,:) = (1.0D0-beta_ij_profile(:))*S_ij + beta_ij_profile(:)*BB_ij !need to add frequancy dependence in S_ij
+         field_profile(ilevel,jlevel,:) = (1.0D0-beta_ij_profile(:))*S_ij + beta_ij_profile(:)*BB_ij !need to add frequency dependence in S_ij
          field_profile(jlevel,ilevel,:) = field_profile(ilevel,jlevel,:)
        enddo !jlevel=1,nlev
      enddo !ilevel=1,nlev
@@ -238,7 +248,7 @@ nfreq = 100
       ENDDO !jlevel=1,nlev
     ENDDO !ilevel=1,nlev
 
-    deallocate(frequancy)
+    deallocate(frequency)
     deallocate(doppler_profile)
     deallocate(tau_ij)
     deallocate(tau_increment_profile)
@@ -249,7 +259,7 @@ nfreq = 100
     deallocate(beta_ij_profile)
     deallocate(beta_ij_sum_profile)
     deallocate(field)
-
+    deallocate(field_profile)
   return
 
 end subroutine escape_probability

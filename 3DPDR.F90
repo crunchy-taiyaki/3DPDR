@@ -680,6 +680,7 @@ DO ITERATION=1,ITERTOT
 !$OMP PRIVATE(CII_C_COEFFS,CI_C_COEFFS,OI_C_COEFFS,C12O_C_COEFFS) &
 !$OMP PRIVATE(transition_CII,transition_CI,transition_OI,transition_C12O) &
 !$OMP PRIVATE(dummyarray_CII,dummyarray_CI,dummyarray_OI,dummyarray_C12O) &
+!$OMP PRIVATE(dummyarray_CII_profile,dummyarray_CI_profile,dummyarray_OI_profile,dummyarray_C12O_profile) &
 !$OMP PRIVATE(dummyarray_CII_tau,dummyarray_CI_tau,dummyarray_OI_tau,dummyarray_C12O_tau)&
 !$OMP PRIVATE(dummyarray_CII_beta,dummyarray_CI_beta,dummyarray_OI_beta,dummyarray_C12O_beta) &
 !$OMP PRIVATE(CIIsolution,CIsolution,OIsolution,C12Osolution) &
@@ -706,9 +707,13 @@ allocate(transition_CI(1:CI_nlev,1:CI_nlev))
 allocate(transition_OI(1:OI_nlev,1:OI_nlev))
 allocate(transition_C12O(1:C12O_nlev,1:C12O_nlev))
 allocate(dummyarray_CII(1:CII_nlev,1:CII_nlev))
+allocate(dummyarray_CII_profile(1:CII_nlev,1:CII_nlev,0:nfreq-1))
 allocate(dummyarray_CI(1:CI_nlev,1:CI_nlev))
+allocate(dummyarray_CI_profile(1:CI_nlev,1:CI_nlev,0:nfreq-1))
 allocate(dummyarray_OI(1:OI_nlev,1:OI_nlev))
+allocate(dummyarray_OI_profile(1:OI_nlev,1:OI_nlev,0:nfreq-1))
 allocate(dummyarray_C12O(1:C12O_nlev,1:C12O_nlev))
+allocate(dummyarray_C12O_profile(1:C12O_nlev,1:C12O_nlev,0:nfreq-1))
 
 !========
 allocate(dummyarray_CII_tau(1:CII_nlev,1:CII_nlev,0:nrays-1))
@@ -730,8 +735,7 @@ allocate(CIIevalpop(0:nrays-1,0:maxpoints,1:CII_nlev))
 allocate(CIevalpop(0:nrays-1,0:maxpoints,1:CI_nlev))
 allocate(OIevalpop(0:nrays-1,0:maxpoints,1:OI_nlev))
 allocate(C12Oevalpop(0:nrays-1,0:maxpoints,1:C12O_nlev))
-CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
-   
+CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0 
        ! Specify the evaluation points along each ray from the current pdrpoint
        do j=0,nrays-1
           do i=0,pdr(p)%epray(j)
@@ -749,6 +753,7 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
              enddo
           enddo !pdr(p)%epray(j)
        enddo
+ 
        !
        ! Use the LVG (escape probability) method to determine the transition matrices and solve for the level populations
 ! CII calculations -------------------------------------------------
@@ -758,14 +763,16 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
           & CII_C_COEFFS,pdr(p)%abundance(NH)*pdr(p)%rho,pdr(p)%abundance(NPROTON)*pdr(p)%rho, &
           & pdr(p)%abundance(NELECT)*pdr(p)%rho, pdr(p)%abundance(NHE)*pdr(p)%rho,pdr(p)%abundance(NH2)*pdr(p)%rho,&
           & 1)
-       call escape_probability(transition_CII, dusttemperature(pp), nrays, CII_nlev, &
+
+       call escape_probability(transition_CII, dusttemperature(pp), nrays, CII_nlev,nfreq, &
               &CII_A_COEFFS, CII_B_COEFFS, CII_C_COEFFS, &
               &CII_frequencies, CIIevalpop, maxpoints, &
               &gastemperature(pp), v_turb, pdr(p)%epray, pdr(p)%CII_pop, &
-              &pdr(p)%epoint, CII_weights,CII_cool(pp),dummyarray_CII,&
+              &pdr(p)%epoint, CII_weights,CII_cool(pp),dummyarray_CII,dummyarray_CII_profile, &
               &dummyarray_CII_tau,1,pdr(p)%rho,metallicity,dummyarray_CII_beta)
        pdr(p)%CII_line=dummyarray_CII
        pdr(p)%CII_optdepth=dummyarray_CII_tau
+
        call solvlevpop(CII_nlev,transition_CII,pdr(p)%abundance(NCx)*pdr(p)%rho,CIIsolution)!,1)
        CII_solution(pp,:)=CIIsolution
 #ifdef CO_FIX
@@ -783,11 +790,12 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
           & CI_H,CI_HP,CI_EL,CI_HE,CI_H2,CI_PH2,CI_OH2,&
           & CI_C_COEFFS,pdr(p)%abundance(NH)*pdr(p)%rho,pdr(p)%abundance(NPROTOn)*pdr(p)%rho, &
           & pdr(p)%abundance(NELECT)*pdr(p)%rho, pdr(p)%abundance(NHE)*pdr(p)%rho,pdr(p)%abundance(NH2)*pdr(p)%rho,2)
-       call escape_probability(transition_CI, dusttemperature(pp), nrays, CI_nlev, &
+       call escape_probability(transition_CI, dusttemperature(pp), nrays, CI_nlev, nfreq, &
               &CI_A_COEFFS, CI_B_COEFFS, CI_C_COEFFS, &
               &CI_frequencies, CIevalpop, maxpoints, &
               &gastemperature(pp), v_turb, pdr(p)%epray, pdr(p)%CI_pop, &
-              &pdr(p)%epoint,CI_weights,CI_cool(pp),dummyarray_CI,dummyarray_CI_tau,2,pdr(p)%rho,metallicity,dummyarray_CI_beta)
+              &pdr(p)%epoint,CI_weights,CI_cool(pp),dummyarray_CI, &
+	      &dummyarray_CI_profile,dummyarray_CI_tau,2,pdr(p)%rho,metallicity,dummyarray_CI_beta)
        pdr(p)%CI_line=dummyarray_CI
        pdr(p)%CI_optdepth=dummyarray_CI_tau
        call solvlevpop(CI_nlev,transition_CI,pdr(p)%abundance(NC)*pdr(p)%rho,CIsolution)!,2)
@@ -807,11 +815,12 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
           & OI_H,OI_HP,OI_EL,OI_HE,OI_H2,OI_PH2,OI_OH2,&
           & OI_C_COEFFS,pdr(p)%abundance(NH)*pdr(p)%rho,pdr(p)%abundance(NPROTON)*pdr(p)%rho, &
           & pdr(p)%abundance(NELECT)*pdr(p)%rho, pdr(p)%abundance(NHE)*pdr(p)%rho,pdr(p)%abundance(NH2)*pdr(p)%rho,3)
-       call escape_probability(transition_OI, dusttemperature(pp), nrays, OI_nlev, &
+       call escape_probability(transition_OI, dusttemperature(pp), nrays, OI_nlev, nfreq, &
               &OI_A_COEFFS, OI_B_COEFFS, OI_C_COEFFS, &
               &OI_frequencies, OIevalpop, maxpoints, &
               &gastemperature(pp), v_turb, pdr(p)%epray, pdr(p)%OI_pop, &
-              &pdr(p)%epoint,OI_weights,OI_cool(pp),dummyarray_OI,dummyarray_OI_tau,3,pdr(p)%rho,metallicity,dummyarray_OI_beta)
+              &pdr(p)%epoint,OI_weights,OI_cool(pp),dummyarray_OI,dummyarray_OI_profile, &
+              & dummyarray_OI_tau,3,pdr(p)%rho,metallicity,dummyarray_OI_beta)
        pdr(p)%OI_line=dummyarray_OI
        pdr(p)%OI_optdepth=dummyarray_OI_tau
        call solvlevpop(OI_nlev,transition_OI,pdr(p)%abundance(NO)*pdr(p)%rho,OIsolution)!,3)
@@ -831,11 +840,11 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
           & C12O_H,C12O_HP,C12O_EL,C12O_HE,C12O_H2,C12O_PH2,C12O_OH2,&
           & C12O_C_COEFFS,pdr(p)%abundance(NH)*pdr(p)%rho,pdr(p)%abundance(NPROTON)*pdr(p)%rho, &
           & pdr(p)%abundance(NELECT)*pdr(p)%rho, pdr(p)%abundance(NHE)*pdr(p)%rho,pdr(p)%abundance(NH2)*pdr(p)%rho,4)
-       call escape_probability(transition_C12O, dusttemperature(pp), nrays, C12O_nlev, &
+       call escape_probability(transition_C12O, dusttemperature(pp), nrays, C12O_nlev, nfreq,&
               &C12O_A_COEFFS, C12O_B_COEFFS, C12O_C_COEFFS, &
               &C12O_frequencies, C12Oevalpop, maxpoints, &
               &gastemperature(pp), v_turb, pdr(p)%epray, pdr(p)%C12O_pop, &
-              &pdr(p)%epoint,C12O_weights,C12O_cool(pp),dummyarray_C12O,&
+              &pdr(p)%epoint,C12O_weights,C12O_cool(pp),dummyarray_C12O,dummyarray_C12O_profile,&
               &dummyarray_C12O_tau,4,pdr(p)%rho,metallicity,dummyarray_C12O_beta)
        pdr(p)%C12O_line=dummyarray_C12O
        pdr(p)%C12O_optdepth=dummyarray_C12O_tau
@@ -856,6 +865,14 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
        endif
 #endif
 
+!-------------------------------------
+!OUTPUT FOR CII 2-1 LINE PROFILE
+!-------------------------------------
+open(unit=70,file='CII_2.1_line_profile.dat')
+write(70,*)pp, dummyarray_CII(2,1), dummyarray_CII_profile(2,1,:)
+close(77)
+!-------------------------------------------------------------------
+
 deALLOCATE(CII_C_COEFFS)
 deALLOCATE(CI_C_COEFFS)
 deALLOCATE(OI_C_COEFFS)
@@ -868,6 +885,10 @@ deallocate(dummyarray_CII)
 deallocate(dummyarray_CI)
 deallocate(dummyarray_OI)
 deallocate(dummyarray_C12O)
+deallocate(dummyarray_CII_profile)
+deallocate(dummyarray_CI_profile)
+deallocate(dummyarray_OI_profile)
+deallocate(dummyarray_C12O_profile)
 !============
 deallocate(dummyarray_CII_tau)
 deallocate(dummyarray_CI_tau)
@@ -1055,7 +1076,6 @@ enddo !ii=1,itot
 #ifdef OPENMP
 !$OMP END PARALLEL DO
 #endif
-
 
 do pp=1,pdr_ptot
   prev_cooling(pp)=total_cooling_rate(pp)
