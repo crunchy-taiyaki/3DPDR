@@ -163,7 +163,7 @@ ion_ptot=0
 dark_ptot=0
 maximum_density=0.0D0
 minimum_density=1.0D10
-open(unit=2,file=input_file,status='old') !new line!
+open(unit=2,file=input_file,status='old')
 
 do p=1,grand_ptot
     read(2,*) xpos,ypos,zpos,denst
@@ -707,12 +707,13 @@ allocate(transition_CI(1:CI_nlev,1:CI_nlev))
 allocate(transition_OI(1:OI_nlev,1:OI_nlev))
 allocate(transition_C12O(1:C12O_nlev,1:C12O_nlev))
 allocate(dummyarray_CII(1:CII_nlev,1:CII_nlev))
-allocate(dummyarray_CII_profile(1:CII_nlev,1:CII_nlev,0:nfreq-1))
 allocate(dummyarray_CI(1:CI_nlev,1:CI_nlev))
-allocate(dummyarray_CI_profile(1:CI_nlev,1:CI_nlev,0:nfreq-1))
 allocate(dummyarray_OI(1:OI_nlev,1:OI_nlev))
-allocate(dummyarray_OI_profile(1:OI_nlev,1:OI_nlev,0:nfreq-1))
 allocate(dummyarray_C12O(1:C12O_nlev,1:C12O_nlev))
+
+allocate(dummyarray_CII_profile(1:CII_nlev,1:CII_nlev,0:nfreq-1))
+allocate(dummyarray_CI_profile(1:CI_nlev,1:CI_nlev,0:nfreq-1))
+allocate(dummyarray_OI_profile(1:OI_nlev,1:OI_nlev,0:nfreq-1))
 allocate(dummyarray_C12O_profile(1:C12O_nlev,1:C12O_nlev,0:nfreq-1))
 
 !========
@@ -865,13 +866,19 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
        endif
 #endif
 
-!-------------------------------------
-!OUTPUT FOR CII 2-1 LINE PROFILE
-!-------------------------------------
+!-----------------------------------------
+!OUTPUT LINE PROFILES FOR CII 2-1 TRANSIT
+!-----------------------------------------
 open(unit=70,file='CII_2.1_line_profile.dat')
 write(70,*)pp, dummyarray_CII(2,1), dummyarray_CII_profile(2,1,:)
-close(77)
-!-------------------------------------------------------------------
+!-------------------------------
+!END OUTPUT FOR TRANSITION LINES
+!-------------------------------
+
+deallocate(dummyarray_CII_profile)
+deallocate(dummyarray_CI_profile)
+deallocate(dummyarray_OI_profile)
+deallocate(dummyarray_C12O_profile)
 
 deALLOCATE(CII_C_COEFFS)
 deALLOCATE(CI_C_COEFFS)
@@ -885,10 +892,6 @@ deallocate(dummyarray_CII)
 deallocate(dummyarray_CI)
 deallocate(dummyarray_OI)
 deallocate(dummyarray_C12O)
-deallocate(dummyarray_CII_profile)
-deallocate(dummyarray_CI_profile)
-deallocate(dummyarray_OI_profile)
-deallocate(dummyarray_C12O_profile)
 !============
 deallocate(dummyarray_CII_tau)
 deallocate(dummyarray_CI_tau)
@@ -1478,9 +1481,8 @@ close(21)
       &pdr(p)%AV(:)
 #endif
    close(16)
-!-------------------------------
-!END OUTPUT FOR TRANSITION LINES
-!-------------------------------
+   close(70)!close profile line file
+
 
 !---------------------------
 !OUTPUT FOR OPTICAL DEPTHS

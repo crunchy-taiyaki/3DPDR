@@ -81,20 +81,18 @@ cooling_rate = 0.0D0
 
     field=0.0D0
     frac2=1.0D0/sqrt(8.0*KB*Tguess/PI/MP + v_turb**2)
-    !thermal_velocity=sqrt(2*KB*Tguess/MP+v_turb**2)
     thermal_velocity=sqrt(8*KB*Tguess/PI/MP+v_turb**2)
 
     do ilevel=1,nlev
        do jlevel=1,nlev !i>j
          if (jlevel.ge.ilevel) exit
-	 doppler_width=thermal_velocity
-	 !doppler_width=thermal_velocity
+	 !it should be thermal_velocity*frequencies(ilevel,jlevel)/C, but we have some errors... 
+	 doppler_width=thermal_velocity	 
+	 !init frequency array in range [-3*doppler_width**2,3*doppler_width**2]
 	 do ifreq=0,nfreq-1
-	 frequency(ifreq)=frequencies(ilevel,jlevel)-3*doppler_width**2+ifreq*6*doppler_width**2/(nfreq-1)
+	 frequency(ifreq)=frequencies(ilevel,jlevel)-3*doppler_width**2+ifreq*2*3*doppler_width**2/(nfreq-1)
 	 enddo
-
-	 !doppler_profile(0:nfreq-1)=exp(-(frequency(0:nfreq-1)-frequencies(ilevel,jlevel))**2/doppler_width**2)/doppler_width/sqrt(PI)
-	 doppler_profile(0:nfreq-1)=exp(-(frequency(0:nfreq-1)-frequencies(ilevel,jlevel))**2/doppler_width**2)/doppler_width
+	 doppler_profile(0:nfreq-1)=exp(-(frequency(:)-frequencies(ilevel,jlevel))**2/doppler_width**2)/doppler_width
          tau_ij=0.0D0; tau_ij_profile(0:nfreq-1,0:nrays-1)=0.0D0
          beta_ij=0.0D0; beta_ij_ray=0.0D0; beta_ij_ray_profile=0.0D0
 	 beta_ij_sum=0.0D0
@@ -263,6 +261,8 @@ cooling_rate = 0.0D0
     deallocate(beta_ij_sum_profile)
     deallocate(field)
     deallocate(field_profile)
+    deallocate(transition_profile)
+
   return
 
 end subroutine escape_probability
