@@ -122,73 +122,71 @@ cooling_rate = 0.0D0
          !calculation of source function (taken from UCL_PDR)
               S_ij=TMP2/TPOP
          endif
+
          do j=0,nrays-1
 #ifdef PSEUDO_1D
-         if (j.ne.6) then
-           tau_ij(j) = 1.0D50
-	   tau_ij_profile(0:nfreq-1,j) = 1.0D50
-         else
-#endif
-#ifdef PSEUDO_2D
-         if (abs(vectors(3,j).gt.1d-10) then
-	     tau_ij(j) = 1.0D50 !Not in Equator
+           if (j.ne.6) then
+             tau_ij(j) = 1.0D50
 	     tau_ij_profile(0:nfreq-1,j) = 1.0D50
-#endif
-
-
- do i=1,s_jjr(j)
-             !calculations of tau_ij
-     frac3=((s_evalpop(j,i-1,jlevel)*weights(ilevel)-s_evalpop(j,i-1,ilevel)*weights(jlevel))+&
-      &(s_evalpop(j,i,jlevel)*weights(ilevel)-s_evalpop(j,i,ilevel)*weights(jlevel)))/2./weights(jlevel)
-     rhs2=sqrt((s_evalpoint(1,j,i-1)-s_evalpoint(1,j,i))**2+&
-              &(s_evalpoint(2,j,i-1)-s_evalpoint(2,j,i))**2+&
-              &(s_evalpoint(3,j,i-1)-s_evalpoint(3,j,i))**2) !adaptive step
-     tau_increment=frac1*frac2*frac3*rhs2*PC
-     tau_increment_profile(0:nfreq-1)=frac1*doppler_profile(0:nfreq-1)*frac3*rhs2*PC
-     tau_ij(j)=tau_ij(j)+tau_increment !optical depth
-     tau_ij_profile(0:nfreq-1,j)=tau_ij_profile(0:nfreq-1,j)+tau_increment_profile(0:nfreq-1) !optical depth depending on frequency
- enddo !i=1,jr(j)
-#ifdef PSEUDO_1D
-         endif
+           else
 #endif
 #ifdef PSEUDO_2D
-         endif
+           if (abs(vectors(3,j).gt.1d-10) then
+	       tau_ij(j) = 1.0D50 !Not in Equator
+	       tau_ij_profile(0:nfreq-1,j) = 1.0D50
+#endif	     
+	       do i=1,s_jjr(j)
+		     !calculations of tau_ij
+	         frac3=((s_evalpop(j,i-1,jlevel)*weights(ilevel)-s_evalpop(j,i-1,ilevel)*weights(jlevel))+&
+	         &(s_evalpop(j,i,jlevel)*weights(ilevel)-s_evalpop(j,i,ilevel)*weights(jlevel)))/2./weights(jlevel)
+	         rhs2=sqrt((s_evalpoint(1,j,i-1)-s_evalpoint(1,j,i))**2+&
+		      &(s_evalpoint(2,j,i-1)-s_evalpoint(2,j,i))**2+&
+		      &(s_evalpoint(3,j,i-1)-s_evalpoint(3,j,i))**2) !adaptive step
+	         tau_increment=frac1*frac2*frac3*rhs2*PC
+	         tau_increment_profile(0:nfreq-1)=frac1*doppler_profile(0:nfreq-1)*frac3*rhs2*PC
+	         tau_ij(j)=tau_ij(j)+tau_increment !optical depth
+	         tau_ij_profile(0:nfreq-1,j)=tau_ij_profile(0:nfreq-1,j)+tau_increment_profile(0:nfreq-1) !optical depth depending on frequency
+	       enddo !i=1,jr(j)
+#ifdef PSEUDO_1D
+           endif
 #endif
-
-
+#ifdef PSEUDO_2D
+           endif
+#endif
            ! Prevent exploding beta values caused by strong masing (tau < -10)
            ! Assume tau = -10 and calculate the escape probability accordingly
            if (tau_ij(j).lt.-5.0D0) then
-              beta_ij_ray(j)=(1.0D0-EXP(5.0D0))/(-5.0D0)
+             beta_ij_ray(j)=(1.0D0-EXP(5.0D0))/(-5.0D0)
 !           ! Treat weak masing using the standard escape probability formalism
 !           else if (tau_ij(j).lt.0.0D0) then
 !              beta_ij_ray(j)=(1.0D0-EXP(-tau_ij(j)))/tau_ij(j)
            ! Prevent floating point overflow caused by very low opacity (tau < 1e-6)
            else if (abs(tau_ij(j)).lt.1.0D-8) then !was D-6
-              beta_ij_ray(j)=1.0D0
+             beta_ij_ray(j)=1.0D0
            ! For all other cases use the standard escape probability formalism
            else
-              beta_ij_ray(j)=(1.0D0-EXP(-tau_ij(j)))/tau_ij(j)
+             beta_ij_ray(j)=(1.0D0-EXP(-tau_ij(j)))/tau_ij(j)
            endif
 
-	!standard escape probability formalism
-	beta_ij_ray_profile(:,j)=(1.0D0-EXP(-tau_ij_profile(:,j)))/tau_ij_profile(:,j)
-	! Prevent exploding beta values caused by strong masing (tau < -10)
-	! Assume tau = -10 and calculate the escape probability accordingly
-	where(tau_ij_profile(:,j).lt.-5.0D0)
-	beta_ij_ray_profile(:,j)=(1.0D0-EXP(5.0D0))/(-5.0D0)
-        ! Prevent floating point overflow caused by very low opacity (tau < 1e-6)
-	elsewhere(abs(tau_ij_profile(:,j)).lt.1.0D-8)
-	beta_ij_ray_profile(:,j)=1.0D0 !was D-6
-	end where
+	  !standard escape probability formalism
+	  beta_ij_ray_profile(:,j)=(1.0D0-EXP(-tau_ij_profile(:,j)))/tau_ij_profile(:,j)
+	  ! Prevent exploding beta values caused by strong masing (tau < -10)
+	  ! Assume tau = -10 and calculate the escape probability accordingly
+	  where(tau_ij_profile(:,j).lt.-5.0D0)
+	    beta_ij_ray_profile(:,j)=(1.0D0-EXP(5.0D0))/(-5.0D0)
+          ! Prevent floating point overflow caused by very low opacity (tau < 1e-6)
+	  elsewhere(abs(tau_ij_profile(:,j)).lt.1.0D-8)
+	    beta_ij_ray_profile(:,j)=1.0D0 !was D-6
+	  end where
+	  !=============
+	  tau(ilevel,jlevel,j)=tau_ij(j)
+	  tau_profile(ilevel,jlevel,:,j)=tau_ij_profile(:,j)
+	  bbeta(ilevel,jlevel,j)=beta_ij_ray(j)
+	  bbeta_profile(ilevel,jlevel,:,j)=beta_ij_ray_profile(:,j)
+	  !=============
 
-	!=============
-	tau(ilevel,jlevel,j)=tau_ij(j)
-	tau_profile(ilevel,jlevel,:,j)=tau_ij_profile(:,j)
-	bbeta(ilevel,jlevel,j)=beta_ij_ray(j)
-	bbeta_profile(ilevel,jlevel,:,j)=beta_ij_ray_profile(:,j)
-	!=============
          enddo !j=0,nrays-1
+
 
          beta_ij_sum=sum(beta_ij_ray)
          !calculation of average beta_ij in the origin grid point
