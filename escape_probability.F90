@@ -90,7 +90,7 @@ cooling_rate = 0.0D0
 	 doppler_width=thermal_velocity	 
 	 !init frequency array in range [-3*doppler_width**2,3*doppler_width**2]
 	 do ifreq=0,nfreq-1
-	 frequency(ifreq)=frequencies(ilevel,jlevel)-3*doppler_width**2+ifreq*2*3*doppler_width**2/(nfreq-1)
+ 	 frequency(ifreq)=frequencies(ilevel,jlevel)-doppler_width+ifreq*2*doppler_width/(nfreq-1)
 	 enddo
 	 doppler_profile(0:nfreq-1)=exp(-(frequency(:)-frequencies(ilevel,jlevel))**2/doppler_width**2)/doppler_width
          tau_ij=0.0D0; tau_ij_profile(0:nfreq-1,0:nrays-1)=0.0D0
