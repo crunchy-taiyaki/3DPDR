@@ -197,6 +197,13 @@ MODULE maincode_module
      real(kind=dp), pointer :: CI_line(:,:)        !CI line cooling
      real(kind=dp), pointer :: OI_line(:,:)        !OI line cooling
      real(kind=dp), pointer :: C12O_line(:,:)      !C12O line cooling
+!=====================================================================
+
+     real(kind=dp), pointer :: CII_line_profile(:,:,:)       !CII line cooling
+     real(kind=dp), pointer :: CI_line_profile(:,:,:)        !CI line cooling
+     real(kind=dp), pointer :: OI_line_profile(:,:,:)        !OI line cooling
+     real(kind=dp), pointer :: C12O_line_profile(:,:,:)      !C12O line cooling
+!===============
 !===============
      real(kind=dp), pointer :: CII_optdepth(:,:,:)       !CII line cooling
      real(kind=dp), pointer :: CI_optdepth(:,:,:)        !CI line cooling

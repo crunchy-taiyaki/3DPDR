@@ -362,6 +362,10 @@ do pp=1,pdr_ptot
     allocate(pdr(p)%OI_optdepth(1:OI_nlev,1:OI_nlev,0:nrays-1))
     allocate(pdr(p)%C12O_optdepth(1:C12O_nlev,1:C12O_nlev,0:nrays-1))
 !==========
+    allocate(pdr(p)%CII_line_profile(1:CII_nlev,1:CII_nlev,0:nfreq-1))
+    allocate(pdr(p)%CI_line_profile(1:CI_nlev,1:CI_nlev,0:nfreq-1))
+    allocate(pdr(p)%OI_line_profile(1:OI_nlev,1:OI_nlev,0:nfreq-1))
+    allocate(pdr(p)%C12O_line_profile(1:C12O_nlev,1:C12O_nlev,0:nfreq-1))
 enddo
 !Allocating for the ONE molecular element------
 if (dark_ptot.gt.0) then
@@ -866,20 +870,6 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
        endif
 #endif
 
-!-----------------------------------------
-!OUTPUT LINE PROFILES FOR CII 2-1 TRANSIT
-!-----------------------------------------
-open(unit=70,file='CII_2.1_line_profile.dat')
-write(70,*)pp, dummyarray_CII(2,1), dummyarray_CII_profile(2,1,:)
-!-------------------------------
-!END OUTPUT FOR TRANSITION LINES
-!-------------------------------
-
-deallocate(dummyarray_CII_profile)
-deallocate(dummyarray_CI_profile)
-deallocate(dummyarray_OI_profile)
-deallocate(dummyarray_C12O_profile)
-
 deALLOCATE(CII_C_COEFFS)
 deALLOCATE(CI_C_COEFFS)
 deALLOCATE(OI_C_COEFFS)
@@ -892,6 +882,11 @@ deallocate(dummyarray_CII)
 deallocate(dummyarray_CI)
 deallocate(dummyarray_OI)
 deallocate(dummyarray_C12O)
+!============
+deallocate(dummyarray_CII_profile)
+deallocate(dummyarray_CI_profile)
+deallocate(dummyarray_OI_profile)
+deallocate(dummyarray_C12O_profile)
 !============
 deallocate(dummyarray_CII_tau)
 deallocate(dummyarray_CI_tau)
@@ -1481,7 +1476,37 @@ close(21)
       &pdr(p)%AV(:)
 #endif
    close(16)
-   close(70)!close profile line file
+
+!-----------------------------------------
+!OUTPUT FOR TRANSIT LINE PROFILES
+!-----------------------------------------
+open(unit=16,file='CII_2.1_line_profile.dat',status='replace')
+do pp=1,pdr_ptot
+      p=IDlist_pdr(pp)
+      write(16,*)pp, pdr(p)%CII_line(2,1), pdr(p)%CII_line_profile(2,1,:)
+enddo
+   close(16)
+open(unit=16,file='CI_2.1_line_profile.dat',status='replace')
+do pp=1,pdr_ptot
+      p=IDlist_pdr(pp)
+      write(16,*)pp, pdr(p)%CI_line(2,1), pdr(p)%CI_line_profile(2,1,:)
+enddo
+   close(16)
+open(unit=16,file='OI_2.1_line_profile.dat',status='replace')
+do pp=1,pdr_ptot
+      p=IDlist_pdr(pp)
+      write(16,*)pp, pdr(p)%OI_line(2,1), pdr(p)%OI_line_profile(2,1,:)
+enddo
+   close(16)
+open(unit=16,file='C12O_2.1_line_profile.dat',status='replace')
+do pp=1,pdr_ptot
+      p=IDlist_pdr(pp)
+      write(16,*)pp, pdr(p)%C12O_line(2,1), pdr(p)%C12O_line_profile(2,1,:)
+enddo
+   close(16)
+!-------------------------------
+!END OUTPUT FOR TRANSIT LINE PROFILES
+!-------------------------------
 
 
 !---------------------------
