@@ -776,6 +776,7 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
               &pdr(p)%epoint, CII_weights,CII_cool(pp),dummyarray_CII,dummyarray_CII_profile, &
               &dummyarray_CII_tau,1,pdr(p)%rho,metallicity,dummyarray_CII_beta)
        pdr(p)%CII_line=dummyarray_CII
+       pdr(p)%CII_line_profile=dummyarray_CII_profile
        pdr(p)%CII_optdepth=dummyarray_CII_tau
 
        call solvlevpop(CII_nlev,transition_CII,pdr(p)%abundance(NCx)*pdr(p)%rho,CIIsolution)!,1)
@@ -802,6 +803,7 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
               &pdr(p)%epoint,CI_weights,CI_cool(pp),dummyarray_CI, &
 	      &dummyarray_CI_profile,dummyarray_CI_tau,2,pdr(p)%rho,metallicity,dummyarray_CI_beta)
        pdr(p)%CI_line=dummyarray_CI
+       pdr(p)%CI_line_profile=dummyarray_CI_profile
        pdr(p)%CI_optdepth=dummyarray_CI_tau
        call solvlevpop(CI_nlev,transition_CI,pdr(p)%abundance(NC)*pdr(p)%rho,CIsolution)!,2)
        CI_solution(pp,:)=CIsolution
@@ -827,6 +829,7 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
               &pdr(p)%epoint,OI_weights,OI_cool(pp),dummyarray_OI,dummyarray_OI_profile, &
               & dummyarray_OI_tau,3,pdr(p)%rho,metallicity,dummyarray_OI_beta)
        pdr(p)%OI_line=dummyarray_OI
+       pdr(p)%OI_line_profile=dummyarray_OI_profile
        pdr(p)%OI_optdepth=dummyarray_OI_tau
        call solvlevpop(OI_nlev,transition_OI,pdr(p)%abundance(NO)*pdr(p)%rho,OIsolution)!,3)
        OI_solution(pp,:)=OIsolution
@@ -852,6 +855,7 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
               &pdr(p)%epoint,C12O_weights,C12O_cool(pp),dummyarray_C12O,dummyarray_C12O_profile,&
               &dummyarray_C12O_tau,4,pdr(p)%rho,metallicity,dummyarray_C12O_beta)
        pdr(p)%C12O_line=dummyarray_C12O
+       pdr(p)%C12O_line_profile=dummyarray_C12O_profile
        pdr(p)%C12O_optdepth=dummyarray_C12O_tau
        call solvlevpop(C12O_nlev,transition_C12O,pdr(p)%abundance(NCO)*pdr(p)%rho,C12Osolution)!,4)
        C12O_solution(pp,:)=C12Osolution
