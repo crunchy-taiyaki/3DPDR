@@ -199,10 +199,15 @@ MODULE maincode_module
      real(kind=dp), pointer :: C12O_line(:,:)      !C12O line cooling
 !=====================================================================
 
-     real(kind=dp), pointer :: CII_line_profile(:,:,:)       !CII line cooling
-     real(kind=dp), pointer :: CI_line_profile(:,:,:)        !CI line cooling
-     real(kind=dp), pointer :: OI_line_profile(:,:,:)        !OI line cooling
-     real(kind=dp), pointer :: C12O_line_profile(:,:,:)      !C12O line cooling
+     real(kind=dp), pointer :: CII_line_profile(:,:,:)       !CII
+     real(kind=dp), pointer :: CI_line_profile(:,:,:)        !CI
+     real(kind=dp), pointer :: OI_line_profile(:,:,:)        !OI
+     real(kind=dp), pointer :: C12O_line_profile(:,:,:)      !C12O
+
+     real(kind=dp), pointer :: CII_field_profile(:,:,:)       !CII
+     real(kind=dp), pointer :: CI_field_profile(:,:,:)        !CI
+     real(kind=dp), pointer :: OI_field_profile(:,:,:)        !OI
+     real(kind=dp), pointer :: C12O_field_profile(:,:,:)      !C12O
 !===============
 !===============
      real(kind=dp), pointer :: CII_optdepth(:,:,:)       !CII line cooling
@@ -266,8 +271,12 @@ real(kind=dp),allocatable :: C12O_cool(:)
 real(kind=dp),allocatable :: total_cooling_rate(:)
 real(kind=dp),allocatable :: dummyarray_CII(:,:), dummyarray_CI(:,:)
 real(kind=dp),allocatable :: dummyarray_OI(:,:), dummyarray_C12O(:,:)
+
 real(kind=dp),allocatable :: dummyarray_CII_profile(:,:,:), dummyarray_CI_profile(:,:,:)
 real(kind=dp),allocatable :: dummyarray_OI_profile(:,:,:), dummyarray_C12O_profile(:,:,:)
+
+real(kind=dp),allocatable :: dummyarray_CII_field_profile(:,:,:), dummyarray_CI_field_profile(:,:,:)
+real(kind=dp),allocatable :: dummyarray_OI_field_profile(:,:,:), dummyarray_C12O_field_profile(:,:,:)
 
 !=================
 real(kind=dp),allocatable :: dummyarray_CII_tau(:,:,:), dummyarray_CI_tau(:,:,:)

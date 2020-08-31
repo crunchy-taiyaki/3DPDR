@@ -3,7 +3,8 @@
 subroutine escape_probability(transition, dust_temperature, nrays, nlev,nfreq, &
                    &A_COEFFS, B_COEFFS, C_COEFFS, &
                    &frequencies,s_evalpop, maxpoints, Tguess, v_turb,&
-                   &s_jjr, s_pop, s_evalpoint, weights,cooling_rate,line,line_profile,tau,coolant,density,metallicity,bbeta)
+                   &s_jjr, s_pop, s_evalpoint, weights,cooling_rate,line,line_profile,&
+                   &field_profile,tau,coolant,density,metallicity,bbeta)
 
 
 use definitions
@@ -50,7 +51,6 @@ real(kind=dp), allocatable :: doppler_profile(:)
 real(kind=dp), allocatable :: tau_ij(:)
 real(kind=dp), allocatable :: tau_ij_profile(:,:)
 real(kind=dp), allocatable :: field(:,:)
-real(kind=dp), allocatable :: field_profile(:,:,:)
 real(kind=dp) :: beta_ij_ray(0:nrays-1)
 real(kind=dp), allocatable :: beta_ij_ray_profile(:,:)
 real(kind=dp), intent(out) :: line(1:nlev,1:nlev)
@@ -60,6 +60,7 @@ real(kind=dp), intent(out) :: tau(1:nlev,1:nlev,0:nrays-1)
 real(kind=dp), allocatable :: tau_profile(:,:,:,:)
 real(kind=dp),intent(out) :: bbeta(1:nlev,1:nlev,0:nrays-1)
 real(kind=dp), allocatable :: bbeta_profile(:,:,:,:)
+real(kind=dp), intent(out) :: field_profile(1:nlev,1:nlev,0:nfreq-1)
 real(kind=dp) :: emissivity, bb_ij_dust, ngrain, rho_grain
 
 line=0.0D0
@@ -76,7 +77,6 @@ cooling_rate = 0.0D0
     allocate(beta_ij_profile(0:nfreq-1))
     allocate(beta_ij_sum_profile(0:nfreq-1))
     allocate(field(1:nlev,1:nlev))
-    allocate(field_profile(1:nlev,1:nlev,0:nfreq-1))
     allocate(transition_profile(1:nlev,1:nlev,0:nfreq-1))
 
     field=0.0D0
@@ -90,7 +90,7 @@ cooling_rate = 0.0D0
 	 doppler_width=thermal_velocity	 
 	 !init frequency array in range [-3*doppler_width**2,3*doppler_width**2]
 	 do ifreq=0,nfreq-1
- 	 frequency(ifreq)=frequencies(ilevel,jlevel)-doppler_width+ifreq*2*doppler_width/(nfreq-1)
+ 	 frequency(ifreq)=frequencies(ilevel,jlevel)-3*doppler_width+ifreq*2*3*doppler_width/(nfreq-1)
 	 enddo
 	 doppler_profile(0:nfreq-1)=exp(-(frequency(:)-frequencies(ilevel,jlevel))**2/doppler_width**2)/doppler_width
          tau_ij=0.0D0; tau_ij_profile(0:nfreq-1,0:nrays-1)=0.0D0
@@ -223,6 +223,9 @@ cooling_rate = 0.0D0
          field(jlevel,ilevel) = field(ilevel,jlevel)
          !J_ij(p)
          field_profile(ilevel,jlevel,:) = (1.0D0-beta_ij_profile(:))*S_ij + beta_ij_profile(:)*BB_ij !need to add frequency dependence in S_ij
+!if ((ilevel.eq.2).and.(jlevel.eq.1).and.(coolant.eq.1)) then
+!write(6,*)'2-1', field_profile(ilevel,jlevel,:)/field(ilevel,jlevel)
+!endif
          field_profile(jlevel,ilevel,:) = field_profile(ilevel,jlevel,:)
        enddo !jlevel=1,nlev
      enddo !ilevel=1,nlev
@@ -258,7 +261,6 @@ cooling_rate = 0.0D0
     deallocate(beta_ij_profile)
     deallocate(beta_ij_sum_profile)
     deallocate(field)
-    deallocate(field_profile)
     deallocate(transition_profile)
 
   return
