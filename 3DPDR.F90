@@ -366,6 +366,10 @@ do pp=1,pdr_ptot
     allocate(pdr(p)%CI_line_profile(1:CI_nlev,1:CI_nlev,0:nfreq-1))
     allocate(pdr(p)%OI_line_profile(1:OI_nlev,1:OI_nlev,0:nfreq-1))
     allocate(pdr(p)%C12O_line_profile(1:C12O_nlev,1:C12O_nlev,0:nfreq-1))
+    allocate(pdr(p)%CII_field_profile(1:CII_nlev,1:CII_nlev,0:nfreq-1))
+    allocate(pdr(p)%CI_field_profile(1:CI_nlev,1:CI_nlev,0:nfreq-1))
+    allocate(pdr(p)%OI_field_profile(1:OI_nlev,1:OI_nlev,0:nfreq-1))
+    allocate(pdr(p)%C12O_field_profile(1:C12O_nlev,1:C12O_nlev,0:nfreq-1))
 enddo
 !Allocating for the ONE molecular element------
 if (dark_ptot.gt.0) then
@@ -720,10 +724,10 @@ allocate(dummyarray_CII_profile(1:CII_nlev,1:CII_nlev,0:nfreq-1))
 allocate(dummyarray_CI_profile(1:CI_nlev,1:CI_nlev,0:nfreq-1))
 allocate(dummyarray_OI_profile(1:OI_nlev,1:OI_nlev,0:nfreq-1))
 allocate(dummyarray_C12O_profile(1:C12O_nlev,1:C12O_nlev,0:nfreq-1))
-allocate(dummyarray_CII_field_profile(1:nlev,1:nlev,0:nfreq-1))
-allocate(dummyarray_CI_field_profile(1:nlev,1:nlev,0:nfreq-1))
-allocate(dummyarray_OI_field_profile(1:nlev,1:nlev,0:nfreq-1))
-allocate(dummyarray_C12O_field_profile(1:nlev,1:nlev,0:nfreq-1))
+allocate(dummyarray_CII_field_profile(1:CII_nlev,1:CII_nlev,0:nfreq-1))
+allocate(dummyarray_CI_field_profile(1:CI_nlev,1:CI_nlev,0:nfreq-1))
+allocate(dummyarray_OI_field_profile(1:OI_nlev,1:OI_nlev,0:nfreq-1))
+allocate(dummyarray_C12O_field_profile(1:C12O_nlev,1:C12O_nlev,0:nfreq-1))
 
 !========
 allocate(dummyarray_CII_tau(1:CII_nlev,1:CII_nlev,0:nrays-1))
