@@ -1484,28 +1484,28 @@ close(21)
 !-----------------------------------------
 !OUTPUT FOR TRANSIT LINE PROFILES
 !-----------------------------------------
-open(unit=16,file='CII_2.1_line_profile.dat',status='replace')
+open(unit=16,file='CII_2.1_field.dat',status='replace')
 do pp=1,pdr_ptot
       p=IDlist_pdr(pp)
-      write(16,*)pp, pdr(p)%CII_line(2,1), pdr(p)%CII_line_profile(2,1,:)
+      write(16,*)pp, pdr(p)%CII_line_profile(2,1,:)
 enddo
    close(16)
-open(unit=16,file='CI_2.1_line_profile.dat',status='replace')
+open(unit=16,file='CI_2.1_field.dat',status='replace')
 do pp=1,pdr_ptot
       p=IDlist_pdr(pp)
-      write(16,*)pp, pdr(p)%CI_line(2,1), pdr(p)%CI_line_profile(2,1,:)
+      write(16,*)pp, pdr(p)%CI_line_profile(2,1,:)
 enddo
    close(16)
-open(unit=16,file='OI_2.1_line_profile.dat',status='replace')
+open(unit=16,file='OI_2.1_field.dat',status='replace')
 do pp=1,pdr_ptot
       p=IDlist_pdr(pp)
-      write(16,*)pp, pdr(p)%OI_line(2,1), pdr(p)%OI_line_profile(2,1,:)
+      write(16,*)pp, pdr(p)%OI_line_profile(2,1,:)
 enddo
    close(16)
-open(unit=16,file='C12O_2.1_line_profile.dat',status='replace')
+open(unit=16,file='C12O_2.1_field.dat',status='replace')
 do pp=1,pdr_ptot
       p=IDlist_pdr(pp)
-      write(16,*)pp, pdr(p)%C12O_line(2,1), pdr(p)%C12O_line_profile(2,1,:)
+      write(16,*)pp, pdr(p)%C12O_line_profile(2,1,:)
 enddo
    close(16)
 !-------------------------------

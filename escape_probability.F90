@@ -226,6 +226,9 @@ cooling_rate = 0.0D0
          !J_ij(p)
          field_profile(ilevel,jlevel,:) = (1.0D0-beta_ij_profile(:))*S_ij + beta_ij_profile(:)*BB_ij !need to add frequency dependence in S_ij
          field_profile(jlevel,ilevel,:) = field_profile(ilevel,jlevel,:)
+
+!temp____________________________
+line_profile(ilevel,jlevel,:) = field_profile(ilevel,jlevel,:)
        enddo !jlevel=1,nlev
      enddo !ilevel=1,nlev
  
