@@ -32,7 +32,7 @@ MODULE maincode_module
   INTEGER(KIND=I4B) :: NLEV,NTEMP
   integer(kind=i4b) :: iteration, ITERTOT
   integer(kind=i4b) :: iterstep     ! output interval (per how many iterations)
-  integer(kind=i4b) :: nfreq = 5
+  integer(kind=i4b) :: nfreq = 30
   integer(kind=i4b) :: NSPEC, NREAC
   integer(kind=i4b) :: CII_NLEV, CII_NTEMP   !CII cooling variables
   integer(kind=i4b) :: CI_NLEV, CI_NTEMP     !CI cooling variables
@@ -209,6 +209,11 @@ MODULE maincode_module
      real(kind=dp), pointer :: CI_optdepth(:,:,:)        !CI line cooling
      real(kind=dp), pointer :: OI_optdepth(:,:,:)        !OI line cooling
      real(kind=dp), pointer :: C12O_optdepth(:,:,:)      !C12O line cooling
+     real(kind=dp), pointer :: CII_optdepth_profile(:,:,:,:)       !CII line cooling
+     real(kind=dp), pointer :: CI_optdepth_profile(:,:,:,:)        !CI line cooling
+     real(kind=dp), pointer :: OI_optdepth_profile(:,:,:,:)        !OI line cooling
+     real(kind=dp), pointer :: C12O_optdepth_profile(:,:,:,:)      !C12O line cooling
+
      real(kind=dp), pointer :: C12O_beta(:,:,:)      !C12O line escape probability
      real(kind=dp), pointer :: CII_beta(:,:,:)      !C12O line escape probability
      real(kind=dp), pointer :: CI_beta(:,:,:)      !C12O line escape probability
@@ -272,9 +277,27 @@ real(kind=dp),allocatable :: dummyarray_OI_profile(:,:,:), dummyarray_C12O_profi
 !=================
 real(kind=dp),allocatable :: dummyarray_CII_tau(:,:,:), dummyarray_CI_tau(:,:,:)
 real(kind=dp),allocatable :: dummyarray_OI_tau(:,:,:), dummyarray_C12O_tau(:,:,:)
+real(kind=dp),allocatable :: dummyarray_CII_tau_profile(:,:,:,:), dummyarray_CI_tau_profile(:,:,:,:)
+real(kind=dp),allocatable :: dummyarray_OI_tau_profile(:,:,:,:), dummyarray_C12O_tau_profile(:,:,:,:)
+
 real(kind=dp),allocatable :: dummyarray_CII_beta(:,:,:),dummyarray_CI_beta(:,:,:)
 real(kind=dp),allocatable :: dummyarray_OI_beta(:,:,:),dummyarray_C12O_beta(:,:,:)
 real(kind=dp),allocatable :: dummycoef(:,:,:), dummystep(:)
+
+real(kind=dp),allocatable :: CII_intensity_profile_array(:,:,:,:)
+real(kind=dp),allocatable :: CI_intensity_profile_array(:,:,:,:)
+real(kind=dp),allocatable :: OI_intensity_profile_array(:,:,:,:)
+real(kind=dp),allocatable :: C12O_intensity_profile_array(:,:,:,:)
+
+real(kind=dp),allocatable :: CII_tau_profile_array(:,:,:,:)
+real(kind=dp),allocatable :: CI_tau_profile_array(:,:,:,:)
+real(kind=dp),allocatable :: OI_tau_profile_array(:,:,:,:)
+real(kind=dp),allocatable :: C12O_tau_profile_array(:,:,:,:)
+
+real(kind=dp),allocatable :: CII_intensity_profile(:,:,:,:)
+real(kind=dp),allocatable :: CI_intensity_profile(:,:,:,:)
+real(kind=dp),allocatable :: OI_intensity_profile(:,:,:,:)
+real(kind=dp),allocatable :: C12O_intensity_profile(:,:,:,:)
 !=================
 real(kind=dp),allocatable :: total_heating(:)
 integer(kind=i4b) :: referee, id

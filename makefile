@@ -108,7 +108,7 @@ endif
 MODULE_OBJ += definitions.o healpix_types.o modules.o 
 CODE_OBJ += healpix.o input_parameters.o solvlevpop.o \
 read_species.o read_rates.o heapsort.o calc_reac_rates.o shield.o \
-spline.o escape_probability.o eval_points.o\
+spline.o escape_probability.o radiation_transfer.o eval_points.o\
 calculate_abundances.o sub_calculate_heating.o\
 find_Ccoeff.o read_input.o 
 ifeq ($(NETWORK),REDUCED)
@@ -149,7 +149,7 @@ endif
 clean :: 
 	rm *.mod *.o cvode.log main.log fort.*
 compress ::
-	tar cvzf 3DPDR.tgz 12c.dat 12c+.dat 16o.dat 3DPDR.F90 analyse_chem.F90 calc_reac_rates.F90 calculate_abundances.c 12co.dat definitions.F90 dust_t.F90 escape_probability.F90 eval_points.F90 find_Ccoeff.F90 h2_form.F90 healpix.F90 healpix_types.F90 heapsort.F90 input_parameters.F90 jacobian_full.c jacobian_mynetwork.c jacobian_reduced.c makefile modules.F90 odes_full.c odes_mynetwork.c odes_reduced.c params.dat rates_full.d rates_mynetwork.d rates_reduced.d read_input.F90 read_rates.F90 read_species.F90 shield.F90 solvlevpop.F90 species_full.d species_mynetwork.d species_reduced.d spline.F90 sub_calculate_heating.F90 sphere.dat 12c+_nometa.dat 1Dn*.dat
+	tar cvzf 3DPDR.tgz 12c.dat 12c+.dat 16o.dat 3DPDR.F90 analyse_chem.F90 calc_reac_rates.F90 calculate_abundances.c 12co.dat definitions.F90 dust_t.F90 escape_probability.F90 radiation_transfer.F90 eval_points.F90 find_Ccoeff.F90 h2_form.F90 healpix.F90 healpix_types.F90 heapsort.F90 input_parameters.F90 jacobian_full.c jacobian_mynetwork.c jacobian_reduced.c makefile modules.F90 odes_full.c odes_mynetwork.c odes_reduced.c params.dat rates_full.d rates_mynetwork.d rates_reduced.d read_input.F90 read_rates.F90 read_species.F90 shield.F90 solvlevpop.F90 species_full.d species_mynetwork.d species_reduced.d spline.F90 sub_calculate_heating.F90 sphere.dat 12c+_nometa.dat 1Dn*.dat
 
 definitions.o : definitions.F90
 	$(F90) $(CPPFLAGS) $(OPT) $(CFLAGS) -c $<

@@ -3,7 +3,8 @@
 subroutine escape_probability(transition, dust_temperature, nrays, nlev,nfreq, &
                    &A_COEFFS, B_COEFFS, C_COEFFS, &
                    &frequencies,s_evalpop, maxpoints, Tguess, v_turb,&
-                   &s_jjr, s_pop, s_evalpoint, weights,cooling_rate,line,line_profile,tau,coolant,density,metallicity,bbeta)
+                   &s_jjr, s_pop, s_evalpoint, weights,cooling_rate,line,line_profile,tau,&
+                   &tau_profile,coolant,density,metallicity,bbeta)
 
 
 use definitions
@@ -57,7 +58,7 @@ real(kind=dp), intent(out) :: line(1:nlev,1:nlev)
 real(kind=dp), intent(out) :: line_profile(1:nlev,1:nlev,0:nfreq-1)
 real(kind=dp), intent(out) :: cooling_rate
 real(kind=dp), intent(out) :: tau(1:nlev,1:nlev,0:nrays-1)
-real(kind=dp), allocatable :: tau_profile(:,:,:,:)
+real(kind=dp), intent(out) :: tau_profile(1:nlev,1:nlev,0:nfreq-1,0:nrays-1)
 real(kind=dp),intent(out) :: bbeta(1:nlev,1:nlev,0:nrays-1)
 real(kind=dp), allocatable :: bbeta_profile(:,:,:,:)
 real(kind=dp) :: emissivity, bb_ij_dust, ngrain, rho_grain
@@ -70,7 +71,6 @@ cooling_rate = 0.0D0
     allocate(tau_ij(0:nrays-1))
     allocate(tau_increment_profile(0:nfreq-1))
     allocate(tau_ij_profile(0:nfreq-1,0:nrays-1))
-    allocate(tau_profile(1:nlev,1:nlev,0:nfreq-1,0:nrays-1))
     allocate(beta_ij_ray_profile(0:nfreq-1,0:nrays-1))
     allocate(bbeta_profile(1:nlev,1:nlev,0:nfreq-1,0:nrays-1))
     allocate(beta_ij_profile(0:nfreq-1))
@@ -93,9 +93,12 @@ cooling_rate = 0.0D0
 	 frequency(ifreq)=frequencies(ilevel,jlevel)-3*doppler_width+ifreq*2*3*doppler_width/(nfreq-1)
 	 enddo
 	 doppler_profile(0:nfreq-1)=exp(-(frequency(:)-frequencies(ilevel,jlevel))**2/doppler_width**2)/doppler_width
-         tau_ij=0.0D0; tau_ij_profile(0:nfreq-1,0:nrays-1)=0.0D0
-         beta_ij=0.0D0; beta_ij_ray=0.0D0; beta_ij_ray_profile=0.0D0
+         tau_ij=0.0D0
+	 tau_ij_profile(0:nfreq-1,0:nrays-1)=0.0D0
+         beta_ij=0.0D0; beta_ij_ray=0.0D0
+	 beta_ij_profile=0.0D0; beta_ij_ray_profile=0.0D0
 	 beta_ij_sum=0.0D0
+	 beta_ij_sum_profile=0.0D0
          frac1=(A_COEFFS(ilevel,jlevel)*(C**3))/(8.0*pi*(frequencies(ilevel,jlevel)**3))
          TMP2=2.0D0*HP*(FREQUENCIES(ilevel,jlevel)**3)/(C**2)
 
@@ -257,7 +260,6 @@ line_profile(ilevel,jlevel,:) = field_profile(ilevel,jlevel,:)
     deallocate(tau_ij)
     deallocate(tau_increment_profile)
     deallocate(tau_ij_profile)
-    deallocate(tau_profile)
     deallocate(beta_ij_ray_profile)
     deallocate(bbeta_profile)
     deallocate(beta_ij_profile)

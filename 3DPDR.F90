@@ -361,6 +361,11 @@ do pp=1,pdr_ptot
     allocate(pdr(p)%CI_optdepth(1:CI_nlev,1:CI_nlev,0:nrays-1))
     allocate(pdr(p)%OI_optdepth(1:OI_nlev,1:OI_nlev,0:nrays-1))
     allocate(pdr(p)%C12O_optdepth(1:C12O_nlev,1:C12O_nlev,0:nrays-1))
+
+    allocate(pdr(p)%CII_optdepth_profile(1:CII_nlev,1:CII_nlev,0:nfreq-1,0:nrays-1))
+    allocate(pdr(p)%CI_optdepth_profile(1:CI_nlev,1:CI_nlev,0:nfreq-1,0:nrays-1))
+    allocate(pdr(p)%OI_optdepth_profile(1:OI_nlev,1:OI_nlev,0:nfreq-1,0:nrays-1))
+    allocate(pdr(p)%C12O_optdepth_profile(1:C12O_nlev,1:C12O_nlev,0:nfreq-1,0:nrays-1))
 !==========
     allocate(pdr(p)%CII_line_profile(1:CII_nlev,1:CII_nlev,0:nfreq-1))
     allocate(pdr(p)%CI_line_profile(1:CI_nlev,1:CI_nlev,0:nfreq-1))
@@ -719,12 +724,17 @@ allocate(dummyarray_CII_profile(1:CII_nlev,1:CII_nlev,0:nfreq-1))
 allocate(dummyarray_CI_profile(1:CI_nlev,1:CI_nlev,0:nfreq-1))
 allocate(dummyarray_OI_profile(1:OI_nlev,1:OI_nlev,0:nfreq-1))
 allocate(dummyarray_C12O_profile(1:C12O_nlev,1:C12O_nlev,0:nfreq-1))
-
 !========
 allocate(dummyarray_CII_tau(1:CII_nlev,1:CII_nlev,0:nrays-1))
 allocate(dummyarray_CI_tau(1:CI_nlev,1:CI_nlev,0:nrays-1))
 allocate(dummyarray_OI_tau(1:OI_nlev,1:OI_nlev,0:nrays-1))
 allocate(dummyarray_C12O_tau(1:C12O_nlev,1:C12O_nlev,0:nrays-1))
+
+allocate(dummyarray_CII_tau_profile(1:CII_nlev,1:CII_nlev,0:nfreq-1,0:nrays-1))
+allocate(dummyarray_CI_tau_profile(1:CI_nlev,1:CI_nlev,0:nfreq-1,0:nrays-1))
+allocate(dummyarray_OI_tau_profile(1:OI_nlev,1:OI_nlev,0:nfreq-1,0:nrays-1))
+allocate(dummyarray_C12O_tau_profile(1:C12O_nlev,1:C12O_nlev,0:nfreq-1,0:nrays-1))
+
 allocate(dummyarray_C12O_beta(1:C12O_nlev,1:C12O_nlev,0:nrays-1))
 allocate(dummyarray_CII_beta(1:CII_nlev,1:CII_nlev,0:nrays-1))
 allocate(dummyarray_CI_beta(1:CI_nlev,1:CI_nlev,0:nrays-1))
@@ -774,10 +784,11 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
               &CII_frequencies, CIIevalpop, maxpoints, &
               &gastemperature(pp), v_turb, pdr(p)%epray, pdr(p)%CII_pop, &
               &pdr(p)%epoint, CII_weights,CII_cool(pp),dummyarray_CII,dummyarray_CII_profile, &
-              &dummyarray_CII_tau,1,pdr(p)%rho,metallicity,dummyarray_CII_beta)
+              &dummyarray_CII_tau,dummyarray_CII_tau_profile,1,pdr(p)%rho,metallicity,dummyarray_CII_beta)
        pdr(p)%CII_line=dummyarray_CII
        pdr(p)%CII_line_profile=dummyarray_CII_profile
        pdr(p)%CII_optdepth=dummyarray_CII_tau
+       pdr(p)%CII_optdepth_profile=dummyarray_CII_tau_profile
 
        call solvlevpop(CII_nlev,transition_CII,pdr(p)%abundance(NCx)*pdr(p)%rho,CIIsolution)!,1)
        CII_solution(pp,:)=CIIsolution
@@ -801,10 +812,11 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
               &CI_frequencies, CIevalpop, maxpoints, &
               &gastemperature(pp), v_turb, pdr(p)%epray, pdr(p)%CI_pop, &
               &pdr(p)%epoint,CI_weights,CI_cool(pp),dummyarray_CI, &
-	      &dummyarray_CI_profile,dummyarray_CI_tau,2,pdr(p)%rho,metallicity,dummyarray_CI_beta)
+	      &dummyarray_CI_profile,dummyarray_CI_tau,dummyarray_CI_tau_profile,2,pdr(p)%rho,metallicity,dummyarray_CI_beta)
        pdr(p)%CI_line=dummyarray_CI
        pdr(p)%CI_line_profile=dummyarray_CI_profile
        pdr(p)%CI_optdepth=dummyarray_CI_tau
+       pdr(p)%CI_optdepth_profile=dummyarray_CI_tau_profile
        call solvlevpop(CI_nlev,transition_CI,pdr(p)%abundance(NC)*pdr(p)%rho,CIsolution)!,2)
        CI_solution(pp,:)=CIsolution
 #ifdef CO_FIX
@@ -827,10 +839,11 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
               &OI_frequencies, OIevalpop, maxpoints, &
               &gastemperature(pp), v_turb, pdr(p)%epray, pdr(p)%OI_pop, &
               &pdr(p)%epoint,OI_weights,OI_cool(pp),dummyarray_OI,dummyarray_OI_profile, &
-              & dummyarray_OI_tau,3,pdr(p)%rho,metallicity,dummyarray_OI_beta)
+              & dummyarray_OI_tau,dummyarray_OI_tau_profile,3,pdr(p)%rho,metallicity,dummyarray_OI_beta)
        pdr(p)%OI_line=dummyarray_OI
        pdr(p)%OI_line_profile=dummyarray_OI_profile
        pdr(p)%OI_optdepth=dummyarray_OI_tau
+       pdr(p)%OI_optdepth_profile=dummyarray_OI_tau_profile
        call solvlevpop(OI_nlev,transition_OI,pdr(p)%abundance(NO)*pdr(p)%rho,OIsolution)!,3)
        OI_solution(pp,:)=OIsolution
 #ifdef CO_FIX
@@ -853,10 +866,11 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
               &C12O_frequencies, C12Oevalpop, maxpoints, &
               &gastemperature(pp), v_turb, pdr(p)%epray, pdr(p)%C12O_pop, &
               &pdr(p)%epoint,C12O_weights,C12O_cool(pp),dummyarray_C12O,dummyarray_C12O_profile,&
-              &dummyarray_C12O_tau,4,pdr(p)%rho,metallicity,dummyarray_C12O_beta)
+              &dummyarray_C12O_tau,dummyarray_C12O_tau_profile,4,pdr(p)%rho,metallicity,dummyarray_C12O_beta)
        pdr(p)%C12O_line=dummyarray_C12O
        pdr(p)%C12O_line_profile=dummyarray_C12O_profile
        pdr(p)%C12O_optdepth=dummyarray_C12O_tau
+       pdr(p)%C12O_optdepth_profile=dummyarray_C12O_tau_profile
        call solvlevpop(C12O_nlev,transition_C12O,pdr(p)%abundance(NCO)*pdr(p)%rho,C12Osolution)!,4)
        C12O_solution(pp,:)=C12Osolution
 !-------------------------------------------------------------------
@@ -896,6 +910,12 @@ deallocate(dummyarray_CII_tau)
 deallocate(dummyarray_CI_tau)
 deallocate(dummyarray_OI_tau)
 deallocate(dummyarray_C12O_tau)
+
+deallocate(dummyarray_CII_tau_profile)
+deallocate(dummyarray_CI_tau_profile)
+deallocate(dummyarray_OI_tau_profile)
+deallocate(dummyarray_C12O_tau_profile)
+
 deallocate(dummyarray_C12O_beta)
 deallocate(dummyarray_CII_beta)
 deallocate(dummyarray_CI_beta)
@@ -1512,6 +1532,106 @@ enddo
 !END OUTPUT FOR TRANSIT LINE PROFILES
 !-------------------------------
 
+#if PSEUDO_1D
+allocate(CII_intensity_profile_array(1:CII_nlev,1:CII_nlev,0:nfreq-1,1:pdr_ptot))
+allocate(CI_intensity_profile_array(1:CI_nlev,1:CI_nlev,0:nfreq-1,1:pdr_ptot))
+allocate(OI_intensity_profile_array(1:OI_nlev,1:OI_nlev,0:nfreq-1,1:pdr_ptot))
+allocate(C12O_intensity_profile_array(1:C12O_nlev,1:C12O_nlev,0:nfreq-1,1:pdr_ptot))
+
+allocate(CII_tau_profile_array(1:CII_nlev,1:CII_nlev,0:nfreq-1,1:pdr_ptot))
+allocate(CI_tau_profile_array(1:CI_nlev,1:CI_nlev,0:nfreq-1,1:pdr_ptot))
+allocate(OI_tau_profile_array(1:OI_nlev,1:OI_nlev,0:nfreq-1,1:pdr_ptot))
+allocate(C12O_tau_profile_array(1:C12O_nlev,1:C12O_nlev,0:nfreq-1,1:pdr_ptot))
+
+allocate(CII_intensity_profile(1:CII_nlev,1:CII_nlev,0:nfreq-1,1:pdr_ptot))
+allocate(CI_intensity_profile(1:CI_nlev,1:CI_nlev,0:nfreq-1,1:pdr_ptot))
+allocate(OI_intensity_profile(1:OI_nlev,1:OI_nlev,0:nfreq-1,1:pdr_ptot))
+allocate(C12O_intensity_profile(1:C12O_nlev,1:C12O_nlev,0:nfreq-1,1:pdr_ptot))
+!CII RT solving
+!===================================================================
+do pp=1,pdr_ptot
+  p=IDlist_pdr(pp)
+  CII_intensity_profile_array(:,:,:,p) = pdr(p)%CII_line_profile(:,:,:)
+  CII_tau_profile_array(:,:,:,p) = pdr(p)%CII_optdepth_profile(:,:,:,6)
+enddo
+call radiation_transfer(CII_intensity_profile_array,pdr_ptot,CII_nlev,nfreq,CII_tau_profile_array,CII_intensity_profile)
+open(unit=16,file='CII_field.dat',status='replace')
+    do ilevel=1,CII_nlev
+       do jlevel=1,CII_nlev !i>j
+         if (jlevel.ge.ilevel) exit
+         write(16,*)ilevel,jlevel,CII_intensity_profile(ilevel,jlevel,:,pdr_ptot)
+       enddo
+     enddo
+   close(16)
+!==================================================================
+
+!CI RT solving
+!===================================================================
+do pp=1,pdr_ptot
+  p=IDlist_pdr(pp)
+  CI_intensity_profile_array(:,:,:,p) = pdr(p)%CI_line_profile(:,:,:)
+  CI_tau_profile_array(:,:,:,p) = pdr(p)%CI_optdepth_profile(:,:,:,6)
+enddo
+call radiation_transfer(CI_intensity_profile_array,pdr_ptot,CI_nlev,nfreq,CI_tau_profile_array,CI_intensity_profile)
+open(unit=16,file='CI_field.dat',status='replace')
+    do ilevel=1,CI_nlev
+       do jlevel=1,CI_nlev !i>j
+         if (jlevel.ge.ilevel) exit
+         write(16,*)ilevel,jlevel,CI_intensity_profile(ilevel,jlevel,:,pdr_ptot)
+       enddo
+     enddo
+   close(16)
+
+!OI RT solving
+!===================================================================
+do pp=1,pdr_ptot
+  p=IDlist_pdr(pp)
+  OI_intensity_profile_array(:,:,:,p) = pdr(p)%OI_line_profile(:,:,:)
+  OI_tau_profile_array(:,:,:,p) = pdr(p)%OI_optdepth_profile(:,:,:,6)
+enddo
+call radiation_transfer(OI_intensity_profile_array,pdr_ptot,OI_nlev,nfreq,OI_tau_profile_array,OI_intensity_profile)
+open(unit=16,file='OI_field.dat',status='replace')
+    do ilevel=1,OI_nlev
+       do jlevel=1,OI_nlev !i>j
+         if (jlevel.ge.ilevel) exit
+         write(16,*)ilevel,jlevel,OI_intensity_profile(ilevel,jlevel,:,pdr_ptot)
+       enddo
+     enddo
+   close(16)
+
+!C12O RT solving
+!===================================================================
+do pp=1,pdr_ptot
+  p=IDlist_pdr(pp)
+  C12O_intensity_profile_array(:,:,:,p) = pdr(p)%C12O_line_profile(:,:,:)
+  C12O_tau_profile_array(:,:,:,p) = pdr(p)%C12O_optdepth_profile(:,:,:,6)
+enddo
+call radiation_transfer(C12O_intensity_profile_array,pdr_ptot,C12O_nlev,nfreq,C12O_tau_profile_array,C12O_intensity_profile)
+open(unit=16,file='C12O_field.dat',status='replace')
+    do ilevel=1,C12O_nlev
+       do jlevel=1,C12O_nlev !i>j
+         if (jlevel.ge.ilevel) exit
+         write(16,*)ilevel,jlevel,C12O_intensity_profile(ilevel,jlevel,:,pdr_ptot)
+       enddo
+     enddo
+   close(16)
+!===================================================================
+deallocate(CII_intensity_profile_array)
+deallocate(CI_intensity_profile_array)
+deallocate(OI_intensity_profile_array)
+deallocate(C12O_intensity_profile_array)
+
+deallocate(CII_tau_profile_array)
+deallocate(CI_tau_profile_array)
+deallocate(OI_tau_profile_array)
+deallocate(C12O_tau_profile_array)
+
+deallocate(CII_intensity_profile)
+deallocate(CI_intensity_profile)
+deallocate(OI_intensity_profile)
+deallocate(C12O_intensity_profile)
+#endif
+
 
 !---------------------------
 !OUTPUT FOR OPTICAL DEPTHS
@@ -1557,7 +1677,6 @@ enddo
 !END OUTPUT FOR OPTICAL DEPTHS
 !-------------------------------
 #endif
-
 
 !==============
 endif
