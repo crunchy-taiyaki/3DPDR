@@ -32,7 +32,7 @@ MODULE maincode_module
   INTEGER(KIND=I4B) :: NLEV,NTEMP
   integer(kind=i4b) :: iteration, ITERTOT
   integer(kind=i4b) :: iterstep     ! output interval (per how many iterations)
-  integer(kind=i4b) :: nfreq = 30
+  integer(kind=i4b) :: nfreq = 10
   integer(kind=i4b) :: NSPEC, NREAC
   integer(kind=i4b) :: CII_NLEV, CII_NTEMP   !CII cooling variables
   integer(kind=i4b) :: CI_NLEV, CI_NTEMP     !CI cooling variables
@@ -284,20 +284,22 @@ real(kind=dp),allocatable :: dummyarray_CII_beta(:,:,:),dummyarray_CI_beta(:,:,:
 real(kind=dp),allocatable :: dummyarray_OI_beta(:,:,:),dummyarray_C12O_beta(:,:,:)
 real(kind=dp),allocatable :: dummycoef(:,:,:), dummystep(:)
 
-real(kind=dp),allocatable :: CII_intensity_profile_array(:,:,:,:)
-real(kind=dp),allocatable :: CI_intensity_profile_array(:,:,:,:)
-real(kind=dp),allocatable :: OI_intensity_profile_array(:,:,:,:)
-real(kind=dp),allocatable :: C12O_intensity_profile_array(:,:,:,:)
+real(kind=dp),allocatable :: rho_array(:)
+
+real(kind=dp),allocatable :: CII_spop_array(:,:)
+real(kind=dp),allocatable :: CI_spop_array(:,:)
+real(kind=dp),allocatable :: OI_spop_array(:,:)
+real(kind=dp),allocatable :: C12O_spop_array(:,:)
 
 real(kind=dp),allocatable :: CII_tau_profile_array(:,:,:,:)
 real(kind=dp),allocatable :: CI_tau_profile_array(:,:,:,:)
 real(kind=dp),allocatable :: OI_tau_profile_array(:,:,:,:)
 real(kind=dp),allocatable :: C12O_tau_profile_array(:,:,:,:)
 
-real(kind=dp),allocatable :: CII_intensity_profile(:,:,:,:)
-real(kind=dp),allocatable :: CI_intensity_profile(:,:,:,:)
-real(kind=dp),allocatable :: OI_intensity_profile(:,:,:,:)
-real(kind=dp),allocatable :: C12O_intensity_profile(:,:,:,:)
+real(kind=dp),allocatable :: CII_bright_temperature(:,:,:)
+real(kind=dp),allocatable :: CI_bright_temperature(:,:,:)
+real(kind=dp),allocatable :: OI_bright_temperature(:,:,:)
+real(kind=dp),allocatable :: C12O_bright_temperature(:,:,:)
 !=================
 real(kind=dp),allocatable :: total_heating(:)
 integer(kind=i4b) :: referee, id

@@ -1501,65 +1501,39 @@ close(21)
 #endif
    close(16)
 
-!-----------------------------------------
-!OUTPUT FOR TRANSIT LINE PROFILES
-!-----------------------------------------
-open(unit=16,file='CII_2.1_field.dat',status='replace')
-do pp=1,pdr_ptot
-      p=IDlist_pdr(pp)
-      write(16,*)pp, pdr(p)%CII_line_profile(2,1,:)
-enddo
-   close(16)
-open(unit=16,file='CI_2.1_field.dat',status='replace')
-do pp=1,pdr_ptot
-      p=IDlist_pdr(pp)
-      write(16,*)pp, pdr(p)%CI_line_profile(2,1,:)
-enddo
-   close(16)
-open(unit=16,file='OI_2.1_field.dat',status='replace')
-do pp=1,pdr_ptot
-      p=IDlist_pdr(pp)
-      write(16,*)pp, pdr(p)%OI_line_profile(2,1,:)
-enddo
-   close(16)
-open(unit=16,file='C12O_2.1_field.dat',status='replace')
-do pp=1,pdr_ptot
-      p=IDlist_pdr(pp)
-      write(16,*)pp, pdr(p)%C12O_line_profile(2,1,:)
-enddo
-   close(16)
-!-------------------------------
-!END OUTPUT FOR TRANSIT LINE PROFILES
-!-------------------------------
-
 #if PSEUDO_1D
-allocate(CII_intensity_profile_array(1:CII_nlev,1:CII_nlev,0:nfreq-1,1:pdr_ptot))
-allocate(CI_intensity_profile_array(1:CI_nlev,1:CI_nlev,0:nfreq-1,1:pdr_ptot))
-allocate(OI_intensity_profile_array(1:OI_nlev,1:OI_nlev,0:nfreq-1,1:pdr_ptot))
-allocate(C12O_intensity_profile_array(1:C12O_nlev,1:C12O_nlev,0:nfreq-1,1:pdr_ptot))
+allocate(rho_array(1:pdr_ptot))
+
+allocate(CII_spop_array(1:CII_nlev,1:pdr_ptot))
+allocate(CI_spop_array(1:CI_nlev,1:pdr_ptot))
+allocate(OI_spop_array(1:OI_nlev,1:pdr_ptot))
+allocate(C12O_spop_array(1:C12O_nlev,1:pdr_ptot))
 
 allocate(CII_tau_profile_array(1:CII_nlev,1:CII_nlev,0:nfreq-1,1:pdr_ptot))
 allocate(CI_tau_profile_array(1:CI_nlev,1:CI_nlev,0:nfreq-1,1:pdr_ptot))
 allocate(OI_tau_profile_array(1:OI_nlev,1:OI_nlev,0:nfreq-1,1:pdr_ptot))
 allocate(C12O_tau_profile_array(1:C12O_nlev,1:C12O_nlev,0:nfreq-1,1:pdr_ptot))
 
-allocate(CII_intensity_profile(1:CII_nlev,1:CII_nlev,0:nfreq-1,1:pdr_ptot))
-allocate(CI_intensity_profile(1:CI_nlev,1:CI_nlev,0:nfreq-1,1:pdr_ptot))
-allocate(OI_intensity_profile(1:OI_nlev,1:OI_nlev,0:nfreq-1,1:pdr_ptot))
-allocate(C12O_intensity_profile(1:C12O_nlev,1:C12O_nlev,0:nfreq-1,1:pdr_ptot))
+allocate(CII_bright_temperature(1:CII_nlev,1:CII_nlev,0:nfreq-1))
+allocate(CI_bright_temperature(1:CI_nlev,1:CI_nlev,0:nfreq-1))
+allocate(OI_bright_temperature(1:OI_nlev,1:OI_nlev,0:nfreq-1))
+allocate(C12O_bright_temperature(1:C12O_nlev,1:C12O_nlev,0:nfreq-1))
 !CII RT solving
 !===================================================================
 do pp=1,pdr_ptot
   p=IDlist_pdr(pp)
-  CII_intensity_profile_array(:,:,:,p) = pdr(p)%CII_line_profile(:,:,:)
+  rho_array(p) = pdr(p)%rho
   CII_tau_profile_array(:,:,:,p) = pdr(p)%CII_optdepth_profile(:,:,:,6)
+  CII_spop_array(:,p) = pdr(p)%CII_pop
 enddo
-call radiation_transfer(CII_intensity_profile_array,pdr_ptot,CII_nlev,nfreq,CII_tau_profile_array,CII_intensity_profile)
-open(unit=16,file='CII_field.dat',status='replace')
+call radiation_transfer(pdr_ptot,CII_nlev,nfreq,CII_frequencies,&
+                        &rho_array,metallicity,dusttemperature,CII_spop_array,&
+                        &CII_weights,CII_A_COEFFS,CII_tau_profile_array,CII_bright_temperature)
+open(unit=16,file='CII_br_temperature.dat',status='replace')
     do ilevel=1,CII_nlev
        do jlevel=1,CII_nlev !i>j
          if (jlevel.ge.ilevel) exit
-         write(16,*)ilevel,jlevel,CII_intensity_profile(ilevel,jlevel,:,pdr_ptot)
+         write(16,*)ilevel,jlevel,CII_bright_temperature(ilevel,jlevel,:)
        enddo
      enddo
    close(16)
@@ -1569,15 +1543,17 @@ open(unit=16,file='CII_field.dat',status='replace')
 !===================================================================
 do pp=1,pdr_ptot
   p=IDlist_pdr(pp)
-  CI_intensity_profile_array(:,:,:,p) = pdr(p)%CI_line_profile(:,:,:)
   CI_tau_profile_array(:,:,:,p) = pdr(p)%CI_optdepth_profile(:,:,:,6)
+  CI_spop_array(:,p) = pdr(p)%CI_pop
 enddo
-call radiation_transfer(CI_intensity_profile_array,pdr_ptot,CI_nlev,nfreq,CI_tau_profile_array,CI_intensity_profile)
-open(unit=16,file='CI_field.dat',status='replace')
+call radiation_transfer(pdr_ptot,CI_nlev,nfreq,CI_frequencies,&
+                        &rho_array,metallicity,dusttemperature,CI_spop_array,&
+                        &CI_weights,CI_A_COEFFS,CI_tau_profile_array,CI_bright_temperature)
+open(unit=16,file='CI_br_temperature.dat',status='replace')
     do ilevel=1,CI_nlev
        do jlevel=1,CI_nlev !i>j
          if (jlevel.ge.ilevel) exit
-         write(16,*)ilevel,jlevel,CI_intensity_profile(ilevel,jlevel,:,pdr_ptot)
+         write(16,*)ilevel,jlevel,CI_bright_temperature(ilevel,jlevel,:)
        enddo
      enddo
    close(16)
@@ -1586,15 +1562,17 @@ open(unit=16,file='CI_field.dat',status='replace')
 !===================================================================
 do pp=1,pdr_ptot
   p=IDlist_pdr(pp)
-  OI_intensity_profile_array(:,:,:,p) = pdr(p)%OI_line_profile(:,:,:)
   OI_tau_profile_array(:,:,:,p) = pdr(p)%OI_optdepth_profile(:,:,:,6)
+  OI_spop_array(:,p) = pdr(p)%OI_pop
 enddo
-call radiation_transfer(OI_intensity_profile_array,pdr_ptot,OI_nlev,nfreq,OI_tau_profile_array,OI_intensity_profile)
-open(unit=16,file='OI_field.dat',status='replace')
+call radiation_transfer(pdr_ptot,OI_nlev,nfreq,OI_frequencies,&
+                        &rho_array,metallicity,dusttemperature,OI_spop_array,&
+                        &OI_weights,OI_A_COEFFS,OI_tau_profile_array,OI_bright_temperature)
+open(unit=16,file='OI_br_temperature.dat',status='replace')
     do ilevel=1,OI_nlev
        do jlevel=1,OI_nlev !i>j
          if (jlevel.ge.ilevel) exit
-         write(16,*)ilevel,jlevel,OI_intensity_profile(ilevel,jlevel,:,pdr_ptot)
+         write(16,*)ilevel,jlevel,OI_bright_temperature(ilevel,jlevel,:)
        enddo
      enddo
    close(16)
@@ -1603,33 +1581,37 @@ open(unit=16,file='OI_field.dat',status='replace')
 !===================================================================
 do pp=1,pdr_ptot
   p=IDlist_pdr(pp)
-  C12O_intensity_profile_array(:,:,:,p) = pdr(p)%C12O_line_profile(:,:,:)
   C12O_tau_profile_array(:,:,:,p) = pdr(p)%C12O_optdepth_profile(:,:,:,6)
+  C12O_spop_array(:,p) = pdr(p)%C12O_pop
 enddo
-call radiation_transfer(C12O_intensity_profile_array,pdr_ptot,C12O_nlev,nfreq,C12O_tau_profile_array,C12O_intensity_profile)
-open(unit=16,file='C12O_field.dat',status='replace')
+call radiation_transfer(pdr_ptot,C12O_nlev,nfreq,C12O_frequencies,&
+                        &rho_array,metallicity,dusttemperature,C12O_spop_array,&
+                        &C12O_weights,C12O_A_COEFFS,C12O_tau_profile_array,C12O_bright_temperature)
+open(unit=16,file='C12O_br_temperature.dat',status='replace')
     do ilevel=1,C12O_nlev
        do jlevel=1,C12O_nlev !i>j
          if (jlevel.ge.ilevel) exit
-         write(16,*)ilevel,jlevel,C12O_intensity_profile(ilevel,jlevel,:,pdr_ptot)
+         write(16,*)ilevel,jlevel,C12O_bright_temperature(ilevel,jlevel,:)
        enddo
      enddo
    close(16)
 !===================================================================
-deallocate(CII_intensity_profile_array)
-deallocate(CI_intensity_profile_array)
-deallocate(OI_intensity_profile_array)
-deallocate(C12O_intensity_profile_array)
+deallocate(rho_array)
+
+deallocate(CII_spop_array)
+deallocate(CI_spop_array)
+deallocate(OI_spop_array)
+deallocate(C12O_spop_array)
 
 deallocate(CII_tau_profile_array)
 deallocate(CI_tau_profile_array)
 deallocate(OI_tau_profile_array)
 deallocate(C12O_tau_profile_array)
 
-deallocate(CII_intensity_profile)
-deallocate(CI_intensity_profile)
-deallocate(OI_intensity_profile)
-deallocate(C12O_intensity_profile)
+deallocate(CII_bright_temperature)
+deallocate(CI_bright_temperature)
+deallocate(OI_bright_temperature)
+deallocate(C12O_bright_temperature)
 #endif
 
 
