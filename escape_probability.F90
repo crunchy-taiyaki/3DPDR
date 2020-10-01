@@ -250,7 +250,9 @@ line_profile(ilevel,jlevel,:) = field_profile(ilevel,jlevel,:)
         & +C_COEFFS(ilevel,jlevel)
         where(ABS(transition_profile(ilevel,jlevel,:)).lt.1.0D-50)
 	transition_profile(ilevel,jlevel,:)=0.0D0
-	endwhere
+	end where
+
+        transition(ilevel,jlevel) = sum(transition_profile(ilevel,jlevel,:))*(frequency(nfreq-1)-frequency(0))/nfreq
 
       ENDDO !jlevel=1,nlev
     ENDDO !ilevel=1,nlev
