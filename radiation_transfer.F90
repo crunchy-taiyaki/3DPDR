@@ -26,6 +26,7 @@ real(kind=dp) :: BB_ij(1:pdr_ptot), TPOP(1:pdr_ptot), S_ij(1:pdr_ptot)
 real(kind=dp) :: rho_grain
 real(kind=dp) :: ngrain(1:pdr_ptot), emissivity(1:pdr_ptot), BB_ij_dust(1:pdr_ptot)
 real(kind=dp) :: dtau(0:nfreq-1)
+real(kind=dp) :: beta(0:nfreq-1,1:pdr_ptot)
 real(kind=dp) :: intensity_profile(1:nlev,1:nlev,0:nfreq-1,1:pdr_ptot)
 real(kind=dp), intent(out) ::bright_temperature(1:nlev,1:nlev,0:nfreq-1)
 
@@ -51,21 +52,24 @@ real(kind=dp), intent(out) ::bright_temperature(1:nlev,1:nlev,0:nfreq-1)
            end where
          end where
          
-         intensity_profile(ilevel,jlevel,:,pdr_ptot) = S_ij(pdr_ptot)
-	 do pp=pdr_ptot-1,1,-1
-           !p=IDlist_pdr(pp)????
-           dtau(0:nfreq-1) = -(tau_profile_array(ilevel,jlevel,:,pp)-tau_profile_array(ilevel,jlevel,:,pp+1))
-           intensity_profile(ilevel,jlevel,:,pp) = EXP(-dtau(:))*intensity_profile(ilevel,jlevel,:,pp+1)+&
-                                                   &S_ij(pp)*(1-EXP(-dtau(:)))
+
+         intensity_profile(ilevel,jlevel,:,1) = 0.0D0
+	 do pp=1,pdr_ptot-2
+           dtau(0:nfreq-1) = abs(tau_profile_array(ilevel,jlevel,:,pp+1)-tau_profile_array(ilevel,jlevel,:,pp))
+           beta(:,pp) = (1-EXP(-tau_profile_array(ilevel,jlevel,:,pp)))/tau_profile_array(ilevel,jlevel,:,pp)
+           intensity_profile(ilevel,jlevel,:,pp) = intensity_profile(ilevel,jlevel,:,pp)*beta(:,pp)+&
+                                  &S_ij(pp+1)*(1-beta(:,pp))+BB_ij(pp)*(beta(:,pp)-EXP(-dtau))
 	   where(dtau(:).gt.1d10)
-             intensity_profile(ilevel,jlevel,:,pp) = S_ij(pp)
+             intensity_profile(ilevel,jlevel,:,pp) = BB_ij(pp+1)
            elsewhere(dtau(:).lt.1d-6)
-             intensity_profile(ilevel,jlevel,:,pp) = (1-dtau(:)+dtau(:)**2/2)*intensity_profile(ilevel,jlevel,:,pp+1)+&
-                                                      &(dtau(:)-dtau(:)**2/2)*S_ij(pp)
+             intensity_profile(ilevel,jlevel,:,pp) = (1-dtau)*intensity_profile(ilevel,jlevel,:,pp)+&
+                                                      &dtau*(BB_ij(pp)+BB_ij(pp+1))/2
            end where
          enddo
-                                            
-       bright_temperature(ilevel,jlevel,:) = intensity_profile(ilevel,jlevel,:,1)*c**2/(2*kb*frequencies(ilevel,jlevel)**2)
+bright_temperature(ilevel,jlevel,:) = intensity_profile(ilevel,jlevel,:,pdr_ptot-2)
+!bright_temperature(ilevel,jlevel,:) = S_ij(2)*(1-EXP(-(tau_profile_array(ilevel,jlevel,:,2)-tau_profile_array(ilevel,jlevel,:,1))))
+       !bright_temperature(ilevel,jlevel,:) = intensity_profile(ilevel,jlevel,:,2)                                     
+       !bright_temperature(ilevel,jlevel,:) = intensity_profile(ilevel,jlevel,:,pdr_ptot)*c**2/(2*kb*frequencies(ilevel,jlevel)**2)
        enddo !jlevel=1,nlev
      enddo !ilevel=1,nlev
 

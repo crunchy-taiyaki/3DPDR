@@ -252,7 +252,7 @@ line_profile(ilevel,jlevel,:) = field_profile(ilevel,jlevel,:)
 	transition_profile(ilevel,jlevel,:)=0.0D0
 	end where
 
-        transition(ilevel,jlevel) = sum(transition_profile(ilevel,jlevel,:))*(frequency(nfreq-1)-frequency(0))/nfreq
+        transition(ilevel,jlevel) = sum(transition_profile(ilevel,jlevel,:))*(frequency(nfreq-1)-frequency(0))/nfreq !integrate profile 
 
       ENDDO !jlevel=1,nlev
     ENDDO !ilevel=1,nlev
