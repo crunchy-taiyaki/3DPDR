@@ -778,7 +778,6 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
           & CII_C_COEFFS,pdr(p)%abundance(NH)*pdr(p)%rho,pdr(p)%abundance(NPROTON)*pdr(p)%rho, &
           & pdr(p)%abundance(NELECT)*pdr(p)%rho, pdr(p)%abundance(NHE)*pdr(p)%rho,pdr(p)%abundance(NH2)*pdr(p)%rho,&
           & 1)
-
        call escape_probability(transition_CII, dusttemperature(pp), nrays, CII_nlev,nfreq, &
               &CII_A_COEFFS, CII_B_COEFFS, CII_C_COEFFS, &
               &CII_frequencies, CIIevalpop, maxpoints, &
@@ -1503,6 +1502,12 @@ close(21)
 
 #if PSEUDO_1D
 allocate(rho_array(1:pdr_ptot))
+allocate(x_array(1:pdr_ptot))
+
+allocate(CII_velocities(1:CII_nlev,1:CII_nlev,0:nfreq-1))
+allocate(CI_velocities(1:CI_nlev,1:CI_nlev,0:nfreq-1))
+allocate(OI_velocities(1:OI_nlev,1:OI_nlev,0:nfreq-1))
+allocate(C12O_velocities(1:C12O_nlev,1:C12O_nlev,0:nfreq-1))
 
 allocate(CII_spop_array(1:CII_nlev,1:pdr_ptot))
 allocate(CI_spop_array(1:CI_nlev,1:pdr_ptot))
@@ -1518,18 +1523,26 @@ allocate(CII_bright_temperature(1:CII_nlev,1:CII_nlev,0:nfreq-1))
 allocate(CI_bright_temperature(1:CI_nlev,1:CI_nlev,0:nfreq-1))
 allocate(OI_bright_temperature(1:OI_nlev,1:OI_nlev,0:nfreq-1))
 allocate(C12O_bright_temperature(1:C12O_nlev,1:C12O_nlev,0:nfreq-1))
+
+do pp=1,pdr_ptot
+  p=IDlist_pdr(pp)
+  rho_array(p) = pdr(p)%rho
+  x_array(p) = pdr(p)%x
+enddo
+
 !CII RT solving
 !===================================================================
 do pp=1,pdr_ptot
   p=IDlist_pdr(pp)
-  rho_array(p) = pdr(p)%rho
   CII_tau_profile_array(:,:,:,p) = pdr(p)%CII_optdepth_profile(:,:,:,6)
   CII_spop_array(:,p) = pdr(p)%CII_pop
 enddo
 call radiation_transfer(pdr_ptot,CII_nlev,nfreq,CII_frequencies,&
-                        &rho_array,metallicity,dusttemperature,CII_spop_array,&
-                        &CII_weights,CII_A_COEFFS,CII_tau_profile_array,CII_bright_temperature)
+                        &metallicity,rho_array,dusttemperature,CII_spop_array,x_array,&
+                        &CII_weights,CII_A_COEFFS,CII_tau_profile_array,CII_bright_temperature,CII_velocities,1,&
+                        &gastemperature, v_turb)
 open(unit=16,file='CII_br_temperature.dat',status='replace')
+    write(16,*) 0, 0, CII_velocities(2,1,:)
     do ilevel=1,CII_nlev
        do jlevel=1,CII_nlev !i>j
          if (jlevel.ge.ilevel) exit
@@ -1547,9 +1560,11 @@ do pp=1,pdr_ptot
   CI_spop_array(:,p) = pdr(p)%CI_pop
 enddo
 call radiation_transfer(pdr_ptot,CI_nlev,nfreq,CI_frequencies,&
-                        &rho_array,metallicity,dusttemperature,CI_spop_array,&
-                        &CI_weights,CI_A_COEFFS,CI_tau_profile_array,CI_bright_temperature)
+                        &metallicity,rho_array,dusttemperature,CI_spop_array,x_array,&
+                        &CI_weights,CI_A_COEFFS,CI_tau_profile_array,CI_bright_temperature,CI_velocities,2,&
+                        &gastemperature, v_turb)
 open(unit=16,file='CI_br_temperature.dat',status='replace')
+    write(16,*) 0, 0, CI_velocities(2,1,:)
     do ilevel=1,CI_nlev
        do jlevel=1,CI_nlev !i>j
          if (jlevel.ge.ilevel) exit
@@ -1566,9 +1581,11 @@ do pp=1,pdr_ptot
   OI_spop_array(:,p) = pdr(p)%OI_pop
 enddo
 call radiation_transfer(pdr_ptot,OI_nlev,nfreq,OI_frequencies,&
-                        &rho_array,metallicity,dusttemperature,OI_spop_array,&
-                        &OI_weights,OI_A_COEFFS,OI_tau_profile_array,OI_bright_temperature)
+                        &metallicity,rho_array,dusttemperature,OI_spop_array,x_array,&
+                        &OI_weights,OI_A_COEFFS,OI_tau_profile_array,OI_bright_temperature,OI_velocities,3,&
+                        &gastemperature, v_turb)
 open(unit=16,file='OI_br_temperature.dat',status='replace')
+    write(16,*) 0, 0, OI_velocities(2,1,:)
     do ilevel=1,OI_nlev
        do jlevel=1,OI_nlev !i>j
          if (jlevel.ge.ilevel) exit
@@ -1585,9 +1602,11 @@ do pp=1,pdr_ptot
   C12O_spop_array(:,p) = pdr(p)%C12O_pop
 enddo
 call radiation_transfer(pdr_ptot,C12O_nlev,nfreq,C12O_frequencies,&
-                        &rho_array,metallicity,dusttemperature,C12O_spop_array,&
-                        &C12O_weights,C12O_A_COEFFS,C12O_tau_profile_array,C12O_bright_temperature)
+                        &metallicity,rho_array,dusttemperature,C12O_spop_array,x_array,&
+                        &C12O_weights,C12O_A_COEFFS,C12O_tau_profile_array,C12O_bright_temperature,C120_velocities,4,&
+                        &gastemperature, v_turb)
 open(unit=16,file='C12O_br_temperature.dat',status='replace')
+    write(16,*) 0, 0, C12O_velocities(2,1,:)
     do ilevel=1,C12O_nlev
        do jlevel=1,C12O_nlev !i>j
          if (jlevel.ge.ilevel) exit
@@ -1597,6 +1616,12 @@ open(unit=16,file='C12O_br_temperature.dat',status='replace')
    close(16)
 !===================================================================
 deallocate(rho_array)
+deallocate(x_array)
+
+deallocate(CII_velocities)
+deallocate(CI_velocities)
+deallocate(OI_velocities)
+deallocate(C12O_velocities)
 
 deallocate(CII_spop_array)
 deallocate(CI_spop_array)
