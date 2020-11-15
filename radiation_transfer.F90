@@ -35,8 +35,7 @@ real(kind=dp) :: rho_grain
 real(kind=dp) :: ngrain(1:pdr_ptot), emissivity(1:pdr_ptot), BB_ij_dust(1:pdr_ptot)
 real(kind=dp) :: frac1, frac2, rhs2
 real(kind=dp) :: tau(0:nfreq-1,1:pdr_ptot)
-real(kind=dp) :: dtau(0:nfreq-1)
-real(kind=dp) :: beta(0:nfreq-1,1:pdr_ptot)
+real(kind=dp) :: dtau(0:nfreq-1),beta(0:nfreq-1)
 real(kind=dp) :: intensity_profile(1:nlev,1:nlev,0:nfreq-1,1:pdr_ptot)
 real(kind=dp) :: velocity_limit=0.1D0
 real(kind=dp), intent(out) :: bright_temperature(1:nlev,1:nlev,0:nfreq-1)
@@ -52,7 +51,6 @@ thermal_velocity=sqrt(8*KB*Tguess/PI/MP+v_turb**2)
            frequency(ifreq)=frequencies(ilevel,jlevel)-3*thermal_velocity+ifreq*2*3*thermal_velocity/(nfreq-1)
          enddo
          velocities(ilevel,jlevel,:) = C*(frequency(:)/frequencies(ilevel,jlevel) - 1.0D0)*1d-5
-	 doppler_profile(0:nfreq-1)=exp(-((1+v_gas/C)*frequency(:)-frequencies(ilevel,jlevel))**2/thermal_velocity**2)/thermal_velocity
 
          !source function calculation
          TMP=2.0D0*hp*(frequencies(ilevel,jlevel)**3)/(c**2)
@@ -74,32 +72,33 @@ thermal_velocity=sqrt(8*KB*Tguess/PI/MP+v_turb**2)
          end where
 
          !optical depth calculation
-         tau=0.0D0
+         tau(:,1)=0.0D0
 	 frac1=(A_COEFFS(ilevel,jlevel)*(C**3))/(8.0*pi*(frequencies(ilevel,jlevel)**3))
+	 doppler_profile(0:nfreq-1)=exp(-((1+v_gas/C)*frequency(:)-frequencies(ilevel,jlevel))**2/thermal_velocity**2)/thermal_velocity
 	 do pp=1,pdr_ptot-1
-             frac2=((s_pop_array(jlevel,pp)*weights(ilevel)-s_pop_array(ilevel,pp)*weights(jlevel))+&
-                 &(s_pop_array(jlevel,pp)*weights(ilevel)-s_pop_array(ilevel,pp)*weights(jlevel)))/2./weights(jlevel)
+             frac2 = 0.5*((s_pop_array(jlevel,pp)+s_pop_array(jlevel,pp+1))*weights(ilevel)/weights(jlevel)-&
+                     &(s_pop_array(ilevel,pp)+s_pop_array(ilevel,pp+1)))
              tau(:,pp+1)=tau(:,pp)+frac1*doppler_profile(:)*frac2*abs(x_array(pp+1)-x_array(pp))*PC
          enddo
 
          !radiation transfer solving
          intensity_profile(ilevel,jlevel,:,1) = 0.0D0
 	 do pp=1,pdr_ptot-2    
-          dtau(0:nfreq-1) = abs(tau(:,pp+1)-tau(:,pp))
-          where((dtau(:).ge.1d-6).or.(dtau(:).le.1d10))
-           beta(:,pp) = (1-EXP(-tau(:,pp)))/tau(:,pp)
-           intensity_profile(ilevel,jlevel,:,pp) = intensity_profile(ilevel,jlevel,:,pp)*beta(:,pp)+&
-                                  &S_ij(pp+1)*(1-beta(:,pp))+S_ij(pp)*(beta(:,pp)-EXP(-dtau))
+          dtau(0:nfreq-1) = tau(:,pp)
+          where((dtau(:).ge.1d-6).and.(dtau(:).le.1d10))
+           beta(:) = (1-EXP(-dtau))/dtau
+           intensity_profile(ilevel,jlevel,:,pp+1) = intensity_profile(ilevel,jlevel,:,pp)*EXP(-dtau)+&
+                                  &S_ij(pp+1)*(1-beta(:))+S_ij(pp)*(beta(:)-EXP(-dtau))
 	   elsewhere(dtau(:).gt.1d10)
-             intensity_profile(ilevel,jlevel,:,pp) = BB_ij(pp+1)
+             intensity_profile(ilevel,jlevel,:,pp+1) = BB_ij(pp+1)
            elsewhere(dtau(:).lt.1d-6)
-             intensity_profile(ilevel,jlevel,:,pp) = (1-dtau)*intensity_profile(ilevel,jlevel,:,pp)+&
+             intensity_profile(ilevel,jlevel,:,pp+1) = (1-dtau)*intensity_profile(ilevel,jlevel,:,pp)+&
                                                       &dtau*(BB_ij(pp)+BB_ij(pp+1))/2
            end where
          enddo
        
        !convert intensity to brightness temperature                          
-       bright_temperature(ilevel,jlevel,:) = intensity_profile(ilevel,jlevel,:,pdr_ptot-2)*c**2/(2*kb*frequencies(ilevel,jlevel)**2)
+       bright_temperature(ilevel,jlevel,:) = intensity_profile(ilevel,jlevel,:,pdr_ptot-1)*c**2/(2*kb*frequencies(ilevel,jlevel)**2)
        enddo !jlevel=1,nlev
      enddo !ilevel=1,nlev
 

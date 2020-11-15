@@ -1,8 +1,6 @@
 program RT
-
-use global_module, only: g2d
-
 implicit none
+character(len=20) :: directory, output
 character(len=50)::filepdr,fileline,filetau,filepop,prefix,spec(1:17),fileout
 character(len=50) :: fileout_CII,fileout_CI,fileout_OI,fileout_CO,&
                      fileout_CII_all,fileout_CI_all,fileout_OI_all,fileout_CO_all
@@ -10,32 +8,32 @@ integer :: nfreq
 integer::ptot,p,id,vv,j,ifreq
 real :: dummy
 double precision :: sigma, sigma_p, frac
-double precision :: TMP, rho_grain, metallicity
+double precision :: TMP, rho_grain
 double precision,allocatable :: BB(:,:), ngrain(:), BB_dust(:,:),TPOP(:),emissivity(:),S(:,:)
 double precision,allocatable::freq(:,:),velocities(:,:),phi(:),tau_test(:,:),dtau(:)
-double precision,allocatable::t_r(:,:),tr_incr(:,:,:)
-double precision,allocatable::x(:),av(:),jnu(:,:),tau(:,:,:)
+double precision,allocatable::tr_incr(:,:,:)
+double precision,allocatable::x(:),av(:),tau(:,:,:)
 double precision,allocatable::N(:),Tex(:,:),Tgas(:),Tdust(:),rho(:)
 double precision,allocatable::pop(:,:,:),abun(:,:)
-double precision,allocatable::rx(:),rav(:),rjnu(:,:),rtau(:,:)
+double precision,allocatable::rx(:),rav(:),rtau(:,:)
 double precision,allocatable::rTgas(:),rTdust(:),rrho(:)
 double precision,allocatable::rpop(:,:,:),rabun(:,:)
 double precision::c,kb,pc,hp,pi,T,mhp,freq0(1:17),g(1:17,1:2)
 double precision:: mh(1:17),Ntot,Ntgas
 double precision::uv,Nwrite(1:17)
 double precision::A(1:17)
-double precision :: vturb, v_gas
-!double precision,allocatable::tau_test(:,:)
-
+double precision :: v_turb, v_gas, metallicity, gas_to_dust
+v_gas=0     !cm/s
+v_turb=1*1d5
+gas_to_dust = 100.0
 write(6,*) 'prefix?'
 read(5,*) prefix
 
-vturb=1*1d5 !cm/s
-v_gas=0     !cm/s
-metallicity=1.0
-
 call constants
 call readfile
+
+write(6,*) 'Z='
+read(5,*) metallicity
 
 allocate(freq(1:17,0:nfreq-1))
 allocate(TPOP(1:ptot),ngrain(1:ptot),emissivity(1:ptot))
@@ -47,21 +45,15 @@ allocate(phi(0:nfreq-1))
 allocate(tau_test(1:17,0:nfreq-1))
 allocate(tau(1:17,1:ptot,0:nfreq-1))
 allocate(dtau(0:nfreq-1))
-allocate(t_r(1:17,0:nfreq-1))
-allocate(tr_incr(1:17,0:ptot,0:nfreq-1))
+allocate(tr_incr(1:17,1:ptot,0:nfreq-1))
 allocate(Tex(1:17,1:ptot))
 allocate(N(1:33))
 
-
-
 !source function calculation
-
-
-!advanced source function calculation
 do j=1,17         
   TMP=2.0D0*hp*(freq0(j)**3)/(c**2)
   BB(j,:) = TMP*(1.0D0/(exp(hp*freq0(j)/kb/2.7D0)-1.0D0))!Planck function !2.7D0 is the CMBR temperature
-  ngrain=2.0D-12*rho(:)*metallicity*100./g2d
+  ngrain=2.0D-12*rho(:)*metallicity*100./gas_to_dust
   rho_grain=2.0D0
   emissivity=(rho_grain*ngrain(:))*(0.01*(1.3*freq0(j)/3.0D11))
   BB_dust(j,:) = TMP*(1.0D0/(exp(hp*freq0(j)/kb/Tdust(:))-1.D0)*emissivity(:))
@@ -82,8 +74,8 @@ enddo
 tau_test=0
 do j=1,17
   do p=1,ptot-1
-  sigma=(freq0(j)/c)*sqrt(kb*Tgas(p)/mh(j)+vturb**2/2.)
-  sigma_p=(freq0(j)/c)*sqrt(kb*Tgas(ptot-1)/mh(j)+vturb**2/2.)  
+  sigma=(freq0(j)/c)*sqrt(kb*Tgas(p)/mh(j)+v_turb**2/2.)
+  sigma_p=(freq0(j)/c)*sqrt(kb*Tgas(ptot-1)/mh(j)+v_turb**2/2.)  
   do ifreq=0,nfreq-1 !frequencies calcuation
    freq(j,ifreq)=freq0(j)-3*sigma_p+ifreq*2*3*sigma_p/(nfreq-1)
   enddo
@@ -92,45 +84,50 @@ do j=1,17
   tau_test(j,:)=tau_test(j,:)+phi(:)*(A(j)*c**2/8./pi/freq0(j)**2)*frac*abs(x(p+1)-x(p))*pc
   tau(j,p,:)=tau_test(j,:)
   enddo
+
 velocities(j,:) = C*(freq(j,:)/freq0(j) - 1.0D0)*1d-5
+Tex(j,:)=(hp*freq0(j)/kb)/log(g(j,2)*pop(j,1,:)/pop(j,2,:)/g(j,1))
 enddo
 
 !radiation transfer solving
-t_r=0
 tr_incr(j,0,:) = 0
 do p=1,ptot-2
   do j=1,17
   !dtau=abs(tau(j,p+1,:)-tau(j,p,:))
   dtau=tau(j,p,:)
     where (dtau(:).gt.1d10)
-      !t_r(j,:)=S(j,p)
-      t_r(j,:)=BB(j,p)
+      tr_incr(j,p+1,:)=BB(j,p+1)
     elsewhere (dtau(:).gt.1d-6)
-      t_r(j,:)=t_r(j,:)*exp(-dtau)+&
+      tr_incr(j,p+1,:)=tr_incr(j,p,:)*exp(-dtau)+&
              &S(j,p)*((1-exp(-dtau))/dtau-exp(-dtau))+&
              &S(j,p+1)*(1.-(1.-exp(-dtau))/dtau)
     elsewhere (dtau(:).le.1d-6)
-      !t_r(j,:)=t_r(j,:)*(1-dtau)+(S(j,p)+S(j,p+1))*dtau/2.
-      t_r(j,:)=t_r(j,:)*(1-dtau)+(BB(j,p)+BB(j,p+1))*dtau/2.
+      tr_incr(j,p+1,:)=tr_incr(j,p,:)*(1-dtau)+(BB(j,p)+BB(j,p+1))*dtau/2.
     end where
 
-    where (t_r(j,:).gt.tr_incr(j,p-1,:))
-      tr_incr(j,p,:)=t_r(j,:)
-    elsewhere (t_r(j,:).le.tr_incr(j,p-1,:))
-      tr_incr(j,p,:)=tr_incr(j,p-1,:)
-    end where
+    if (tr_incr(j,p+1,20).le.tr_incr(j,p,20)) then
+      tr_incr(j,p+1,:)=tr_incr(j,p,:)
+    end if
   enddo
 enddo
 
-fileout_CII='./ALL_TESTS/'//trim(adjustl(prefix))//'/'//trim(adjustl(prefix))//'.CII_br_temp.dat'
-fileout_CI='./ALL_TESTS/'//trim(adjustl(prefix))//'/'//trim(adjustl(prefix))//'.CI_br_temp.dat'
-fileout_OI='./ALL_TESTS/'//trim(adjustl(prefix))//'/'//trim(adjustl(prefix))//'.OI_br_temp.dat'
-fileout_CO='./ALL_TESTS/'//trim(adjustl(prefix))//'/'//trim(adjustl(prefix))//'.C12O_br_temp.dat'
+!fileout_CII=trim(adjustl(directory))//'/'//trim(adjustl(output))//'.CII_br_temp.dat'
+!fileout_CI=trim(adjustl(directory))//'/'//trim(adjustl(output))//'.CI_br_temp.dat'
+!fileout_OI=trim(adjustl(directory))//'/'//trim(adjustl(output))//'.OI_br_temp.dat'
+!fileout_CO=trim(adjustl(directory))//'/'//trim(adjustl(output))//'.C12O_br_temp.dat'
+!fileout_CII_all=trim(adjustl(directory))//'/'//trim(adjustl(output))//'CII.dat'
+!fileout_CI_all=trim(adjustl(directory))//'/'//trim(adjustl(output))//'CI.dat'
+!fileout_OI_all=trim(adjustl(directory))//'/'//trim(adjustl(output))//'OI.dat'
+!fileout_CO_all=trim(adjustl(directory))//'/'//trim(adjustl(output))//'C12O.dat'
 
-fileout_CII_all='./ALL_TESTS/'//trim(adjustl(prefix))//'/'//trim(adjustl(prefix))//'CII.dat'
-fileout_CI_all='./ALL_TESTS/'//trim(adjustl(prefix))//'/'//trim(adjustl(prefix))//'CI.dat'
-fileout_OI_all='./ALL_TESTS/'//trim(adjustl(prefix))//'/'//trim(adjustl(prefix))//'OI.dat'
-fileout_CO_all='./ALL_TESTS/'//trim(adjustl(prefix))//'/'//trim(adjustl(prefix))//'C12O.dat'
+fileout_CII='./ALL_TESTS/'//trim(adjustl(prefix))//'p/'//trim(adjustl(prefix))//'.CII_br_temp.dat'
+fileout_CI='./ALL_TESTS/'//trim(adjustl(prefix))//'p/'//trim(adjustl(prefix))//'.CI_br_temp.dat'
+fileout_OI='./ALL_TESTS/'//trim(adjustl(prefix))//'p/'//trim(adjustl(prefix))//'.OI_br_temp.dat'
+fileout_CO='./ALL_TESTS/'//trim(adjustl(prefix))//'p/'//trim(adjustl(prefix))//'.C12O_br_temp.dat'
+fileout_CII_all='./ALL_TESTS/'//trim(adjustl(prefix))//'p/'//trim(adjustl(prefix))//'CII.dat'
+fileout_CI_all='./ALL_TESTS/'//trim(adjustl(prefix))//'p/'//trim(adjustl(prefix))//'CI.dat'
+fileout_OI_all='./ALL_TESTS/'//trim(adjustl(prefix))//'p/'//trim(adjustl(prefix))//'OI.dat'
+fileout_CO_all='./ALL_TESTS/'//trim(adjustl(prefix))//'p/'//trim(adjustl(prefix))//'C12O.dat'
 
 open(unit=100,file=fileout_CII,status='replace')
 open(unit=101,file=fileout_CI,status='replace')
@@ -164,40 +161,59 @@ enddo
 
 
 write(6,*) '<Tgas>=',NTgas/Ntot
-write(6,*) 'Linewidth (CO) = ',2.*sqrt(2.*log(2.))*sqrt(kb*(NTgas/Ntot)/mh(8)+vturb**2/2.)/1d5,' [km/s]'
+write(6,*) 'Linewidth (CO) = ',2.*sqrt(2.*log(2.))*sqrt(kb*(NTgas/Ntot)/mh(8)+v_turb**2/2.)/1d5,' [km/s]'
 Nwrite(1)=N(11);Nwrite(2:4)=N(25);Nwrite(5:7)=N(30);Nwrite(8:17)=N(28)
 write(6,*) 'Species || Column density || Tex || tau (pdr_tot-2) || Tr (pdr_tot-2)'
 do j=1,17
-  write(6,'(A10,2X,5ES11.3)') spec(j),Nwrite(j),Tex(j,ptot),tau(j,ptot-2,2),&
-                              &tr_incr(j,ptot-2,2)*c**2/2./kb/freq0(j)**2
+  write(6,'(A10,2X,5ES11.3)') spec(j),Nwrite(j),Tex(j,ptot),tau(j,ptot-2,nfreq/2),&
+                              &tr_incr(j,ptot-2,nfreq/2)*c**2/2./kb/freq0(j)**2
 enddo
 
 
 contains
 subroutine readfile
-filepdr='./ALL_TESTS/'//trim(adjustl(prefix))//'/'//trim(adjustl(prefix))//".pdr.fin"
-fileline='./ALL_TESTS/'//trim(adjustl(prefix))//'/'//trim(adjustl(prefix))//".line.fin"
-filetau='./ALL_TESTS/'//trim(adjustl(prefix))//'/'//trim(adjustl(prefix))//".opdp.fin"
-filepop='./ALL_TESTS/'//trim(adjustl(prefix))//'/'//trim(adjustl(prefix))//".spop.fin"
-open(unit=1,file=fileline,status='old')
+
+!open(unit=12,file='params.dat',status='old')
+  !read(12,*); read(12,*); read(12,*)
+  !read(12,'(A)')
+  !read(12,*)
+  !read(12,'(A)') directory
+  !read(12,*) output
+  !read(12,*)
+  !read(12,*)
+  !read(12,*)
+  !read(12,*)
+  !read(12,*)
+  !read(12,*)
+  !read(12,*)
+  !read(12,*) v_turb
+  !read(12,*)
+  !read(12,*)
+  !read(12,*) gas_to_dust
+  !read(12,*) metallicity
+  !close(12)
+
+filepdr='./ALL_TESTS/'//trim(adjustl(prefix))//'p/'//trim(adjustl(prefix))//".pdr.fin"
+filetau='./ALL_TESTS/'//trim(adjustl(prefix))//'p/'//trim(adjustl(prefix))//".opdp.fin"
+filepop='./ALL_TESTS/'//trim(adjustl(prefix))//'p/'//trim(adjustl(prefix))//".spop.fin"
 open(unit=2,file=filepdr,status='old')
 open(unit=3,file=filepop,status='old')
 open(unit=4,file=filetau,status='old')
+
 nfreq=40
 ptot=0
 do 
-  read(1,*,end=100) dummy
+  read(2,*,end=100) dummy
   ptot=ptot+1
 enddo
 100 continue
-rewind(1)
-allocate(x(1:ptot),av(1:ptot),jnu(1:17,1:ptot),abun(1:33,1:ptot))
+rewind(2)
+allocate(x(1:ptot),av(1:ptot),abun(1:33,1:ptot))
 allocate(Tgas(1:ptot),Tdust(1:ptot),rho(1:ptot),pop(1:17,1:2,1:ptot))
-allocate(rx(1:ptot),rav(1:ptot),rjnu(1:17,1:ptot),rabun(1:33,1:ptot))
+allocate(rx(1:ptot),rav(1:ptot),rabun(1:33,1:ptot))
 allocate(rTgas(1:ptot),rTdust(1:ptot),rrho(1:ptot),rpop(1:17,1:2,1:ptot),rtau(1:17,1:ptot))
 do p=1,ptot
-  read(1,*) id,rx(p),rav(p),rjnu(1:17,p)
-  read(2,*) id,dummy,dummy,rTgas(p),rTdust(p),dummy,rrho(p),uv,rabun(1:33,p)
+  read(2,*) id,rx(p),rav(p),rTgas(p),rTdust(p),dummy,rrho(p),uv,rabun(1:33,p)
   read(3,*) id,dummy,rpop(1,1,p),rpop(1,2,p),dummy,dummy,dummy,&
        &rpop(2,1,p),rpop(2,2,p),rpop(3,2,p),dummy,dummy,&
        &rpop(5,1,p),rpop(5,2,p),rpop(6,2,p),dummy,dummy,&
@@ -211,8 +227,9 @@ do p=1,ptot
   read(4,*) id,dummy,rtau(1:17,p)
 enddo
 
-x=rx;av=rav;jnu=rjnu;abun=rabun;Tgas=rTgas;Tdust=rTdust;rho=rrho;pop=rpop
+x=rx;av=rav;abun=rabun;Tgas=rTgas;Tdust=rTdust;rho=rrho;pop=rpop
 !tau(1:17,1:ptot,nfreq/2)=rtau
+
 write(6,*) 'Density=',rho(1)
 write(6,*) 'Temperature=',Tgas(1)
 

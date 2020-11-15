@@ -3,8 +3,8 @@
 subroutine escape_probability(transition, dust_temperature, nrays, nlev,nfreq, &
                    &A_COEFFS, B_COEFFS, C_COEFFS, &
                    &frequencies,s_evalpop, maxpoints, Tguess, v_turb,&
-                   &s_jjr, s_pop, s_evalpoint, weights,cooling_rate,line,line_profile,tau,&
-                   &tau_profile,coolant,density,metallicity,bbeta)
+                   &s_jjr, s_pop, s_evalpoint, weights,cooling_rate,line,tau,&
+                   &coolant,density,metallicity,bbeta)
 
 
 use definitions
@@ -33,10 +33,8 @@ real(kind=dp), intent(in) :: s_pop(1:nlev)
 real(kind=dp), intent(in) :: dust_temperature,density,metallicity
 
 real(kind=dp), intent(out) :: line(1:nlev,1:nlev)
-real(kind=dp), intent(out) :: line_profile(1:nlev,1:nlev,0:nfreq-1)
 real(kind=dp), intent(out) :: cooling_rate
 real(kind=dp), intent(out) :: tau(1:nlev,1:nlev,0:nrays-1)
-real(kind=dp), intent(out) :: tau_profile(1:nlev,1:nlev,0:nfreq-1,0:nrays-1)
 real(kind=dp),intent(out) :: bbeta(1:nlev,1:nlev,0:nrays-1)
 real(kind=dp), intent(inout) :: transition(1:nlev,1:nlev)
 
@@ -55,6 +53,7 @@ real(kind=dp) :: doppler_profile(0:nfreq-1)
 real(kind=dp) :: tau_ij(0:nrays-1)
 real(kind=dp) :: tau_ij_profile(0:nfreq-1,0:nrays-1)
 real(kind=dp) :: tau_increment_profile(0:nfreq-1)
+real(kind=dp) :: tau_profile(1:nlev,1:nlev,0:nfreq-1,0:nrays-1)
 real(kind=dp) :: beta_ij_ray(0:nrays-1)
 real(kind=dp) :: beta_ij_ray_profile(0:nfreq-1,0:nrays-1)
 real(kind=dp) :: bbeta_profile(1:nlev,1:nlev,0:nfreq-1,0:nrays-1)
@@ -65,7 +64,6 @@ real(kind=dp) :: transition_profile(1:nlev,1:nlev,0:nfreq-1)
 real(kind=dp) :: emissivity, bb_ij_dust, ngrain, rho_grain
 
 line=0.0D0
-line_profile=0.0D0
 cooling_rate = 0.0D0
 field=0.0D0
 frac2=1.0D0/sqrt(8.0*KB*Tguess/PI/MP + v_turb**2)
@@ -89,7 +87,7 @@ thermal_velocity=sqrt(8*KB*Tguess/PI/MP+v_turb**2)
          frac1=(A_COEFFS(ilevel,jlevel)*(C**3))/(8.0*pi*(frequencies(ilevel,jlevel)**3))
          TMP2=2.0D0*HP*(FREQUENCIES(ilevel,jlevel)**3)/(C**2)
          BB_ij = TMP2*(1.0D0/(EXP(HP*frequencies(ilevel,jlevel)/KB/2.7D0)-1.0D0)) !Planck function !2.7D0 is the CMBR temperature
-         NGRAIN=2.0D-12*density*metallicity*100./g2d!densityofgas depth depented
+         NGRAIN=2.0D-12*density*metallicity*100./g2d
          rho_grain=2.0D0
          EMISSIVITY=(RHO_GRAIN*NGRAIN)*(0.01*(1.3*FREQUENCIES(ilevel,jlevel)/3.0D11))
          BB_ij_dust = TMP2*(1.0D0/(EXP(HP*frequencies(ilevel,jlevel)/KB/DUST_TEMPERATURE)-1.D0)*EMISSIVITY)
@@ -201,8 +199,6 @@ thermal_velocity=sqrt(8*KB*Tguess/PI/MP+v_turb**2)
 1 continue
          line(ilevel,jlevel) = A_COEFFS(ilevel,jlevel)*HP*frequencies(ilevel,jlevel) * &
                              & s_pop(ilevel)*beta_ij*(S_ij-BB_ij)/S_ij
-	 line_profile(ilevel,jlevel,:) = A_COEFFS(ilevel,jlevel)*HP*frequencies(ilevel,jlevel) * &
-                             & s_pop(ilevel)*beta_ij_profile(:)*(S_ij-BB_ij)/S_ij
          cooling_rate = cooling_rate + line(ilevel,jlevel)
 2 continue
          !<J_ij>
@@ -211,9 +207,6 @@ thermal_velocity=sqrt(8*KB*Tguess/PI/MP+v_turb**2)
          !J_ij(p)
          field_profile(ilevel,jlevel,:) = (1.0D0-beta_ij_profile(:))*S_ij + beta_ij_profile(:)*BB_ij
          field_profile(jlevel,ilevel,:) = field_profile(ilevel,jlevel,:)
-
-!temp____________________________
-line_profile(ilevel,jlevel,:) = field_profile(ilevel,jlevel,:)
        enddo !jlevel=1,nlev
      enddo !ilevel=1,nlev
  
@@ -234,11 +227,11 @@ line_profile(ilevel,jlevel,:) = field_profile(ilevel,jlevel,:)
 	transition_profile(ilevel,jlevel,:)=0.0D0
 	end where
         
-        transition(ilevel,jlevel) = 0.0D0
-        do ifreq=0,nfreq-2
-          transition(ilevel,jlevel) = transition(ilevel,jlevel)+&
-           &transition_profile(ilevel,jlevel,ifreq)*(frequency(ifreq+1)-frequency(ifreq)) !profile integrating
-        enddo
+        !transition(ilevel,jlevel) = 0.0D0
+        !do ifreq=0,nfreq-2
+        !  transition(ilevel,jlevel) = transition(ilevel,jlevel)+&
+        !   &transition_profile(ilevel,jlevel,ifreq)*(frequency(ifreq+1)-frequency(ifreq)) !profile integrating
+        !enddo
         !transition(ilevel,jlevel) = sum(transition_profile(ilevel,jlevel,:))*(frequency(nfreq-1)-frequency(0))/(nfreq) 
 
       ENDDO !jlevel=1,nlev
