@@ -1270,7 +1270,7 @@ if (iteration.ge.1) then
 !-------------------------------------
 !OUTPUT FOR ABUNDANCES AND TEMPERATURE
 !-------------------------------------
-   out_file = trim(adjustl(directory))//'/'//trim(adjustl(output))//".pdr.fin"
+   out_file = trim(adjustl(directory))//'/'//"pdr.fin"
    out_file2 = trim(adjustl(out_file))//"]"
    write(6,'(" Writing file [",A)') out_file2
    open(unit=21,file=out_file,status='replace')
@@ -1307,7 +1307,7 @@ if (iteration.ge.1) then
 
 if (ion_ptot.gt.0) then
 
-   out_file = trim(adjustl(directory))//'/'//trim(adjustl(output))//".ion.fin"
+   out_file = trim(adjustl(directory))//'/'//"ion.fin"
    out_file2 = trim(adjustl(out_file))//"]"
    write(6,'(" Writing file [",A)') out_file2
    close(21);open(unit=21,file=out_file,status='replace')
@@ -1326,7 +1326,7 @@ endif
 
 if (dark_ptot.gt.0) then
 
-   out_file = trim(adjustl(directory))//'/'//trim(adjustl(output))//".mol.fin"
+   out_file = trim(adjustl(directory))//'/'//"mol.fin"
    out_file2 = trim(adjustl(out_file))//"]"
    write(6,'(" Writing file [",A)') out_file2
    close(21);open(unit=21,file=out_file,status='replace')
@@ -1352,7 +1352,7 @@ close(21)
 !---------------------------
 !OUTPUT FOR COOLING FUNCTION
 !---------------------------
-   out_file = trim(adjustl(directory))//'/'//trim(adjustl(output))//trim(adjustl(".cool"))//".fin"
+   out_file = trim(adjustl(directory))//'/'//trim(adjustl("cool"))//".fin"
    out_file2 = trim(adjustl(out_file))//"]"
    write(6,'(" Writing file [",A)') out_file2
    open(unit=13,file=out_file,status='replace')
@@ -1375,7 +1375,7 @@ close(21)
 !---------------------------
 !OUTPUT FOR HEATING FUNCTION
 !---------------------------
-   out_file = trim(adjustl(directory))//'/'//trim(adjustl(output))//trim(adjustl(".heat"))//".fin"
+   out_file = trim(adjustl(directory))//'/'//trim(adjustl("heat"))//".fin"
    out_file2 = trim(adjustl(out_file))//"]"
    write(6,'(" Writing file [",A)') out_file2
    open(unit=14,file=out_file,status='replace')
@@ -1397,7 +1397,7 @@ close(21)
 !---------------------------
 !OUTPUT FOR TRANSITION LINES
 !---------------------------
-   out_file = trim(adjustl(directory))//'/'//trim(adjustl(output))//trim(adjustl(".line"))//".fin"
+   out_file = trim(adjustl(directory))//'/'//trim(adjustl("line"))//".fin"
    out_file2 = trim(adjustl(out_file))//"]"
    write(6,'(" Writing file [",A)') out_file2
    open(unit=15,file=out_file,status='replace')
@@ -1468,7 +1468,7 @@ close(21)
 !---------------------------
 !OUTPUT FOR POPULATION LEVELS
 !---------------------------
-   out_file = trim(adjustl(directory))//'/'//trim(adjustl(output))//trim(adjustl(".spop"))//".fin"
+   out_file = trim(adjustl(directory))//'/'//trim(adjustl("spop"))//".fin"
    out_file2 = trim(adjustl(out_file))//"]"
    write(6,'(" Writing file [",A)') out_file2
    open(unit=16,file=out_file,status='replace')
@@ -1487,7 +1487,7 @@ close(21)
 !---------------------------
 !OUTPUT FOR OPTICAL DEPTHS
 !---------------------------
-   out_file = trim(adjustl(directory))//'/'//trim(adjustl(output))//trim(adjustl(".opdp"))//".fin"
+   out_file = trim(adjustl(directory))//'/'//trim(adjustl("opdp"))//".fin"
    out_file2 = trim(adjustl(out_file))//"]"
    write(6,'(" Writing file [",A)') out_file2
    open(unit=16,file=out_file,status='replace')

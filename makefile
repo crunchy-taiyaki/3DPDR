@@ -130,7 +130,7 @@ endif
 OBJ += $(MODULE_OBJ) $(CODE_OBJ)
 #OPT += -check bounds
 
-%.o: %.F90 definitions.o healpix_types.o modules.o
+%.o: %.F90 definitions.o healpix_types.o modules.o line_transfer.o
 	$(F90) $(CPPFLAGS) $(OPT) $(CFLAGS) -c $<
 
 %.o: %.F
@@ -146,6 +146,9 @@ endif
 
 3DPDR :: $(OBJ) 3DPDR.o
 	$(F90) $(OPT) $(CFLAGS) $(LIBRARIES) -o 3DPDR $(OBJ) 3DPDR.o $(LIBS)
+	
+RT :: RT.o line_transfer.o line_transfer.mod
+	$(F90) -o RT RT.o line_transfer.o
 clean :: 
 	rm *.mod *.o cvode.log main.log fort.*
 compress ::
@@ -159,6 +162,14 @@ healpix_types.o : healpix_types.F90
 
 modules.o : modules.F90
 	$(F90) $(CPPFLAGS) $(OPT) $(CFLAGS) -c $<
+
+constants.o :: constants.f90
+	$(F90) -c $<	
+
+line_transfer.o :: line_transfer.f90 constants.o constants.mod
+	$(F90) -c $<
+RT.o :: RT.f90 line_transfer.o line_transfer.mod
+	$(F90) -c $<
 
 healpix_types.o : definitions.o
 modules.o : definitions.o healpix_types.o

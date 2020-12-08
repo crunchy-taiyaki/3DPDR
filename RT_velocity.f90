@@ -42,7 +42,7 @@ do i=1,itot
 !    endif
   enddo
 enddo
-
+!write(6,*) spec(7),freq0(7),g(7,2),pop(7,1,itot-2),pop(7,2,itot-2),g(7,1),Tex(7,itot-2)
 
 do vv=0,0!-100,100
 tau_test=0
@@ -66,7 +66,7 @@ open(unit=111,file=fileout,status='replace')
 N=0;Ntot=0;Ntgas=0
 t_r=0
 do i=1,itot-2
-  dtau=abs(tau(:,i+1)-tau(:,i))
+  dtau=tau(:,i+1)-tau(:,i)
   do j=1,17
     if (dtau(j).gt.1d10) then
       t_r(j)=Bnu(j,i)
@@ -97,14 +97,15 @@ do i=1,itot-2
 !  write(111,'(7ES11.3)') x(i),N(25),t_r(1)*c**2/2./kb/freq0(1)**2,t_r(2)*c**2/2./kb/freq0(2)**2,&
 !          &t_r(5)*c**2/2./kb/freq0(5)**2,t_r(8)*c**2/2./kb/freq0(8)**2,tgas(i)
 enddo
+!write(6,*)spec(7),N(30),rho(itot-2),abun(30,itot-2),x(itot-2),pc2cm
 write(11,*) real(vv)/10., t_r(8)*c**2/2./kb/freq0(8)**2
 enddo
 write(6,*) '<Tgas>=',NTgas/Ntot
 write(6,*) 'Linewidth (CO) = ',2.*sqrt(2.*log(2.))*sqrt(kb*(NTgas/Ntot)/mh(8)+vturb**2/2.)/1d5,' [km/s]'
 Nwrite(1)=N(11);Nwrite(2:4)=N(25);Nwrite(5:7)=N(30);Nwrite(8:17)=N(28)
-write(6,*) 'Species || Column density || Tex || tau || tau_test || Tr'
+write(6,*) 'Species || Column density || Tex || tau || tau_test || Tr '
 do i=1,17
-  write(6,'(A10,2X,5ES11.3)') spec(i),Nwrite(i),Tex(i,itot),tau(i,itot-2),tau_test(i),tr_incr(itot-2,i)*c**2/2./kb/freq0(i)**2
+  write(6,'(A10,2X,5ES11.3)') spec(i),Nwrite(i),Tex(i,itot-2),tau(i,itot-2),tau_test(i),tr_incr(itot-2,i)*c**2/2./kb/freq0(i)**2
 enddo
 t_r=t_r*c**2/2./kb/freq0**2
 close(1);open(unit=1,file='CO_sled.dat',status='replace')
@@ -116,10 +117,10 @@ contains
 subroutine readfile
 !write(6,*) 'give prefix'
 !read(5,*) prefix
-filepdr='./ALL_TESTS/'//trim(adjustl(prefix))//'/'//trim(adjustl(prefix))//".pdr.fin"
-fileline='./ALL_TESTS/'//trim(adjustl(prefix))//'/'//trim(adjustl(prefix))//".line.fin"
-filetau='./ALL_TESTS/'//trim(adjustl(prefix))//'/'//trim(adjustl(prefix))//".opdp.fin"
-filepop='./ALL_TESTS/'//trim(adjustl(prefix))//'/'//trim(adjustl(prefix))//".spop.fin"
+filepdr='./ALL_TESTS/old/'//trim(adjustl(prefix))//'/'//"pdr.fin"
+fileline='./ALL_TESTS/old/'//trim(adjustl(prefix))//'/'//"line.fin"
+filetau='./ALL_TESTS/old/'//trim(adjustl(prefix))//'/'//"opdp.fin"
+filepop='./ALL_TESTS/old/'//trim(adjustl(prefix))//'/'//"spop.fin"
 open(unit=1,file=fileline,status='old')
 open(unit=2,file=filepdr,status='old')
 open(unit=3,file=filepop,status='old')

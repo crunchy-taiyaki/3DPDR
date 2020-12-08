@@ -56,11 +56,7 @@ real(kind=dp) :: tau_increment_profile(0:nfreq-1)
 real(kind=dp) :: tau_profile(1:nlev,1:nlev,0:nfreq-1,0:nrays-1)
 real(kind=dp) :: beta_ij_ray(0:nrays-1)
 real(kind=dp) :: beta_ij_ray_profile(0:nfreq-1,0:nrays-1)
-real(kind=dp) :: bbeta_profile(1:nlev,1:nlev,0:nfreq-1,0:nrays-1)
-real(kind=dp) :: beta_ij_profile(0:nfreq-1), beta_ij_sum_profile(0:nfreq-1)
 real(kind=dp) :: field(1:nlev,1:nlev)
-real(kind=dp) :: field_profile(1:nlev,1:nlev,0:nfreq-1)
-real(kind=dp) :: transition_profile(1:nlev,1:nlev,0:nfreq-1)
 real(kind=dp) :: emissivity, bb_ij_dust, ngrain, rho_grain
 
 line=0.0D0
@@ -80,9 +76,8 @@ thermal_velocity=sqrt(8*KB*Tguess/PI/MP+v_turb**2)
          tau_ij=0.0D0
 	 tau_ij_profile(0:nfreq-1,0:nrays-1)=0.0D0
          beta_ij=0.0D0; beta_ij_ray=0.0D0
-	 beta_ij_profile=0.0D0; beta_ij_ray_profile=0.0D0
+	 beta_ij_ray_profile=0.0D0
 	 beta_ij_sum=0.0D0
-	 beta_ij_sum_profile=0.0D0
 
          frac1=(A_COEFFS(ilevel,jlevel)*(C**3))/(8.0*pi*(frequencies(ilevel,jlevel)**3))
          TMP2=2.0D0*HP*(FREQUENCIES(ilevel,jlevel)**3)/(C**2)
@@ -95,14 +90,12 @@ thermal_velocity=sqrt(8*KB*Tguess/PI/MP+v_turb**2)
          if (s_pop(ilevel).eq.0) then
             S_ij=0.0D0
             beta_ij=1.0D0
-	    beta_ij_profile=1.0D0
             goto 2
          endif
          TPOP=(s_pop(jlevel)*WEIGHTS(ilevel))/(s_pop(ilevel)*WEIGHTS(jlevel))-1.0D0
          if(abs(TPOP).lt.1.0D-50) then
               S_ij=HP*FREQUENCIES(ilevel,jlevel)*s_pop(ilevel)*A_COEFFS(ilevel,jlevel)/4./pi
               beta_ij=1.0D0
-	      beta_ij_profile=1.0D0
               goto 1
          else
          !calculation of source function (taken from UCL_PDR)
@@ -140,36 +133,43 @@ thermal_velocity=sqrt(8*KB*Tguess/PI/MP+v_turb**2)
          endif
 #endif
 
-           ! Prevent exploding beta values caused by strong masing (tau < -10)
-           ! Assume tau = -10 and calculate the escape probability accordingly
+           ! Prevent exploding beta values caused by strong masing (tau < -5)
+           ! Assume tau = -5 and calculate the escape probability accordingly
            if (tau_ij(j).lt.-5.0D0) then
               beta_ij_ray(j)=(1.0D0-EXP(5.0D0))/(-5.0D0)
 !           ! Treat weak masing using the standard escape probability formalism
 !           else if (tau_ij(j).lt.0.0D0) then
 !              beta_ij_ray(j)=(1.0D0-EXP(-tau_ij(j)))/tau_ij(j)
-           ! Prevent floating point overflow caused by very low opacity (tau < 1e-6)
-           else if (abs(tau_ij(j)).lt.1.0D-8) then !was D-6
+           ! Prevent floating point overflow caused by very low opacity (tau < 1e-8)
+           else if (abs(tau_ij(j)).lt.1.0D-8) then
               beta_ij_ray(j)=1.0D0
            ! For all other cases use the standard escape probability formalism
            else
               beta_ij_ray(j)=(1.0D0-EXP(-tau_ij(j)))/tau_ij(j)
            endif
 
-	!standard escape probability formalism
-	beta_ij_ray_profile(:,j)=(1.0D0-EXP(-tau_ij_profile(:,j)))/tau_ij_profile(:,j)
-	! Prevent exploding beta values caused by strong masing (tau < -10)
-	! Assume tau = -10 and calculate the escape probability accordingly
-	where(tau_ij_profile(:,j).lt.-5.0D0)
-	beta_ij_ray_profile(:,j)=(1.0D0-EXP(5.0D0))/(-5.0D0)
-        ! Prevent floating point overflow caused by very low opacity (tau < 1e-6)
-	elsewhere(abs(tau_ij_profile(:,j)).lt.1.0D-8)
-	beta_ij_ray_profile(:,j)=1.0D0 !was D-6
-	end where
+           ! Prevent exploding beta values caused by strong masing (tau < -5)
+           ! Assume tau = -5 and calculate the escape probability accordingly
+           beta_ij_ray_profile(:,j)=doppler_profile*(1.0D0-EXP(-tau_ij(j)))/tau_ij(j)
+           where (tau_ij_profile(:,j).lt.-5.0D0)
+              beta_ij_ray_profile(:,j)=doppler_profile*(1.0D0-EXP(5.0D0))/(-5.0D0)
+!           ! Treat weak masing using the standard escape probability formalism
+!           else if (tau_ij(j).lt.0.0D0) then
+!              beta_ij_ray(j)=(1.0D0-EXP(-tau_ij(j)))/tau_ij(j)
+           ! Prevent floating point overflow caused by very low opacity (tau < 1e-8)
+           elsewhere (abs(tau_ij_profile(:,j)).lt.1.0D-8)
+              beta_ij_ray_profile(:,j)=doppler_profile*1.0D0
+           ! For all other cases use the standard escape probability formalism
+           end where
+
+        !beta_ij_ray(j) = 0.0d0
+        !do ifreq=0,nfreq-2
+        !  beta_ij_ray(j) = beta_ij_ray(j)+&
+        !   &beta_ij_ray_profile(ifreq,j)*(frequency(ifreq+1)-frequency(ifreq)) !profile integrating
+        !enddo
 	!=============
 	tau(ilevel,jlevel,j)=tau_ij(j)
-	tau_profile(ilevel,jlevel,:,j)=tau_ij_profile(:,j)
 	bbeta(ilevel,jlevel,j)=beta_ij_ray(j)
-	bbeta_profile(ilevel,jlevel,:,j)=beta_ij_ray_profile(:,j)
 	!=============
          enddo !j=0,nrays-1
 
@@ -183,18 +183,6 @@ thermal_velocity=sqrt(8*KB*Tguess/PI/MP+v_turb**2)
          beta_ij = beta_ij_sum / real(nrays,kind=DP) 
 #endif
 
-	 do ifreq=0,nfreq-1
-	 beta_ij_sum_profile(ifreq)=sum(beta_ij_ray_profile(ifreq,:))
-	 enddo
-
-	 !calculation of average beta_ij in the origin grid point
-#ifdef PSEUDO_1D
-         beta_ij_profile(:) = beta_ij_sum_profile(:)
-#elif PSEUDO_2D
-         beta_ij_profile(:) = beta_ij_sum_profile(:)/ 4.
-#else
-         beta_ij_profile(:) = beta_ij_sum_profile(:)/real(nrays,kind=DP) 
-#endif
 
 1 continue
          line(ilevel,jlevel) = A_COEFFS(ilevel,jlevel)*HP*frequencies(ilevel,jlevel) * &
@@ -205,8 +193,6 @@ thermal_velocity=sqrt(8*KB*Tguess/PI/MP+v_turb**2)
          field(ilevel,jlevel) = (1.0D0-beta_ij)*S_ij + beta_ij*BB_ij
          field(jlevel,ilevel) = field(ilevel,jlevel)
          !J_ij(p)
-         field_profile(ilevel,jlevel,:) = (1.0D0-beta_ij_profile(:))*S_ij + beta_ij_profile(:)*BB_ij
-         field_profile(jlevel,ilevel,:) = field_profile(ilevel,jlevel,:)
        enddo !jlevel=1,nlev
      enddo !ilevel=1,nlev
  
@@ -219,20 +205,6 @@ thermal_velocity=sqrt(8*KB*Tguess/PI/MP+v_turb**2)
         & +B_COEFFS(ilevel,jlevel)*FIELD(ilevel,jlevel)&
         & +C_COEFFS(ilevel,jlevel)
         IF(ABS(TRANSITION(ilevel,jlevel)).LT.1.0D-50) TRANSITION(ilevel,jlevel)=0.0D0
-
-        transition_profile(ilevel,jlevel,:)=A_COEFFS(ilevel,jlevel)&
-        & +B_COEFFS(ilevel,jlevel)*field_profile(ilevel,jlevel,:)&
-        & +C_COEFFS(ilevel,jlevel)
-        where(ABS(transition_profile(ilevel,jlevel,:)).lt.1.0D-50)
-	transition_profile(ilevel,jlevel,:)=0.0D0
-	end where
-        
-        !transition(ilevel,jlevel) = 0.0D0
-        !do ifreq=0,nfreq-2
-        !  transition(ilevel,jlevel) = transition(ilevel,jlevel)+&
-        !   &transition_profile(ilevel,jlevel,ifreq)*(frequency(ifreq+1)-frequency(ifreq)) !profile integrating
-        !enddo
-        !transition(ilevel,jlevel) = sum(transition_profile(ilevel,jlevel,:))*(frequency(nfreq-1)-frequency(0))/(nfreq) 
 
       ENDDO !jlevel=1,nlev
     ENDDO !ilevel=1,nlev
