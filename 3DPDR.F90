@@ -1258,14 +1258,18 @@ if (iteration.ge.1) then
 !-------------------------------------
 !OUTPUT FOR CHEMICAL ANALYSIS
 !-------------------------------------
- 
-!   do pp=1,pdr_ptot
-!      p=IDlist_pdr(pp)
-!      call analyse_chemistry(p, end_time, pdr(p)%rho, previousgastemperature(pp), &
-!        &12, pdr(p)%AV(6), nspec, species,pdr(p)%abundance(1:nspec),nreac, reactant, &
-!        & product, dummy_rate(:,pp))
-!!      write(6,*)
-!   enddo
+   out_file = trim(adjustl(directory))//'/'//"chem_analyse"
+   out_file2 = trim(adjustl(out_file))//"]"
+   write(6,'(" Writing file [",A)') out_file2
+   open(unit=12,file=out_file,status='replace') 
+   do pp=1,pdr_ptot
+      p=IDlist_pdr(pp)
+      call analyse_chemistry(p, end_time, pdr(p)%rho, previousgastemperature(pp), &
+        &12, pdr(p)%AV(6), nspec, species,pdr(p)%abundance(1:nspec),nreac, reactant, &
+        & product, dummy_rate(:,pp))
+      write(12,*)
+   enddo
+   close(12)
 
 !-------------------------------------
 !OUTPUT FOR ABUNDANCES AND TEMPERATURE

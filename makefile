@@ -108,7 +108,7 @@ endif
 MODULE_OBJ += definitions.o healpix_types.o modules.o 
 CODE_OBJ += healpix.o input_parameters.o solvlevpop.o \
 read_species.o read_rates.o heapsort.o calc_reac_rates.o shield.o \
-spline.o escape_probability.o eval_points.o\
+spline.o escape_probability.o analyse_chem.o eval_points.o\
 calculate_abundances.o sub_calculate_heating.o\
 find_Ccoeff.o read_input.o 
 ifeq ($(NETWORK),REDUCED)

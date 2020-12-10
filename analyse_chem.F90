@@ -26,13 +26,13 @@
       REAL(KIND=DP)     :: D(1:NREAC),DTOT
 
 !     Specify the number of species to examine and their names
-      INTEGER(KIND=I4B), SAVE :: NLIST=7
-      CHARACTER(LEN=10), SAVE :: SPECLIST(1:7)=&
-     &      (/"H2        ","CO      ","C         ",&
-     & "C+        ","CH        ","OH        ","e-        "/)
+      INTEGER(KIND=I4B), SAVE :: NLIST=4
+      CHARACTER(LEN=10), SAVE :: SPECLIST(1:4)=&
+     &      (/"C+        ","C         ","O         ",&
+     & "CO        "/)
       integer::pl
 
-      WRITE(98,6)
+      WRITE(12,6) !here was unit=98
       DO L=1,NLIST
 !        Find index I of the species that corresponds
 !        to the current entry in the SPECLIST array
@@ -44,8 +44,8 @@
 !        Continue to the next entry in SPECLIST if it does not
          IF(SPECIES(I).NE.SPECLIST(L)) CYCLE
 
-         !WRITE(98,4) GRIDPOINT,TIME,MINVAL(AV),DENSITY,TEMPERATURE,SPECIES(I)
-         WRITE(98,4) GRIDPOINT,TIME,AV,DENSITY,TEMPERATURE,SPECIES(I)
+         !WRITE(12,4) GRIDPOINT,TIME,MINVAL(AV),DENSITY,TEMPERATURE,SPECIES(I)
+         WRITE(12,4) GRIDPOINT,TIME,AV,DENSITY,TEMPERATURE,SPECIES(I)
 
 !        Reset the formation/destruction rate counters
          IP=0
@@ -166,11 +166,11 @@
 
 
             IF(PRODUCT(NPR(N),3).EQ." ") THEN
-               WRITE(98,1) (REACTANT(NPR(N),J),J=1,2),(PRODUCT(NPR(N),J),J=1,2),NINT(PERCENT)
+               WRITE(12,1) (REACTANT(NPR(N),J),J=1,2),(PRODUCT(NPR(N),J),J=1,2),NINT(PERCENT)
             ELSE IF(PRODUCT(NPR(N),4).EQ." ") THEN
-               WRITE(98,2) (REACTANT(NPR(N),J),J=1,2),(PRODUCT(NPR(N),J),J=1,3),NINT(PERCENT)
+               WRITE(12,2) (REACTANT(NPR(N),J),J=1,2),(PRODUCT(NPR(N),J),J=1,3),NINT(PERCENT)
             ELSE
-               WRITE(98,3) (REACTANT(NPR(N),J),J=1,2),(PRODUCT(NPR(N),J),J=1,4),NINT(PERCENT)
+               WRITE(12,3) (REACTANT(NPR(N),J),J=1,2),(PRODUCT(NPR(N),J),J=1,4),NINT(PERCENT)
             ENDIF
 
 !           Exit the loop once the sum of the reaction rates reaches 100%
@@ -182,7 +182,7 @@
 
 !        End of loop over formation reactions
          ENDDO
-         WRITE(98,*)
+         WRITE(12,*)
 
 !-----------------------------------------------------------------------
 !        Output the destruction reactions and their rates
@@ -207,11 +207,11 @@
             TOTAL=TOTAL+NINT(PERCENT)
 
             IF(PRODUCT(NDR(N),3).EQ." ") THEN
-               WRITE(98,1) (REACTANT(NDR(N),J),J=1,2),(PRODUCT(NDR(N),J),J=1,2),-NINT(PERCENT)
+               WRITE(12,1) (REACTANT(NDR(N),J),J=1,2),(PRODUCT(NDR(N),J),J=1,2),-NINT(PERCENT)
             ELSE IF(PRODUCT(NDR(N),4).EQ." ") THEN
-               WRITE(98,2) (REACTANT(NDR(N),J),J=1,2),(PRODUCT(NDR(N),J),J=1,3),-NINT(PERCENT)
+               WRITE(12,2) (REACTANT(NDR(N),J),J=1,2),(PRODUCT(NDR(N),J),J=1,3),-NINT(PERCENT)
             ELSE
-               WRITE(98,3) (REACTANT(NDR(N),J),J=1,2),(PRODUCT(NDR(N),J),J=1,4),-NINT(PERCENT)
+               WRITE(12,3) (REACTANT(NDR(N),J),J=1,2),(PRODUCT(NDR(N),J),J=1,4),-NINT(PERCENT)
             ENDIF
 
 !           Exit the loop once the sum of the reaction rates reaches 100%
@@ -223,17 +223,17 @@
 
 !        End of loop over destruction reactions
          ENDDO
-         WRITE(98,*)
+         WRITE(12,*)
 
 !-----------------------------------------------------------------------
 
 !        Output the abundance and total formation/destruction rates
-         WRITE(98,5) ABUNDANCE(I),PTOT,DTOT
-         WRITE(98,6)
+         WRITE(12,5) ABUNDANCE(I),PTOT,DTOT
+         WRITE(12,6)
 
 !        End of loop over SPECLIST array
       ENDDO
-      WRITE(98,7)
+      WRITE(12,7)
 
  1    FORMAT(3X,A10,'+',3X,A10,'-->',3X,A10,'+',3X,A10,12X,'Rate:',I4,'%')
  2    FORMAT(3X,A10,'+',3X,A10,'-->',3X,A10,'+',3X,A10,'+',3X,A5,3X,'Rate:',I4,'%')
