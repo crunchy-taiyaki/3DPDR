@@ -1,9 +1,9 @@
 ===========================|********VERSION 1.0********
 3DPDR input parameters file|    ~~~ COMMENTS ~~~
 ===========================|-------------------------
-./3dpdr_cr/ics             !Input directory (20 char. max.)
-1Dn30.dat		   !Input file (20 char. max.)
-./ALL_TESTS/new/d30UV1     !Output directory (20 char. max.)
+./ALL_TESTS/vel/1Dslab10_10!Input directory (20 char. max.)
+1Dslab10_10.dat		   !Input file (20 char. max.)
+./ALL_TESTS/vel/1Dslab10_10!Output directory (20 char. max.)
 	     		   !Output file (20 char. max)
 0			   !HEALPix level of refinement
 0.8			   !Theta critical (0<phi<pi/2)
@@ -40,4 +40,4 @@ Thermal balance values     |
 UV field		   |
 ===========================| 
 UNI			   !ISO-tropic, UNI-directional
-1	 		   !G0 (in Draine field units) -x to +x in 1D
+10	 		   !G0 (in Draine field units) -x to +x in 1D
