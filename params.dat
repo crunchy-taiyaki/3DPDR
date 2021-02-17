@@ -3,7 +3,7 @@
 ===========================|-------------------------
 ./3dpdr_cr/ics             !Input directory (20 char. max.)
 1Dn30.dat		   !Input file (20 char. max.)
-./ALL_TESTS/old/d30UV100   !Output directory (20 char. max.)
+./ALL_TESTS/new/d30UV1     !Output directory (20 char. max.)
 	     		   !Output file (20 char. max)
 0			   !HEALPix level of refinement
 0.8			   !Theta critical (0<phi<pi/2)
@@ -40,4 +40,4 @@ Thermal balance values     |
 UV field		   |
 ===========================| 
 UNI			   !ISO-tropic, UNI-directional
-100	 		   !G0 (in Draine field units) -x to +x in 1D
+1	 		   !G0 (in Draine field units) -x to +x in 1D

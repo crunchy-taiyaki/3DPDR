@@ -15,16 +15,16 @@ end type
 
  contains
 
- subroutine solve_rt(this,directory,x,av,abun,Tgas,Tdust,rho,pop_i,pop_j,metallicity,gas_to_dust)
+ subroutine solve_rt(this,directory,x,av,v_gas,abun,Tgas,Tdust,rho,pop_i,pop_j,metallicity,gas_to_dust)
  class (line), intent(in) :: this
- character(len=40), intent(in) :: directory
- real(8), intent(in) :: x(1:),av(1:),abun(1:),Tgas(1:),Tdust(1:),rho(1:),pop_i(1:),pop_j(1:)
+ character(len=80), intent(in) :: directory
+ real(8), intent(in) :: x(1:),av(1:),v_gas(1:),abun(1:),Tgas(1:),Tdust(1:),rho(1:),pop_i(1:),pop_j(1:)
  real(8), intent(in) :: metallicity, gas_to_dust
  integer :: ptot !total point number
- integer, parameter :: nfreq = 40
+ integer, parameter :: nfreq = 100
  real(8), parameter :: rho_grain = 2.0D0
  real(8), parameter :: v_turb = 1.0d5 !cm/s
- real(8), parameter :: v_gas = 0. !cm/s
+ !real(8), parameter :: v_gas = 0. !cm/s
  real(8) :: tmp
  real(8), allocatable :: ngrain(:), emissivity(:)
  real(8), allocatable :: BB(:),BB_dust(:)
@@ -37,8 +37,7 @@ end type
  real(8) :: frac
  real(8), allocatable :: dtau(:),tau_incr(:)
  real(8), allocatable :: current_intensity(:),intensity(:,:),antenna_temp(:,:),N(:)
- character(len=80) :: fileout, fileout_radial
-
+ character(len=100) :: fileout, fileout_radial
  ptot = size(x)
  allocate(ngrain(1:ptot), emissivity(1:ptot))
  allocate(BB(1:ptot), BB_dust(1:ptot))
@@ -52,13 +51,17 @@ end type
 !optical depth calculation
 mh = this%proton_number*mhp
 sigma_ptot=(this%freq0/c)*sqrt(kb*Tgas(ptot-1)/mh+v_turb**2/2.)
-  do ifreq=0,nfreq-1 !frequencies calcuation
-   freq(ifreq)=this%freq0-3*sigma_ptot+ifreq*2*3*sigma_ptot/(nfreq-1)
+  !do ifreq=0,nfreq-1 !frequencies calcuation
+  ! freq(ifreq)=this%freq0-3*sigma_ptot+ifreq*2*3*sigma_ptot/(nfreq-1)
+  !enddo
+  do ifreq=0,nfreq-1
+    velocities(ifreq) = -15.0 + ifreq*(15.0+15.0)/(nfreq-1)
   enddo
-tau_incr(:) = 0.
+  freq = this%freq0/(1.+velocities*1e5/c)
+  tau_incr(:) = 0.
   do p=1,ptot-1
   sigma=(this%freq0/c)*sqrt(kb*Tgas(p)/mh+v_turb**2/2.)
-  phi=exp(-((1+v_gas/c)*freq(:)-this%freq0)**2/sigma**2/2.)/sigma/sqrt(2.*pi)
+  phi=exp(-((1+v_gas(p)*1.0d5/c)*freq(:)-this%freq0)**2/sigma**2/2.)/sigma/sqrt(2.*pi)
   !phi = 1./sigma/sqrt(2.*pi)
   frac=0.5*((pop_j(p)+pop_j(p+1))*this%g_i/this%g_j-(pop_i(p)+pop_i(p+1)))
   tau_incr(:) = tau_incr(:)+phi(:)*(this%A*c**2/8./pi/this%freq0**2)*frac*abs(x(p+1)-x(p))*pc
@@ -69,7 +72,7 @@ tau_incr(:) = 0.
   enddo
   
 
-velocities(:) = c*(freq(:)/this%freq0 - 1.0D0)*1d-5
+!velocities(:) = c*(freq(:)/this%freq0 - 1.0D0)*1d-5
 Tex(:)=(hp*this%freq0/kb)/log(this%g_i*pop_j(:)/pop_i(:)/this%g_j)
 
 !source function calculation      

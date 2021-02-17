@@ -48,7 +48,7 @@ real(kind=dp) :: thermal_velocity
 real(kind=dp) :: tpop, tmp2
 real(kind=dp) :: S_ij, BB_ij
 real(kind=dp) :: tau_increment
-real(kind=dp) :: frequency(0:nfreq-1),velocity_range(0:nfreq-1)
+real(kind=dp) :: frequency(0:nfreq-1),velocities(0:nfreq-1)
 real(kind=dp) :: doppler_profile(0:nfreq-1)
 real(kind=dp) :: tau_ij(0:nrays-1)
 real(kind=dp) :: tau_ij_profile(0:nfreq-1,0:nrays-1)
@@ -63,16 +63,17 @@ line=0.0D0
 cooling_rate = 0.0D0
 field=0.0D0
 frac2=1.0D0/sqrt(8.0*KB*Tguess/PI/MP + v_turb**2)
-thermal_velocity=sqrt(8*KB*Tguess/PI/MP+v_turb**2)
+thermal_velocity=sqrt(8.0*KB*Tguess/PI/MP + v_turb**2)
 
     do ilevel=1,nlev
        do jlevel=1,nlev !i>j
          if (jlevel.ge.ilevel) exit	 
-	 !init frequency array in range [-3*thermal_velocity**2,3*thermal_velocity**2]
+	 !init frequency array
 	 do ifreq=0,nfreq-1
-	   frequency(ifreq)=frequencies(ilevel,jlevel)-3*thermal_velocity+ifreq*2*3*thermal_velocity/(nfreq-1)
+	   frequency(ifreq)=frequencies(ilevel,jlevel)*C/(C+v_gas)-3*thermal_velocity+ifreq*3*thermal_velocity*2/(nfreq-1)
 	 enddo
-	 doppler_profile(0:nfreq-1)=exp(-((1+v_gas/C)*frequency(:)-frequencies(ilevel,jlevel))**2/thermal_velocity**2)/thermal_velocity
+	 doppler_profile=exp(-((1+v_gas/C)*frequency(:)-frequencies(ilevel,jlevel))**2/(2.0*thermal_velocity**2))/&
+                                    &(thermal_velocity*sqrt(2.*pi))
          tau_ij=0.0D0
 	 tau_ij_profile(0:nfreq-1,0:nrays-1)=0.0D0
          beta_ij=0.0D0; beta_ij_ray=0.0D0
@@ -148,25 +149,22 @@ thermal_velocity=sqrt(8*KB*Tguess/PI/MP+v_turb**2)
               beta_ij_ray(j)=(1.0D0-EXP(-tau_ij(j)))/tau_ij(j)
            endif
 
-           ! Prevent exploding beta values caused by strong masing (tau < -5)
-           ! Assume tau = -5 and calculate the escape probability accordingly
-           beta_ij_ray_profile(:,j)=doppler_profile*(1.0D0-EXP(-tau_ij(j)))/tau_ij(j)
+
+           beta_ij_ray_profile(:,j)=doppler_profile*(1.0D0-EXP(-tau_ij_profile(:,j)))/tau_ij_profile(:,j)
            where (tau_ij_profile(:,j).lt.-5.0D0)
               beta_ij_ray_profile(:,j)=doppler_profile*(1.0D0-EXP(5.0D0))/(-5.0D0)
-!           ! Treat weak masing using the standard escape probability formalism
-!           else if (tau_ij(j).lt.0.0D0) then
-!              beta_ij_ray(j)=(1.0D0-EXP(-tau_ij(j)))/tau_ij(j)
-           ! Prevent floating point overflow caused by very low opacity (tau < 1e-8)
            elsewhere (abs(tau_ij_profile(:,j)).lt.1.0D-8)
-              beta_ij_ray_profile(:,j)=doppler_profile*1.0D0
-           ! For all other cases use the standard escape probability formalism
+              beta_ij_ray_profile(:,j)=doppler_profile
            end where
-
-        !beta_ij_ray(j) = 0.0d0
-        !do ifreq=0,nfreq-2
-        !  beta_ij_ray(j) = beta_ij_ray(j)+&
-        !   &beta_ij_ray_profile(ifreq,j)*(frequency(ifreq+1)-frequency(ifreq)) !profile integrating
-        !enddo
+           beta_ij_ray(j) = 0.0d0
+           do ifreq=0,nfreq-2
+             beta_ij_ray(j) = beta_ij_ray(j)+&
+              &(beta_ij_ray_profile(ifreq+1,j)+beta_ij_ray_profile(ifreq,j))*&
+              &abs(frequency(ifreq+1)-frequency(ifreq))/2.
+           enddo
+        !if ((j.eq.6).and.(coolant.eq.1)) then
+        !write(*,*)beta_ij_ray(j),'after'
+        !endif
 	!=============
 	tau(ilevel,jlevel,j)=tau_ij(j)
 	bbeta(ilevel,jlevel,j)=beta_ij_ray(j)

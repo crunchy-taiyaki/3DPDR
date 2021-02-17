@@ -32,7 +32,7 @@ MODULE maincode_module
   INTEGER(KIND=I4B) :: NLEV,NTEMP
   integer(kind=i4b) :: iteration, ITERTOT
   integer(kind=i4b) :: iterstep     ! output interval (per how many iterations)
-  integer(kind=i4b) :: nfreq = 3
+  integer(kind=i4b) :: nfreq = 20
   integer(kind=i4b) :: NSPEC, NREAC
   integer(kind=i4b) :: CII_NLEV, CII_NTEMP   !CII cooling variables
   integer(kind=i4b) :: CI_NLEV, CI_NTEMP     !CI cooling variables
@@ -147,12 +147,12 @@ MODULE maincode_module
   real(kind=dp), allocatable :: C12O_HE(:,:,:),C12O_H2(:,:,:)
   real(kind=dp), allocatable :: C12O_PH2(:,:,:),C12O_OH2(:,:,:)
 
-  character(len=20) :: input
+  character(len=27) :: input
   character(len=20) :: inputchem
   character(len=20) :: C12Oinput, CIIinput, CIinput, OIinput
   character(len=40)  :: output
-  character(len=25) :: directory
-  character(len=20) :: indir
+  character(len=27) :: directory
+  character(len=27) :: indir
 
   type columndens_node
      real(kind=dp), pointer :: columndens_point(:,:)
@@ -249,8 +249,8 @@ real(kind=dp)::CII_percentage,CI_percentage
 real(kind=dp)::levpop_percentage
 #endif
 real(kind=dp) :: rad_tot
-character(len=52) :: out_file, out_file2 !new line
-character(len=40) :: input_file !new line
+character(len=60) :: out_file, out_file2 !new line
+character(len=60) :: input_file !new line
 character(len=7) :: file_ext
 character(len=6) :: file_numb
 real(kind=dp),allocatable :: CII_cool(:)
