@@ -215,6 +215,7 @@ MODULE maincode_module
      real(kind=dp) :: rho                          !density of element
      real(kind=dp) :: smoo                         !smoothing length (if SPH = .TRUE. in params.dat)
      real(kind=dp) :: x,y,z                        !position of element
+     real(kind=dp) :: velocity			   !radial velocity of element
      integer(kind=i4b) :: etype                    !element type (1 = PDR, 2 = ION, 3 = DARK)
 #ifdef DUST2
      real(kind=dp) :: dust_t
@@ -289,7 +290,7 @@ integer(kind=i4b) :: pdr_ptot,ion_ptot,dark_ptot
 integer(kind=i4b),allocatable :: IDlist_pdr(:),IDlist_ion(:),IDlist_dark(:)
 real(kind=DP), allocatable :: pdrpoint(:,:)      ! coordinates of pdr element 
 integer(kind=i4b) :: pp
-real(kind=dp) :: xpos,ypos,zpos,denst
+real(kind=dp) :: xpos,ypos,zpos,denst,radial_velocity
 !================================
 !================================
 !================================

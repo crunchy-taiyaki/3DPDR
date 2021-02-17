@@ -24,7 +24,8 @@ integer(kind=i4b)::NRGR,NRH2,NRHD,NRCO,NRCI,NRSI
 real(kind=dp)::uvfieldaux
 real(kind=dp),allocatable::prev_cooling(:)
 !reversing rows declaration
-real(kind=dp),allocatable::x_rev(:),y_rev(:),z_rev(:),n_rev(:)
+real(kind=dp),allocatable::x_rev(:),y_rev(:),z_rev(:),n_rev(:),radial_velocity_rev(:)
+character(len=1)::velocity_flag
 
 
 write(6,*) '=============================================================================='
@@ -130,11 +131,13 @@ write(6,*) 'TEMP_FIX'
 #ifdef GUESS_TEMP
 write(6,*) 'GUESS_TEMP'
 #endif
+write(6,*) 'enter velocity_flag (y/n)'
+read(*,*) velocity_flag
 write(6,*) ''
 write(6,*) 'Reading initial conditions file'
 
-input_file = trim(adjustl(indir))//'/'//trim(adjustl(input)) !new line!
-open(unit=2,file=input_file,status='old') !new line
+input_file = trim(adjustl(indir))//'/'//trim(adjustl(input))
+open(unit=2,file=input_file,status='old')
 
 
 !finds how many grid points are in the file
@@ -166,7 +169,12 @@ minimum_density=1.0D10
 open(unit=2,file=input_file,status='old')
 
 do p=1,grand_ptot
-    read(2,*) xpos,ypos,zpos,denst
+    if (velocity_flag .eq. 'y') then
+      read(2,*) xpos,ypos,zpos,denst,radial_velocity
+    else
+      read(2,*) xpos,ypos,zpos,denst 
+      radial_velocity = 0.
+    endif
     if (denst.le.rho_min) then
       ion_ptot = ion_ptot + 1
       pdr(p)%etype = 2 !IONIZED
@@ -174,6 +182,7 @@ do p=1,grand_ptot
       pdr(p)%y=ypos
       pdr(p)%z=zpos
       pdr(p)%rho=denst
+      pdr(p)%velocity = radial_velocity
       IDlist_ion(ion_ptot)=p
     endif
     if ((denst.gt.rho_min).AND.(denst.le.rho_max)) then
@@ -183,6 +192,7 @@ do p=1,grand_ptot
       pdr(p)%y=ypos
       pdr(p)%z=zpos
       pdr(p)%rho=denst
+      pdr(p)%velocity = radial_velocity
       if (denst.gt.maximum_density) maximum_density=denst
       if (denst.lt.minimum_density) minimum_density=denst
       IDlist_pdr(pdr_ptot)=p
@@ -194,6 +204,7 @@ do p=1,grand_ptot
       pdr(p)%y=ypos
       pdr(p)%z=zpos
       pdr(p)%rho=denst
+      pdr(p)%velocity = radial_velocity
       IDlist_dark(dark_ptot)=p
     endif
 enddo
@@ -210,22 +221,26 @@ allocate(x_rev(1:pdr_ptot))
 allocate(y_rev(1:pdr_ptot))
 allocate(z_rev(1:pdr_ptot))
 allocate(n_rev(1:pdr_ptot))
+allocate(radial_velocity_rev(1:pdr_ptot))
 do pp=1,pdr_ptot-2
   p=IDlist_pdr(pp)
   x_rev(pp)=pdr(p)%x
   y_rev(pp)=pdr(p)%y
   z_rev(pp)=pdr(p)%z
   n_rev(pp)=pdr(p)%rho
+  radial_velocity_rev(pp)=pdr(p)%velocity
 enddo
 x_rev(pdr_ptot-1)=pdr(IDlist_pdr(pdr_ptot))%x
 y_rev(pdr_ptot-1)=pdr(IDlist_pdr(pdr_ptot))%y
 z_rev(pdr_ptot-1)=pdr(IDlist_pdr(pdr_ptot))%z
 n_rev(pdr_ptot-1)=pdr(IDlist_pdr(pdr_ptot))%rho
+radial_velocity_rev(pdr_ptot-1)=pdr(IDlist_pdr(pdr_ptot))%velocity
 
 x_rev(pdr_ptot)=pdr(IDlist_pdr(pdr_ptot-1))%x
 y_rev(pdr_ptot)=pdr(IDlist_pdr(pdr_ptot-1))%y
 z_rev(pdr_ptot)=pdr(IDlist_pdr(pdr_ptot-1))%z
 n_rev(pdr_ptot)=pdr(IDlist_pdr(pdr_ptot-1))%rho
+radial_velocity_rev(pdr_ptot)=pdr(IDlist_pdr(pdr_ptot-1))%velocity
 
 !updates..
 do pp=1,pdr_ptot
@@ -234,6 +249,7 @@ do pp=1,pdr_ptot
   pdr(p)%y=y_rev(pp)
   pdr(p)%z=z_rev(pp)
   pdr(p)%rho=n_rev(pp)
+  pdr(p)%velocity=radial_velocity_rev(pp)
 enddo
 !end reversing...
 
@@ -762,7 +778,7 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
        call escape_probability(transition_CII, dusttemperature(pp), nrays, CII_nlev,nfreq, &
               &CII_A_COEFFS, CII_B_COEFFS, CII_C_COEFFS, &
               &CII_frequencies, CIIevalpop, maxpoints, &
-              &gastemperature(pp), v_turb, pdr(p)%epray, pdr(p)%CII_pop, &
+              &gastemperature(pp), v_turb, pdr(p)%velocity, pdr(p)%epray, pdr(p)%CII_pop, &
               &pdr(p)%epoint, CII_weights,CII_cool(pp),dummyarray_CII, &
               &dummyarray_CII_tau,1,pdr(p)%rho,metallicity,dummyarray_CII_beta)
        pdr(p)%CII_line=dummyarray_CII
@@ -787,7 +803,7 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
        call escape_probability(transition_CI, dusttemperature(pp), nrays, CI_nlev, nfreq, &
               &CI_A_COEFFS, CI_B_COEFFS, CI_C_COEFFS, &
               &CI_frequencies, CIevalpop, maxpoints, &
-              &gastemperature(pp), v_turb, pdr(p)%epray, pdr(p)%CI_pop, &
+              &gastemperature(pp), v_turb, pdr(p)%velocity, pdr(p)%epray, pdr(p)%CI_pop, &
               &pdr(p)%epoint,CI_weights,CI_cool(pp),dummyarray_CI, &
 	      &dummyarray_CI_tau,2,pdr(p)%rho,metallicity,dummyarray_CI_beta)
        pdr(p)%CI_line=dummyarray_CI
@@ -812,7 +828,7 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
        call escape_probability(transition_OI, dusttemperature(pp), nrays, OI_nlev, nfreq, &
               &OI_A_COEFFS, OI_B_COEFFS, OI_C_COEFFS, &
               &OI_frequencies, OIevalpop, maxpoints, &
-              &gastemperature(pp), v_turb, pdr(p)%epray, pdr(p)%OI_pop, &
+              &gastemperature(pp), v_turb, pdr(p)%velocity, pdr(p)%epray, pdr(p)%OI_pop, &
               &pdr(p)%epoint,OI_weights,OI_cool(pp),dummyarray_OI, &
               &dummyarray_OI_tau,3,pdr(p)%rho,metallicity,dummyarray_OI_beta)
        pdr(p)%OI_line=dummyarray_OI
@@ -837,7 +853,7 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
        call escape_probability(transition_C12O, dusttemperature(pp), nrays, C12O_nlev, nfreq,&
               &C12O_A_COEFFS, C12O_B_COEFFS, C12O_C_COEFFS, &
               &C12O_frequencies, C12Oevalpop, maxpoints, &
-              &gastemperature(pp), v_turb, pdr(p)%epray, pdr(p)%C12O_pop, &
+              &gastemperature(pp), v_turb, pdr(p)%velocity, pdr(p)%epray, pdr(p)%C12O_pop, &
               &pdr(p)%epoint,C12O_weights,C12O_cool(pp),dummyarray_C12O, &
               &dummyarray_C12O_tau,4,pdr(p)%rho,metallicity,dummyarray_C12O_beta)
        pdr(p)%C12O_line=dummyarray_C12O

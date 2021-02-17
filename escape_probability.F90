@@ -2,7 +2,7 @@
 
 subroutine escape_probability(transition, dust_temperature, nrays, nlev,nfreq, &
                    &A_COEFFS, B_COEFFS, C_COEFFS, &
-                   &frequencies,s_evalpop, maxpoints, Tguess, v_turb,&
+                   &frequencies,s_evalpop, maxpoints, Tguess, v_turb, v_gas, &
                    &s_jjr, s_pop, s_evalpoint, weights,cooling_rate,line,tau,&
                    &coolant,density,metallicity,bbeta)
 
@@ -27,7 +27,7 @@ real(kind=dp), intent(in) :: C_COEFFS(1:nlev, 1:nlev)
 real(kind=dp), intent(in) :: frequencies(1:nlev, 1:nlev)
 real(kind=dp), intent(in) :: s_evalpop(0:nrays-1,0:maxpoints,1:nlev)
 real(kind=dp), intent(in) :: s_evalpoint(1:3,0:nrays-1,0:maxpoints)
-real(kind=dp), intent(in) :: Tguess, v_turb
+real(kind=dp), intent(in) :: Tguess, v_turb, v_gas
 real(kind=dp), intent(in) :: weights(1:nlev)
 real(kind=dp), intent(in) :: s_pop(1:nlev)
 real(kind=dp), intent(in) :: dust_temperature,density,metallicity
@@ -41,7 +41,6 @@ real(kind=dp), intent(inout) :: transition(1:nlev,1:nlev)
 integer(kind=i4b) :: i, j
 integer(kind=i4b) :: ifreq
 integer(kind=i4b) :: ilevel, jlevel
-real(kind=dp) :: v_gas = 0.0D0 !in sm*s-1
 real(kind=dp) :: beta_ij, beta_ij_sum
 real(kind=dp) :: frac1, frac2, frac3, rhs2 
 real(kind=dp) :: thermal_velocity
@@ -70,9 +69,9 @@ thermal_velocity=sqrt(8.0*KB*Tguess/PI/MP + v_turb**2)
          if (jlevel.ge.ilevel) exit	 
 	 !init frequency array
 	 do ifreq=0,nfreq-1
-	   frequency(ifreq)=frequencies(ilevel,jlevel)*C/(C+v_gas)-3*thermal_velocity+ifreq*3*thermal_velocity*2/(nfreq-1)
+	   frequency(ifreq)=frequencies(ilevel,jlevel)*C/(C+v_gas*1d5)-3*thermal_velocity+ifreq*3*thermal_velocity*2/(nfreq-1)
 	 enddo
-	 doppler_profile=exp(-((1+v_gas/C)*frequency(:)-frequencies(ilevel,jlevel))**2/(2.0*thermal_velocity**2))/&
+	 doppler_profile=exp(-((1+v_gas*1d5/C)*frequency(:)-frequencies(ilevel,jlevel))**2/(2.0*thermal_velocity**2))/&
                                     &(thermal_velocity*sqrt(2.*pi))
          tau_ij=0.0D0
 	 tau_ij_profile(0:nfreq-1,0:nrays-1)=0.0D0
