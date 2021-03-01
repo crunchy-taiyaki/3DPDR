@@ -27,7 +27,7 @@ real(kind=dp), intent(in) :: C_COEFFS(1:nlev, 1:nlev)
 real(kind=dp), intent(in) :: frequencies(1:nlev, 1:nlev)
 real(kind=dp), intent(in) :: s_evalpop(0:nrays-1,0:maxpoints,1:nlev)
 real(kind=dp), intent(in) :: s_evalpoint(1:3,0:nrays-1,0:maxpoints)
-real(kind=dp), intent(in) :: Tguess, v_turb, v_gas
+real(kind=dp) :: Tguess, v_turb, v_gas !, intent(in)
 real(kind=dp), intent(in) :: weights(1:nlev)
 real(kind=dp), intent(in) :: s_pop(1:nlev)
 real(kind=dp), intent(in) :: dust_temperature,density,metallicity
@@ -58,6 +58,7 @@ real(kind=dp) :: beta_ij_ray_profile(0:nfreq-1,0:nrays-1)
 real(kind=dp) :: field(1:nlev,1:nlev)
 real(kind=dp) :: emissivity, bb_ij_dust, ngrain, rho_grain
 
+v_gas = v_gas*1.
 line=0.0D0
 cooling_rate = 0.0D0
 field=0.0D0
@@ -147,7 +148,9 @@ thermal_velocity=sqrt(8.0*KB*Tguess/PI/MP + v_turb**2)
            else
               beta_ij_ray(j)=(1.0D0-EXP(-tau_ij(j)))/tau_ij(j)
            endif
-
+        !if ((j.eq.6).and.(coolant.eq.1)) then
+        !write(*,*)sum(beta_ij_ray),'before'
+        !endif
 
            beta_ij_ray_profile(:,j)=doppler_profile*(1.0D0-EXP(-tau_ij_profile(:,j)))/tau_ij_profile(:,j)
            where (tau_ij_profile(:,j).lt.-5.0D0)
@@ -162,7 +165,7 @@ thermal_velocity=sqrt(8.0*KB*Tguess/PI/MP + v_turb**2)
               &abs(frequency(ifreq+1)-frequency(ifreq))/2.
            enddo
         !if ((j.eq.6).and.(coolant.eq.1)) then
-        !write(*,*)beta_ij_ray(j),'after'
+        !write(*,*)sum(beta_ij_ray),'after'
         !endif
 	!=============
 	tau(ilevel,jlevel,j)=tau_ij(j)

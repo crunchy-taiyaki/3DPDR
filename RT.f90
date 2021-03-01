@@ -12,7 +12,7 @@ double precision,allocatable::x(:),av(:),init_velocities(:),Tgas(:),Tdust(:)
 double precision,allocatable::rho(:),abun(:,:),CIIpop(:,:),CIpop(:,:),OIpop(:,:),COpop(:,:)
 double precision :: metallicity, gas_to_dust
 
-root = './ALL_TESTS/vel'
+root = './ALL_TESTS/abn'
 init_velocities = 0.0
 
 write(6,*) 'prefix?'

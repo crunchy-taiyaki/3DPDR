@@ -3,7 +3,7 @@
 ===========================|-------------------------
 ./ALL_TESTS/vel/1Dslab10_10!Input directory (20 char. max.)
 1Dslab10_10.dat		   !Input file (20 char. max.)
-./ALL_TESTS/vel/1Dslab10_10!Output directory (20 char. max.)
+./ALL_TESTS/abn/1Dslab10_10!Output directory (20 char. max.)
 	     		   !Output file (20 char. max)
 0			   !HEALPix level of refinement
 0.8			   !Theta critical (0<phi<pi/2)

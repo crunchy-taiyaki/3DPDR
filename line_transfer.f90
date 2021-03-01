@@ -22,6 +22,7 @@ end type
  real(8), intent(in) :: metallicity, gas_to_dust
  integer :: ptot !total point number
  integer, parameter :: nfreq = 100
+ real(8), parameter :: max_gas_velocity = 20.0
  real(8), parameter :: rho_grain = 2.0D0
  real(8), parameter :: v_turb = 1.0d5 !cm/s
  !real(8), parameter :: v_gas = 0. !cm/s
@@ -51,11 +52,8 @@ end type
 !optical depth calculation
 mh = this%proton_number*mhp
 sigma_ptot=(this%freq0/c)*sqrt(kb*Tgas(ptot-1)/mh+v_turb**2/2.)
-  !do ifreq=0,nfreq-1 !frequencies calcuation
-  ! freq(ifreq)=this%freq0-3*sigma_ptot+ifreq*2*3*sigma_ptot/(nfreq-1)
-  !enddo
   do ifreq=0,nfreq-1
-    velocities(ifreq) = -15.0 + ifreq*(15.0+15.0)/(nfreq-1)
+    velocities(ifreq) = -max_gas_velocity + ifreq*2.0*max_gas_velocity/(nfreq-1)
   enddo
   freq = this%freq0/(1.+velocities*1e5/c)
   tau_incr(:) = 0.
@@ -92,8 +90,6 @@ Tex(:)=(hp*this%freq0/kb)/log(this%g_i*pop_j(:)/pop_i(:)/this%g_j)
       S(:)=tmp/tpop
     end where
   end where
-
-!S(:) = (2.*hp*this%freq0**3/c**2)/(exp(hp*this%freq0/kb/Tex(:))-1.)
 
 !radiation transfer solving
  current_intensity(:) = 0.
