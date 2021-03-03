@@ -46,11 +46,12 @@ integer(kind=i4b) :: ifreq
 integer(kind=i4b) :: ilevel, jlevel
 real(kind=dp) :: beta_ij, beta_ij_sum
 real(kind=dp) :: frac1, frac2, frac3, rhs2 
-real(kind=dp) :: thermal_velocity
+real(kind=dp) :: sigma, thermal_velocity
 real(kind=dp) :: tpop, tmp2
 real(kind=dp) :: S_ij, BB_ij
 real(kind=dp) :: tau_increment
 real(kind=dp) :: frequency(0:nfreq-1),velocities(0:nfreq-1)
+real(kind=dp) :: min_gas_velocity, max_gas_velocity
 real(kind=dp) :: doppler_profile(0:nfreq-1)
 real(kind=dp) :: tau_ij(0:nrays-1)
 real(kind=dp) :: tau_ij_profile(0:nfreq-1,0:nrays-1)
@@ -61,22 +62,27 @@ real(kind=dp) :: beta_ij_ray_profile(0:nfreq-1,0:nrays-1)
 real(kind=dp) :: field(1:nlev,1:nlev)
 real(kind=dp) :: emissivity, bb_ij_dust, ngrain, rho_grain
 
-v_gas = v_gas*1.
+v_gas = v_gas
+min_gas_velocity = -5.0
+max_gas_velocity = 15.0
 line=0.0D0
 cooling_rate = 0.0D0
 field=0.0D0
 frac2=1.0D0/sqrt(8.0*KB*Tguess/PI/MP + v_turb**2)
-thermal_velocity=sqrt(8.0*KB*Tguess/PI/MP + v_turb**2)
+
 
     do ilevel=1,nlev
        do jlevel=1,nlev !i>j
          if (jlevel.ge.ilevel) exit	 
 	 !init frequency array
+	 !sigma=sqrt(8.0*KB*Tguess/PI/MP + v_turb**2)*frequencies(ilevel,jlevel)/C
+	 !do ifreq=0,nfreq-1
+	 !  frequency(ifreq)=frequencies(ilevel,jlevel)*C/(C+v_gas*1d5)-3*sigma+ifreq*3*sigma*2/(nfreq-1)
+	 !enddo
 	 do ifreq=0,nfreq-1
-	   frequency(ifreq)=frequencies(ilevel,jlevel)*C/(C+v_gas*1d5)-3*thermal_velocity+ifreq*3*thermal_velocity*2/(nfreq-1)
+	   velocities(ifreq) = min_gas_velocity + ifreq*(max_gas_velocity-min_gas_velocity)/(nfreq-1)
 	 enddo
-	 doppler_profile=exp(-((1+v_gas*1d5/C)*frequency(:)-frequencies(ilevel,jlevel))**2/(2.0*thermal_velocity**2))/&
-                                    &(thermal_velocity*sqrt(2.*pi))
+	 frequency = frequencies(ilevel,jlevel)/(1.+velocities*1e5/C)
          tau_ij=0.0D0
 	 tau_ij_profile(0:nfreq-1,0:nrays-1)=0.0D0
          beta_ij=0.0D0; beta_ij_ray=0.0D0
@@ -126,7 +132,11 @@ thermal_velocity=sqrt(8.0*KB*Tguess/PI/MP + v_turb**2)
               &(s_evalpoint(2,j,i-1)-s_evalpoint(2,j,i))**2+&
               &(s_evalpoint(3,j,i-1)-s_evalpoint(3,j,i))**2) !adaptive step
      tau_increment=frac1*frac2*frac3*rhs2*PC
-     tau_increment_profile(0:nfreq-1)=frac1*doppler_profile(0:nfreq-1)*frac3*rhs2*PC
+     sigma=sqrt(8.0*KB*T_evalpoint(j,i)/PI/MP + v_turb**2)*frequencies(ilevel,jlevel)/C
+     doppler_profile=exp(-((1+vel_evalpoint(j,i)*1d5/C)*frequency(:)-frequencies(ilevel,jlevel))**2/&
+                        &(2.0*sigma**2))/&
+                            &(sigma*sqrt(2.*pi))
+     tau_increment_profile(0:nfreq-1)=frac1*doppler_profile(0:nfreq-1)*frac3*rhs2*PC*frequencies(ilevel,jlevel)/C
      tau_ij(j)=tau_ij(j)+tau_increment !optical depth
      tau_ij_profile(0:nfreq-1,j)=tau_ij_profile(0:nfreq-1,j)+tau_increment_profile(0:nfreq-1) !optical depth depending on frequency
  enddo !i=1,jr(j)
@@ -155,6 +165,10 @@ thermal_velocity=sqrt(8.0*KB*Tguess/PI/MP + v_turb**2)
         !write(*,*)sum(beta_ij_ray),'before'
         !endif
 
+	sigma=sqrt(8.0*KB*Tguess/PI/MP + v_turb**2)*frequencies(ilevel,jlevel)/C
+     	doppler_profile=exp(-((1+v_gas*1d5/C)*frequency(:)-frequencies(ilevel,jlevel))**2/&
+                        &(2.0*sigma**2))/&
+                            &(sigma*sqrt(2.*pi))
            beta_ij_ray_profile(:,j)=doppler_profile*(1.0D0-EXP(-tau_ij_profile(:,j)))/tau_ij_profile(:,j)
            where (tau_ij_profile(:,j).lt.-5.0D0)
               beta_ij_ray_profile(:,j)=doppler_profile*(1.0D0-EXP(5.0D0))/(-5.0D0)

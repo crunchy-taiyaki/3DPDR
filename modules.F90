@@ -32,7 +32,7 @@ MODULE maincode_module
   INTEGER(KIND=I4B) :: NLEV,NTEMP
   integer(kind=i4b) :: iteration, ITERTOT
   integer(kind=i4b) :: iterstep     ! output interval (per how many iterations)
-  integer(kind=i4b) :: nfreq = 20
+  integer(kind=i4b) :: nfreq = 40
   integer(kind=i4b) :: NSPEC, NREAC
   integer(kind=i4b) :: CII_NLEV, CII_NTEMP   !CII cooling variables
   integer(kind=i4b) :: CI_NLEV, CI_NTEMP     !CI cooling variables

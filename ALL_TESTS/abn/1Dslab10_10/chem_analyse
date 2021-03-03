@@ -1,7 +1,7 @@
 --------------------------------------------------------------------------------
 
 Gridpoint =      1, t = 1.0E+7 yr, Av = 0.0E+0 mag
-n_H = 2.9E+1 cm-3, T_gas = 8.4E+2 K
+n_H = 2.9E+1 cm-3, T_gas = 8.5E+2 K
 Species = C+        
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:  99%
@@ -11,27 +11,27 @@ Species = C+
    H         +   C+        -->   CH+       +   PHOTON                Rate:  -1%
 
 Abundance        = 9.999E-05
-Formation Rate   = 8.008E-18 s-1
-Destruction Rate = 7.938E-18 s-1
+Formation Rate   = 7.980E-18 s-1
+Destruction Rate = 8.015E-18 s-1
 
 --------------------------------------------------------------------------------
 
 Gridpoint =      1, t = 1.0E+7 yr, Av = 0.0E+0 mag
-n_H = 2.9E+1 cm-3, T_gas = 8.4E+2 K
+n_H = 2.9E+1 cm-3, T_gas = 8.5E+2 K
 Species = C         
 
    C+        +   e-        -->   C         +   PHOTON                Rate: 100%
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
-Abundance        = 5.309E-09
-Formation Rate   = 7.894E-18 s-1
-Destruction Rate = 7.964E-18 s-1
+Abundance        = 5.290E-09
+Formation Rate   = 7.970E-18 s-1
+Destruction Rate = 7.935E-18 s-1
 
 --------------------------------------------------------------------------------
 
 Gridpoint =      1, t = 1.0E+7 yr, Av = 0.0E+0 mag
-n_H = 2.9E+1 cm-3, T_gas = 8.4E+2 K
+n_H = 2.9E+1 cm-3, T_gas = 8.5E+2 K
 Species = O         
 
    H         +   O+        -->   O         +   H+                    Rate: 100%
@@ -39,13 +39,13 @@ Species = O
    H+        +   O         -->   O+        +   H                     Rate:-100%
 
 Abundance        = 2.997E-04
-Formation Rate   = 5.982E-15 s-1
-Destruction Rate = 5.995E-15 s-1
+Formation Rate   = 6.015E-15 s-1
+Destruction Rate = 6.009E-15 s-1
 
 --------------------------------------------------------------------------------
 
 Gridpoint =      1, t = 1.0E+7 yr, Av = 0.0E+0 mag
-n_H = 2.9E+1 cm-3, T_gas = 8.4E+2 K
+n_H = 2.9E+1 cm-3, T_gas = 8.5E+2 K
 Species = CO        
 
    H         +   CO+       -->   CO        +   H+                    Rate:  46%
@@ -54,9 +54,9 @@ Species = CO
 
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
-Abundance        = 2.834E-14
-Formation Rate   = 3.638E-23 s-1
-Destruction Rate = 2.838E-23 s-1
+Abundance        = 2.901E-14
+Formation Rate   = 3.733E-23 s-1
+Destruction Rate = 2.905E-23 s-1
 
 --------------------------------------------------------------------------------
 
@@ -66,7 +66,7 @@ Destruction Rate = 2.838E-23 s-1
 --------------------------------------------------------------------------------
 
 Gridpoint =      2, t = 1.0E+7 yr, Av = 7.0E-3 mag
-n_H = 2.9E+1 cm-3, T_gas = 8.2E+2 K
+n_H = 2.9E+1 cm-3, T_gas = 8.4E+2 K
 Species = C+        
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:  99%
@@ -76,27 +76,27 @@ Species = C+
    H         +   C+        -->   CH+       +   PHOTON                Rate:  -1%
 
 Abundance        = 9.999E-05
-Formation Rate   = 8.087E-18 s-1
-Destruction Rate = 8.051E-18 s-1
+Formation Rate   = 8.058E-18 s-1
+Destruction Rate = 8.130E-18 s-1
 
 --------------------------------------------------------------------------------
 
 Gridpoint =      2, t = 1.0E+7 yr, Av = 7.0E-3 mag
-n_H = 2.9E+1 cm-3, T_gas = 8.2E+2 K
+n_H = 2.9E+1 cm-3, T_gas = 8.4E+2 K
 Species = C         
 
    C+        +   e-        -->   C         +   PHOTON                Rate: 100%
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
-Abundance        = 5.487E-09
-Formation Rate   = 8.006E-18 s-1
-Destruction Rate = 8.042E-18 s-1
+Abundance        = 5.467E-09
+Formation Rate   = 8.085E-18 s-1
+Destruction Rate = 8.012E-18 s-1
 
 --------------------------------------------------------------------------------
 
 Gridpoint =      2, t = 1.0E+7 yr, Av = 7.0E-3 mag
-n_H = 2.9E+1 cm-3, T_gas = 8.2E+2 K
+n_H = 2.9E+1 cm-3, T_gas = 8.4E+2 K
 Species = O         
 
    H         +   O+        -->   O         +   H+                    Rate: 100%
@@ -104,13 +104,13 @@ Species = O
    H+        +   O         -->   O+        +   H                     Rate:-100%
 
 Abundance        = 2.998E-04
-Formation Rate   = 5.886E-15 s-1
-Destruction Rate = 5.893E-15 s-1
+Formation Rate   = 5.919E-15 s-1
+Destruction Rate = 5.906E-15 s-1
 
 --------------------------------------------------------------------------------
 
 Gridpoint =      2, t = 1.0E+7 yr, Av = 7.0E-3 mag
-n_H = 2.9E+1 cm-3, T_gas = 8.2E+2 K
+n_H = 2.9E+1 cm-3, T_gas = 8.4E+2 K
 Species = CO        
 
    H         +   CO+       -->   CO        +   H+                    Rate:  47%
@@ -119,9 +119,9 @@ Species = CO
 
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
-Abundance        = 3.143E-14
-Formation Rate   = 3.859E-23 s-1
-Destruction Rate = 3.087E-23 s-1
+Abundance        = 3.228E-14
+Formation Rate   = 3.969E-23 s-1
+Destruction Rate = 3.171E-23 s-1
 
 --------------------------------------------------------------------------------
 
@@ -262,37 +262,37 @@ Destruction Rate = 4.566E-23 s-1
 --------------------------------------------------------------------------------
 
 Gridpoint =      5, t = 1.0E+7 yr, Av = 2.8E-2 mag
-n_H = 3.0E+1 cm-3, T_gas = 7.5E+2 K
+n_H = 3.0E+1 cm-3, T_gas = 7.6E+2 K
 Species = C+        
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:  99%
    H         +   CH+       -->   C+        +   H2                    Rate:   1%
 
-   C+        +   e-        -->   C         +   PHOTON                Rate: -98%
-   H2        +   C+        -->   CH+       +   H                     Rate:  -2%
+   C+        +   e-        -->   C         +   PHOTON                Rate: -99%
+   H         +   C+        -->   CH+       +   PHOTON                Rate:  -1%
 
 Abundance        = 9.999E-05
-Formation Rate   = 8.379E-18 s-1
-Destruction Rate = 8.105E-18 s-1
+Formation Rate   = 8.366E-18 s-1
+Destruction Rate = 8.328E-18 s-1
 
 --------------------------------------------------------------------------------
 
 Gridpoint =      5, t = 1.0E+7 yr, Av = 2.8E-2 mag
-n_H = 3.0E+1 cm-3, T_gas = 7.5E+2 K
+n_H = 3.0E+1 cm-3, T_gas = 7.6E+2 K
 Species = C         
 
    C+        +   e-        -->   C         +   PHOTON                Rate: 100%
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
-Abundance        = 6.057E-09
-Formation Rate   = 7.954E-18 s-1
-Destruction Rate = 8.266E-18 s-1
+Abundance        = 6.064E-09
+Formation Rate   = 8.257E-18 s-1
+Destruction Rate = 8.296E-18 s-1
 
 --------------------------------------------------------------------------------
 
 Gridpoint =      5, t = 1.0E+7 yr, Av = 2.8E-2 mag
-n_H = 3.0E+1 cm-3, T_gas = 7.5E+2 K
+n_H = 3.0E+1 cm-3, T_gas = 7.6E+2 K
 Species = O         
 
    H         +   O+        -->   O         +   H+                    Rate: 100%
@@ -300,89 +300,90 @@ Species = O
    H+        +   O         -->   O+        +   H                     Rate:-100%
 
 Abundance        = 2.998E-04
-Formation Rate   = 5.499E-15 s-1
-Destruction Rate = 5.559E-15 s-1
+Formation Rate   = 5.534E-15 s-1
+Destruction Rate = 5.542E-15 s-1
 
 --------------------------------------------------------------------------------
 
 Gridpoint =      5, t = 1.0E+7 yr, Av = 2.8E-2 mag
-n_H = 3.0E+1 cm-3, T_gas = 7.5E+2 K
+n_H = 3.0E+1 cm-3, T_gas = 7.6E+2 K
+Species = CO        
+
+   H         +   CO+       -->   CO        +   H+                    Rate:  48%
+   C+        +   OH        -->   CO        +   H+                    Rate:  45%
+   C+        +   O2        -->   CO        +   O+                    Rate:   7%
+
+   CO        +   PHOTON    -->   O         +   C                     Rate:-100%
+
+Abundance        = 9.919E-14
+Formation Rate   = 9.883E-23 s-1
+Destruction Rate = 9.189E-23 s-1
+
+--------------------------------------------------------------------------------
+
+================================================================================
+
+
+--------------------------------------------------------------------------------
+
+Gridpoint =      6, t = 1.0E+7 yr, Av = 3.6E-2 mag
+n_H = 3.0E+1 cm-3, T_gas = 6.5E+2 K
+Species = C+        
+
+   C         +   PHOTON    -->   C+        +   e-                    Rate:  99%
+   H         +   CH+       -->   C+        +   H2                    Rate:   1%
+
+   C+        +   e-        -->   C         +   PHOTON                Rate: -99%
+   H2        +   C+        -->   CH+       +   H                     Rate:  -1%
+
+Abundance        = 9.999E-05
+Formation Rate   = 8.579E-18 s-1
+Destruction Rate = 8.579E-18 s-1
+
+--------------------------------------------------------------------------------
+
+Gridpoint =      6, t = 1.0E+7 yr, Av = 3.6E-2 mag
+n_H = 3.0E+1 cm-3, T_gas = 6.5E+2 K
+Species = C         
+
+   C+        +   e-        -->   C         +   PHOTON                Rate: 100%
+
+   C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
+
+Abundance        = 6.368E-09
+Formation Rate   = 8.474E-18 s-1
+Destruction Rate = 8.474E-18 s-1
+
+--------------------------------------------------------------------------------
+
+Gridpoint =      6, t = 1.0E+7 yr, Av = 3.6E-2 mag
+n_H = 3.0E+1 cm-3, T_gas = 6.5E+2 K
+Species = O         
+
+   H         +   O+        -->   O         +   H+                    Rate: 100%
+
+   H+        +   O         -->   O+        +   H                     Rate:-100%
+
+Abundance        = 2.998E-04
+Formation Rate   = 4.620E-15 s-1
+Destruction Rate = 4.619E-15 s-1
+
+--------------------------------------------------------------------------------
+
+Gridpoint =      6, t = 1.0E+7 yr, Av = 3.6E-2 mag
+n_H = 3.0E+1 cm-3, T_gas = 6.5E+2 K
 Species = CO        
 
    H         +   CO+       -->   CO        +   H+                    Rate:  48%
    C+        +   OH        -->   CO        +   H+                    Rate:  48%
-   C+        +   O2        -->   CO        +   O+                    Rate:   4%
+   C+        +   O2        -->   CO        +   O+                    Rate:   3%
+   HCO+      +   e-        -->   CO        +   H                     Rate:   1%
 
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
-Abundance        = 2.167E-13
-Formation Rate   = 2.080E-22 s-1
-Destruction Rate = 2.007E-22 s-1
-
---------------------------------------------------------------------------------
-
-================================================================================
-
-
---------------------------------------------------------------------------------
-
-Gridpoint =      6, t = 1.0E+7 yr, Av = 3.6E-2 mag
-n_H = 3.0E+1 cm-3, T_gas = 6.5E+2 K
-Species = C+        
-
-   C         +   PHOTON    -->   C+        +   e-                    Rate:  98%
-   H         +   CH+       -->   C+        +   H2                    Rate:   2%
-
-   C+        +   e-        -->   C         +   PHOTON                Rate: -98%
-   H2        +   C+        -->   CH+       +   H                     Rate:  -2%
-
-Abundance        = 9.999E-05
-Formation Rate   = 8.398E-18 s-1
-Destruction Rate = 8.398E-18 s-1
-
---------------------------------------------------------------------------------
-
-Gridpoint =      6, t = 1.0E+7 yr, Av = 3.6E-2 mag
-n_H = 3.0E+1 cm-3, T_gas = 6.5E+2 K
-Species = C         
-
-   C+        +   e-        -->   C         +   PHOTON                Rate: 100%
-
-   C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
-
-Abundance        = 6.216E-09
-Formation Rate   = 8.229E-18 s-1
-Destruction Rate = 8.229E-18 s-1
-
---------------------------------------------------------------------------------
-
-Gridpoint =      6, t = 1.0E+7 yr, Av = 3.6E-2 mag
-n_H = 3.0E+1 cm-3, T_gas = 6.5E+2 K
-Species = O         
-
-   H         +   O+        -->   O         +   H+                    Rate: 100%
-
-   H+        +   O         -->   O+        +   H                     Rate:-100%
-
-Abundance        = 2.998E-04
-Formation Rate   = 4.458E-15 s-1
-Destruction Rate = 4.458E-15 s-1
-
---------------------------------------------------------------------------------
-
-Gridpoint =      6, t = 1.0E+7 yr, Av = 3.6E-2 mag
-n_H = 3.0E+1 cm-3, T_gas = 6.5E+2 K
-Species = CO        
-
-   C+        +   OH        -->   CO        +   H+                    Rate:  50%
-   H         +   CO+       -->   CO        +   H+                    Rate:  48%
-   C+        +   O2        -->   CO        +   O+                    Rate:   2%
-
-   CO        +   PHOTON    -->   O         +   C                     Rate:-100%
-
-Abundance        = 4.466E-13
-Formation Rate   = 4.147E-22 s-1
-Destruction Rate = 4.055E-22 s-1
+Abundance        = 2.110E-13
+Formation Rate   = 1.985E-22 s-1
+Destruction Rate = 1.916E-22 s-1
 
 --------------------------------------------------------------------------------
 
@@ -392,23 +393,24 @@ Destruction Rate = 4.055E-22 s-1
 --------------------------------------------------------------------------------
 
 Gridpoint =      7, t = 1.0E+7 yr, Av = 4.3E-2 mag
-n_H = 3.0E+1 cm-3, T_gas = 6.3E+2 K
+n_H = 3.0E+1 cm-3, T_gas = 6.5E+2 K
 Species = C+        
 
-   C         +   PHOTON    -->   C+        +   e-                    Rate:  96%
-   H         +   CH+       -->   C+        +   H2                    Rate:   4%
+   C         +   PHOTON    -->   C+        +   e-                    Rate:  97%
+   H         +   CH+       -->   C+        +   H2                    Rate:   3%
 
-   C+        +   e-        -->   C         +   PHOTON                Rate: -95%
-   H2        +   C+        -->   CH+       +   H                     Rate:  -5%
+   C+        +   e-        -->   C         +   PHOTON                Rate: -96%
+   H2        +   C+        -->   CH+       +   H                     Rate:  -3%
+   H         +   C+        -->   CH+       +   PHOTON                Rate:  -1%
 
 Abundance        = 9.999E-05
-Formation Rate   = 7.857E-18 s-1
-Destruction Rate = 7.825E-18 s-1
+Formation Rate   = 8.145E-18 s-1
+Destruction Rate = 8.145E-18 s-1
 
 --------------------------------------------------------------------------------
 
 Gridpoint =      7, t = 1.0E+7 yr, Av = 4.3E-2 mag
-n_H = 3.0E+1 cm-3, T_gas = 6.3E+2 K
+n_H = 3.0E+1 cm-3, T_gas = 6.5E+2 K
 Species = C         
 
    C+        +   e-        -->   C         +   PHOTON                Rate:  99%
@@ -416,14 +418,14 @@ Species = C
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
-Abundance        = 5.900E-09
-Formation Rate   = 7.460E-18 s-1
-Destruction Rate = 7.530E-18 s-1
+Abundance        = 6.120E-09
+Formation Rate   = 7.870E-18 s-1
+Destruction Rate = 7.870E-18 s-1
 
 --------------------------------------------------------------------------------
 
 Gridpoint =      7, t = 1.0E+7 yr, Av = 4.3E-2 mag
-n_H = 3.0E+1 cm-3, T_gas = 6.3E+2 K
+n_H = 3.0E+1 cm-3, T_gas = 6.5E+2 K
 Species = O         
 
    H         +   O+        -->   O         +   H+                    Rate: 100%
@@ -431,13 +433,13 @@ Species = O
    H+        +   O         -->   O+        +   H                     Rate:-100%
 
 Abundance        = 2.998E-04
-Formation Rate   = 3.837E-15 s-1
-Destruction Rate = 3.851E-15 s-1
+Formation Rate   = 4.186E-15 s-1
+Destruction Rate = 4.186E-15 s-1
 
 --------------------------------------------------------------------------------
 
 Gridpoint =      7, t = 1.0E+7 yr, Av = 4.3E-2 mag
-n_H = 3.0E+1 cm-3, T_gas = 6.3E+2 K
+n_H = 3.0E+1 cm-3, T_gas = 6.5E+2 K
 Species = CO        
 
    C+        +   OH        -->   CO        +   H+                    Rate:  51%
@@ -447,9 +449,9 @@ Species = CO
 
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
-Abundance        = 1.541E-12
-Formation Rate   = 1.389E-21 s-1
-Destruction Rate = 1.372E-21 s-1
+Abundance        = 9.984E-13
+Formation Rate   = 9.017E-22 s-1
+Destruction Rate = 8.884E-22 s-1
 
 --------------------------------------------------------------------------------
 
@@ -465,13 +467,12 @@ Species = C+
    C         +   PHOTON    -->   C+        +   e-                    Rate:  97%
    H         +   CH+       -->   C+        +   H2                    Rate:   3%
 
-   C+        +   e-        -->   C         +   PHOTON                Rate: -96%
+   C+        +   e-        -->   C         +   PHOTON                Rate: -97%
    H2        +   C+        -->   CH+       +   H                     Rate:  -3%
-   H         +   C+        -->   CH+       +   PHOTON                Rate:  -1%
 
 Abundance        = 9.999E-05
-Formation Rate   = 7.455E-18 s-1
-Destruction Rate = 7.455E-18 s-1
+Formation Rate   = 7.642E-18 s-1
+Destruction Rate = 7.642E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -484,9 +485,9 @@ Species = C
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
-Abundance        = 5.845E-09
-Formation Rate   = 7.204E-18 s-1
-Destruction Rate = 7.204E-18 s-1
+Abundance        = 5.980E-09
+Formation Rate   = 7.419E-18 s-1
+Destruction Rate = 7.419E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -500,8 +501,8 @@ Species = O
    H+        +   O         -->   O+        +   H                     Rate:-100%
 
 Abundance        = 2.998E-04
-Formation Rate   = 3.180E-15 s-1
-Destruction Rate = 3.180E-15 s-1
+Formation Rate   = 3.298E-15 s-1
+Destruction Rate = 3.298E-15 s-1
 
 --------------------------------------------------------------------------------
 
@@ -516,9 +517,9 @@ Species = CO
 
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
-Abundance        = 2.268E-12
-Formation Rate   = 2.002E-21 s-1
-Destruction Rate = 1.978E-21 s-1
+Abundance        = 1.796E-12
+Formation Rate   = 1.588E-21 s-1
+Destruction Rate = 1.566E-21 s-1
 
 --------------------------------------------------------------------------------
 
@@ -534,13 +535,13 @@ Species = C+
    C         +   PHOTON    -->   C+        +   e-                    Rate:  97%
    H         +   CH+       -->   C+        +   H2                    Rate:   3%
 
-   C+        +   e-        -->   C         +   PHOTON                Rate: -96%
-   H2        +   C+        -->   CH+       +   H                     Rate:  -3%
+   C+        +   e-        -->   C         +   PHOTON                Rate: -95%
+   H2        +   C+        -->   CH+       +   H                     Rate:  -4%
    H         +   C+        -->   CH+       +   PHOTON                Rate:  -1%
 
 Abundance        = 9.999E-05
-Formation Rate   = 7.094E-18 s-1
-Destruction Rate = 7.126E-18 s-1
+Formation Rate   = 7.103E-18 s-1
+Destruction Rate = 7.063E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -553,9 +554,9 @@ Species = C
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
-Abundance        = 5.763E-09
-Formation Rate   = 6.911E-18 s-1
-Destruction Rate = 6.848E-18 s-1
+Abundance        = 5.769E-09
+Formation Rate   = 6.783E-18 s-1
+Destruction Rate = 6.857E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -569,8 +570,8 @@ Species = O
    H+        +   O         -->   O+        +   H                     Rate:-100%
 
 Abundance        = 2.998E-04
-Formation Rate   = 2.813E-15 s-1
-Destruction Rate = 2.798E-15 s-1
+Formation Rate   = 2.850E-15 s-1
+Destruction Rate = 2.864E-15 s-1
 
 --------------------------------------------------------------------------------
 
@@ -585,9 +586,9 @@ Species = CO
 
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
-Abundance        = 3.471E-12
-Formation Rate   = 2.997E-21 s-1
-Destruction Rate = 2.966E-21 s-1
+Abundance        = 3.442E-12
+Formation Rate   = 2.971E-21 s-1
+Destruction Rate = 2.940E-21 s-1
 
 --------------------------------------------------------------------------------
 
@@ -608,8 +609,8 @@ Species = C+
    H         +   C+        -->   CH+       +   PHOTON                Rate:  -1%
 
 Abundance        = 9.999E-05
-Formation Rate   = 6.836E-18 s-1
-Destruction Rate = 6.816E-18 s-1
+Formation Rate   = 6.899E-18 s-1
+Destruction Rate = 6.887E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -622,9 +623,9 @@ Species = C
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
-Abundance        = 5.784E-09
-Formation Rate   = 6.606E-18 s-1
-Destruction Rate = 6.640E-18 s-1
+Abundance        = 5.813E-09
+Formation Rate   = 6.678E-18 s-1
+Destruction Rate = 6.697E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -638,8 +639,8 @@ Species = O
    H+        +   O         -->   O+        +   H                     Rate:-100%
 
 Abundance        = 2.998E-04
-Formation Rate   = 2.524E-15 s-1
-Destruction Rate = 2.531E-15 s-1
+Formation Rate   = 2.578E-15 s-1
+Destruction Rate = 2.582E-15 s-1
 
 --------------------------------------------------------------------------------
 
@@ -654,9 +655,9 @@ Species = CO
 
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
-Abundance        = 4.544E-12
-Formation Rate   = 3.840E-21 s-1
-Destruction Rate = 3.803E-21 s-1
+Abundance        = 4.303E-12
+Formation Rate   = 3.637E-21 s-1
+Destruction Rate = 3.601E-21 s-1
 
 --------------------------------------------------------------------------------
 
@@ -677,8 +678,8 @@ Species = C+
    H         +   C+        -->   CH+       +   PHOTON                Rate:  -1%
 
 Abundance        = 9.999E-05
-Formation Rate   = 6.608E-18 s-1
-Destruction Rate = 6.608E-18 s-1
+Formation Rate   = 6.681E-18 s-1
+Destruction Rate = 6.682E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -690,9 +691,9 @@ Species = C
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
-Abundance        = 5.816E-09
-Formation Rate   = 6.456E-18 s-1
-Destruction Rate = 6.456E-18 s-1
+Abundance        = 5.863E-09
+Formation Rate   = 6.534E-18 s-1
+Destruction Rate = 6.534E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -706,8 +707,8 @@ Species = O
    H+        +   O         -->   O+        +   H                     Rate:-100%
 
 Abundance        = 2.999E-04
-Formation Rate   = 2.228E-15 s-1
-Destruction Rate = 2.227E-15 s-1
+Formation Rate   = 2.262E-15 s-1
+Destruction Rate = 2.262E-15 s-1
 
 --------------------------------------------------------------------------------
 
@@ -721,9 +722,9 @@ Species = CO
 
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
-Abundance        = 5.913E-12
-Formation Rate   = 4.891E-21 s-1
-Destruction Rate = 4.847E-21 s-1
+Abundance        = 5.566E-12
+Formation Rate   = 4.605E-21 s-1
+Destruction Rate = 4.563E-21 s-1
 
 --------------------------------------------------------------------------------
 
@@ -739,13 +740,13 @@ Species = C+
    C         +   PHOTON    -->   C+        +   e-                    Rate:  98%
    H         +   CH+       -->   C+        +   H2                    Rate:   2%
 
-   C+        +   e-        -->   C         +   PHOTON                Rate: -98%
-   H2        +   C+        -->   CH+       +   H                     Rate:  -1%
+   C+        +   e-        -->   C         +   PHOTON                Rate: -97%
+   H2        +   C+        -->   CH+       +   H                     Rate:  -2%
    H         +   C+        -->   CH+       +   PHOTON                Rate:  -1%
 
 Abundance        = 9.999E-05
-Formation Rate   = 6.288E-18 s-1
-Destruction Rate = 6.319E-18 s-1
+Formation Rate   = 6.283E-18 s-1
+Destruction Rate = 6.241E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -758,8 +759,8 @@ Species = C
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
 Abundance        = 5.751E-09
-Formation Rate   = 6.194E-18 s-1
-Destruction Rate = 6.149E-18 s-1
+Formation Rate   = 6.085E-18 s-1
+Destruction Rate = 6.144E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -774,8 +775,8 @@ Species = O
    H+        +   O         -->   O+        +   H                     Rate:-100%
 
 Abundance        = 2.999E-04
-Formation Rate   = 1.972E-15 s-1
-Destruction Rate = 1.961E-15 s-1
+Formation Rate   = 1.992E-15 s-1
+Destruction Rate = 2.003E-15 s-1
 
 --------------------------------------------------------------------------------
 
@@ -791,7 +792,7 @@ Species = CO
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
 Abundance        = 8.151E-12
-Formation Rate   = 6.599E-21 s-1
+Formation Rate   = 6.595E-21 s-1
 Destruction Rate = 6.545E-21 s-1
 
 --------------------------------------------------------------------------------
@@ -813,8 +814,8 @@ Species = C+
    H         +   C+        -->   CH+       +   PHOTON                Rate:  -1%
 
 Abundance        = 9.999E-05
-Formation Rate   = 6.141E-18 s-1
-Destruction Rate = 6.136E-18 s-1
+Formation Rate   = 6.192E-18 s-1
+Destruction Rate = 6.192E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -826,9 +827,9 @@ Species = C
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
-Abundance        = 5.811E-09
-Formation Rate   = 6.016E-18 s-1
-Destruction Rate = 6.023E-18 s-1
+Abundance        = 5.841E-09
+Formation Rate   = 6.073E-18 s-1
+Destruction Rate = 6.074E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -843,8 +844,8 @@ Species = O
    H+        +   O         -->   O+        +   H                     Rate:-100%
 
 Abundance        = 2.999E-04
-Formation Rate   = 1.822E-15 s-1
-Destruction Rate = 1.824E-15 s-1
+Formation Rate   = 1.852E-15 s-1
+Destruction Rate = 1.852E-15 s-1
 
 --------------------------------------------------------------------------------
 
@@ -860,9 +861,9 @@ Species = CO
 
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
-Abundance        = 9.687E-12
-Formation Rate   = 7.676E-21 s-1
-Destruction Rate = 7.618E-21 s-1
+Abundance        = 9.312E-12
+Formation Rate   = 7.380E-21 s-1
+Destruction Rate = 7.323E-21 s-1
 
 --------------------------------------------------------------------------------
 
@@ -883,8 +884,8 @@ Species = C+
    H         +   C+        -->   CH+       +   PHOTON                Rate:  -1%
 
 Abundance        = 9.999E-05
-Formation Rate   = 5.938E-18 s-1
-Destruction Rate = 5.927E-18 s-1
+Formation Rate   = 5.972E-18 s-1
+Destruction Rate = 5.965E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -896,9 +897,9 @@ Species = C
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
-Abundance        = 5.824E-09
-Formation Rate   = 5.823E-18 s-1
-Destruction Rate = 5.836E-18 s-1
+Abundance        = 5.843E-09
+Formation Rate   = 5.861E-18 s-1
+Destruction Rate = 5.869E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -913,8 +914,8 @@ Species = O
    H+        +   O         -->   O+        +   H                     Rate:-100%
 
 Abundance        = 2.999E-04
-Formation Rate   = 1.642E-15 s-1
-Destruction Rate = 1.645E-15 s-1
+Formation Rate   = 1.663E-15 s-1
+Destruction Rate = 1.665E-15 s-1
 
 --------------------------------------------------------------------------------
 
@@ -929,9 +930,9 @@ Species = CO
 
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
-Abundance        = 1.203E-11
-Formation Rate   = 9.335E-21 s-1
-Destruction Rate = 9.269E-21 s-1
+Abundance        = 1.172E-11
+Formation Rate   = 9.092E-21 s-1
+Destruction Rate = 9.027E-21 s-1
 
 --------------------------------------------------------------------------------
 
@@ -952,8 +953,8 @@ Species = C+
    H2        +   C+        -->   CH+       +   H                     Rate:  -1%
 
 Abundance        = 9.999E-05
-Formation Rate   = 5.749E-18 s-1
-Destruction Rate = 5.738E-18 s-1
+Formation Rate   = 5.779E-18 s-1
+Destruction Rate = 5.772E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -966,9 +967,9 @@ Species = C
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
-Abundance        = 5.839E-09
-Formation Rate   = 5.645E-18 s-1
-Destruction Rate = 5.659E-18 s-1
+Abundance        = 5.856E-09
+Formation Rate   = 5.680E-18 s-1
+Destruction Rate = 5.688E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -976,16 +977,15 @@ Gridpoint =     15, t = 1.0E+7 yr, Av = 1.0E-1 mag
 n_H = 3.1E+1 cm-3, T_gas = 4.2E+2 K
 Species = O         
 
-   H         +   O+        -->   O         +   H+                    Rate:  97%
+   H         +   O+        -->   O         +   H+                    Rate:  98%
    OH+       +   e-        -->   O         +   H                     Rate:   1%
    H2O+      +   e-        -->   O         +   H         +   H       Rate:   1%
-   OH        +   PHOTON    -->   O         +   H                     Rate:   1%
 
    H+        +   O         -->   O+        +   H                     Rate:-100%
 
 Abundance        = 2.999E-04
-Formation Rate   = 1.483E-15 s-1
-Destruction Rate = 1.485E-15 s-1
+Formation Rate   = 1.502E-15 s-1
+Destruction Rate = 1.503E-15 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1000,9 +1000,9 @@ Species = CO
 
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
-Abundance        = 1.474E-11
-Formation Rate   = 1.120E-20 s-1
-Destruction Rate = 1.112E-20 s-1
+Abundance        = 1.440E-11
+Formation Rate   = 1.094E-20 s-1
+Destruction Rate = 1.087E-20 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1023,8 +1023,8 @@ Species = C+
    H2        +   C+        -->   CH+       +   H                     Rate:  -1%
 
 Abundance        = 9.999E-05
-Formation Rate   = 5.576E-18 s-1
-Destruction Rate = 5.564E-18 s-1
+Formation Rate   = 5.602E-18 s-1
+Destruction Rate = 5.595E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1037,9 +1037,9 @@ Species = C
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
-Abundance        = 5.865E-09
-Formation Rate   = 5.482E-18 s-1
-Destruction Rate = 5.496E-18 s-1
+Abundance        = 5.879E-09
+Formation Rate   = 5.513E-18 s-1
+Destruction Rate = 5.521E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1054,8 +1054,8 @@ Species = O
    H+        +   O         -->   O+        +   H                     Rate:-100%
 
 Abundance        = 2.999E-04
-Formation Rate   = 1.336E-15 s-1
-Destruction Rate = 1.339E-15 s-1
+Formation Rate   = 1.353E-15 s-1
+Destruction Rate = 1.354E-15 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1069,9 +1069,9 @@ Species = CO
 
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
-Abundance        = 1.787E-11
-Formation Rate   = 1.328E-20 s-1
-Destruction Rate = 1.320E-20 s-1
+Abundance        = 1.751E-11
+Formation Rate   = 1.301E-20 s-1
+Destruction Rate = 1.293E-20 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1092,8 +1092,8 @@ Species = C+
    H2        +   C+        -->   CH+       +   H                     Rate:  -1%
 
 Abundance        = 9.999E-05
-Formation Rate   = 5.416E-18 s-1
-Destruction Rate = 5.410E-18 s-1
+Formation Rate   = 5.446E-18 s-1
+Destruction Rate = 5.445E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1106,9 +1106,9 @@ Species = C
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
-Abundance        = 5.895E-09
-Formation Rate   = 5.335E-18 s-1
-Destruction Rate = 5.342E-18 s-1
+Abundance        = 5.912E-09
+Formation Rate   = 5.370E-18 s-1
+Destruction Rate = 5.371E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1123,8 +1123,8 @@ Species = O
    H+        +   O         -->   O+        +   H                     Rate:-100%
 
 Abundance        = 2.999E-04
-Formation Rate   = 1.208E-15 s-1
-Destruction Rate = 1.209E-15 s-1
+Formation Rate   = 1.225E-15 s-1
+Destruction Rate = 1.225E-15 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1138,9 +1138,9 @@ Species = CO
 
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
-Abundance        = 2.137E-11
-Formation Rate   = 1.556E-20 s-1
-Destruction Rate = 1.546E-20 s-1
+Abundance        = 2.090E-11
+Formation Rate   = 1.521E-20 s-1
+Destruction Rate = 1.512E-20 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1232,8 +1232,8 @@ Species = C+
    H2        +   C+        -->   CH2+      +   PHOTON                Rate:  -1%
 
 Abundance        = 9.999E-05
-Formation Rate   = 5.153E-18 s-1
-Destruction Rate = 5.153E-18 s-1
+Formation Rate   = 5.183E-18 s-1
+Destruction Rate = 5.183E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1246,9 +1246,9 @@ Species = C
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
-Abundance        = 6.005E-09
-Formation Rate   = 5.088E-18 s-1
-Destruction Rate = 5.088E-18 s-1
+Abundance        = 6.027E-09
+Formation Rate   = 5.118E-18 s-1
+Destruction Rate = 5.118E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1264,8 +1264,8 @@ Species = O
    H+        +   O         -->   O+        +   H                     Rate:-100%
 
 Abundance        = 2.999E-04
-Formation Rate   = 9.788E-16 s-1
-Destruction Rate = 9.785E-16 s-1
+Formation Rate   = 9.876E-16 s-1
+Destruction Rate = 9.872E-16 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1280,9 +1280,9 @@ Species = CO
 
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
-Abundance        = 3.037E-11
-Formation Rate   = 2.087E-20 s-1
-Destruction Rate = 2.075E-20 s-1
+Abundance        = 2.977E-11
+Formation Rate   = 2.052E-20 s-1
+Destruction Rate = 2.040E-20 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1443,8 +1443,8 @@ Species = C+
    H2        +   C+        -->   CH2+      +   PHOTON                Rate:  -1%
 
 Abundance        = 9.999E-05
-Formation Rate   = 4.750E-18 s-1
-Destruction Rate = 4.758E-18 s-1
+Formation Rate   = 4.749E-18 s-1
+Destruction Rate = 4.738E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1458,8 +1458,8 @@ Species = C
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
 Abundance        = 6.141E-09
-Formation Rate   = 4.693E-18 s-1
-Destruction Rate = 4.685E-18 s-1
+Formation Rate   = 4.672E-18 s-1
+Destruction Rate = 4.684E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1476,8 +1476,8 @@ Species = O
    H+        +   O         -->   O+        +   H                     Rate:-100%
 
 Abundance        = 2.999E-04
-Formation Rate   = 7.296E-16 s-1
-Destruction Rate = 7.274E-16 s-1
+Formation Rate   = 7.315E-16 s-1
+Destruction Rate = 7.328E-16 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1492,9 +1492,9 @@ Species = CO
 
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
-Abundance        = 5.183E-11
-Formation Rate   = 3.177E-20 s-1
-Destruction Rate = 3.161E-20 s-1
+Abundance        = 5.180E-11
+Formation Rate   = 3.174E-20 s-1
+Destruction Rate = 3.159E-20 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1516,8 +1516,8 @@ Species = C+
    C+        +   OH        -->   CO+       +   H                     Rate:  -1%
 
 Abundance        = 9.999E-05
-Formation Rate   = 4.670E-18 s-1
-Destruction Rate = 4.659E-18 s-1
+Formation Rate   = 4.673E-18 s-1
+Destruction Rate = 4.667E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1530,9 +1530,9 @@ Species = C
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
-Abundance        = 6.253E-09
-Formation Rate   = 4.593E-18 s-1
-Destruction Rate = 4.605E-18 s-1
+Abundance        = 6.248E-09
+Formation Rate   = 4.601E-18 s-1
+Destruction Rate = 4.607E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1549,8 +1549,8 @@ Species = O
    H+        +   O         -->   O+        +   H                     Rate:-100%
 
 Abundance        = 2.999E-04
-Formation Rate   = 6.586E-16 s-1
-Destruction Rate = 6.599E-16 s-1
+Formation Rate   = 6.640E-16 s-1
+Destruction Rate = 6.644E-16 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1565,9 +1565,9 @@ Species = CO
 
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
-Abundance        = 6.107E-11
-Formation Rate   = 3.609E-20 s-1
-Destruction Rate = 3.593E-20 s-1
+Abundance        = 6.057E-11
+Formation Rate   = 3.585E-20 s-1
+Destruction Rate = 3.568E-20 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1589,8 +1589,8 @@ Species = C+
    C+        +   OH        -->   CO+       +   H                     Rate:  -1%
 
 Abundance        = 9.999E-05
-Formation Rate   = 4.597E-18 s-1
-Destruction Rate = 4.595E-18 s-1
+Formation Rate   = 4.606E-18 s-1
+Destruction Rate = 4.606E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1603,9 +1603,9 @@ Species = C
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
-Abundance        = 6.370E-09
-Formation Rate   = 4.528E-18 s-1
-Destruction Rate = 4.530E-18 s-1
+Abundance        = 6.374E-09
+Formation Rate   = 4.539E-18 s-1
+Destruction Rate = 4.540E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1622,8 +1622,8 @@ Species = O
    H+        +   O         -->   O+        +   H                     Rate:-100%
 
 Abundance        = 2.999E-04
-Formation Rate   = 5.968E-16 s-1
-Destruction Rate = 5.967E-16 s-1
+Formation Rate   = 6.007E-16 s-1
+Destruction Rate = 6.003E-16 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1637,9 +1637,9 @@ Species = CO
 
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
-Abundance        = 7.151E-11
-Formation Rate   = 4.083E-20 s-1
-Destruction Rate = 4.062E-20 s-1
+Abundance        = 7.088E-11
+Formation Rate   = 4.054E-20 s-1
+Destruction Rate = 4.033E-20 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1661,7 +1661,7 @@ Species = C+
    C+        +   OH        -->   CO+       +   H                     Rate:  -1%
 
 Abundance        = 9.999E-05
-Formation Rate   = 4.509E-18 s-1
+Formation Rate   = 4.510E-18 s-1
 Destruction Rate = 4.518E-18 s-1
 
 --------------------------------------------------------------------------------
@@ -1678,7 +1678,7 @@ Species = C
 
 Abundance        = 6.479E-09
 Formation Rate   = 4.449E-18 s-1
-Destruction Rate = 4.440E-18 s-1
+Destruction Rate = 4.442E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1696,8 +1696,8 @@ Species = O
    H+        +   O         -->   O+        +   H                     Rate:-100%
 
 Abundance        = 2.999E-04
-Formation Rate   = 5.371E-16 s-1
-Destruction Rate = 5.349E-16 s-1
+Formation Rate   = 5.372E-16 s-1
+Destruction Rate = 5.350E-16 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1711,9 +1711,9 @@ Species = CO
 
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
-Abundance        = 8.476E-11
-Formation Rate   = 4.670E-20 s-1
-Destruction Rate = 4.647E-20 s-1
+Abundance        = 8.473E-11
+Formation Rate   = 4.669E-20 s-1
+Destruction Rate = 4.646E-20 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1809,8 +1809,8 @@ Species = C+
    C+        +   OH        -->   CO        +   H+                    Rate:  -1%
 
 Abundance        = 9.999E-05
-Formation Rate   = 4.401E-18 s-1
-Destruction Rate = 4.409E-18 s-1
+Formation Rate   = 4.399E-18 s-1
+Destruction Rate = 4.388E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1825,8 +1825,8 @@ Species = C
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
 Abundance        = 6.806E-09
-Formation Rate   = 4.335E-18 s-1
-Destruction Rate = 4.326E-18 s-1
+Formation Rate   = 4.313E-18 s-1
+Destruction Rate = 4.324E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1844,8 +1844,8 @@ Species = O
    H+        +   O         -->   O+        +   H                     Rate:-100%
 
 Abundance        = 2.999E-04
-Formation Rate   = 4.359E-16 s-1
-Destruction Rate = 4.337E-16 s-1
+Formation Rate   = 4.369E-16 s-1
+Destruction Rate = 4.378E-16 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1861,8 +1861,8 @@ Species = CO
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
 Abundance        = 1.168E-10
-Formation Rate   = 6.007E-20 s-1
-Destruction Rate = 5.977E-20 s-1
+Formation Rate   = 6.000E-20 s-1
+Destruction Rate = 5.976E-20 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1952,15 +1952,16 @@ Species = C+
    C         +   PHOTON    -->   C+        +   e-                    Rate:  98%
    H         +   CH+       -->   C+        +   H2                    Rate:   2%
 
-   C+        +   e-        -->   C         +   PHOTON                Rate: -95%
+   C+        +   e-        -->   C         +   PHOTON                Rate: -94%
    H2        +   C+        -->   CH2+      +   PHOTON                Rate:  -2%
    H         +   C+        -->   CH+       +   PHOTON                Rate:  -1%
    C+        +   OH        -->   CO+       +   H                     Rate:  -1%
    C+        +   OH        -->   CO        +   H+                    Rate:  -1%
+   H2        +   C+        -->   CH+       +   H                     Rate:  -1%
 
 Abundance        = 9.999E-05
-Formation Rate   = 4.237E-18 s-1
-Destruction Rate = 4.491E-18 s-1
+Formation Rate   = 4.092E-18 s-1
+Destruction Rate = 3.625E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1968,15 +1969,16 @@ Gridpoint =     29, t = 1.0E+7 yr, Av = 2.1E-1 mag
 n_H = 3.6E+1 cm-3, T_gas = 2.6E+2 K
 Species = C         
 
-   C+        +   e-        -->   C         +   PHOTON                Rate:  97%
+   C+        +   e-        -->   C         +   PHOTON                Rate:  96%
    CO        +   PHOTON    -->   O         +   C                     Rate:   2%
    CH2+      +   e-        -->   C         +   H         +   H       Rate:   1%
+   CH        +   PHOTON    -->   C         +   H                     Rate:   1%
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
 Abundance        = 7.262E-09
-Formation Rate   = 4.404E-18 s-1
-Destruction Rate = 4.149E-18 s-1
+Formation Rate   = 3.516E-18 s-1
+Destruction Rate = 4.005E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -1984,18 +1986,17 @@ Gridpoint =     29, t = 1.0E+7 yr, Av = 2.1E-1 mag
 n_H = 3.6E+1 cm-3, T_gas = 2.6E+2 K
 Species = O         
 
-   H         +   O+        -->   O         +   H+                    Rate:  84%
-   H2O+      +   e-        -->   O         +   H         +   H       Rate:   6%
-   OH        +   PHOTON    -->   O         +   H                     Rate:   6%
+   H         +   O+        -->   O         +   H+                    Rate:  87%
+   OH        +   PHOTON    -->   O         +   H                     Rate:   5%
+   H2O+      +   e-        -->   O         +   H         +   H       Rate:   5%
    OH+       +   e-        -->   O         +   H                     Rate:   2%
    H2O+      +   e-        -->   O         +   H2                    Rate:   1%
-   O2        +   PHOTON    -->   O         +   O                     Rate:   1%
 
    H+        +   O         -->   O+        +   H                     Rate:-100%
 
 Abundance        = 2.999E-04
-Formation Rate   = 3.055E-16 s-1
-Destruction Rate = 2.719E-16 s-1
+Formation Rate   = 3.346E-16 s-1
+Destruction Rate = 4.065E-16 s-1
 
 --------------------------------------------------------------------------------
 
@@ -2003,14 +2004,15 @@ Gridpoint =     29, t = 1.0E+7 yr, Av = 2.1E-1 mag
 n_H = 3.6E+1 cm-3, T_gas = 2.6E+2 K
 Species = CO        
 
-   C+        +   OH        -->   CO        +   H+                    Rate:  47%
-   H         +   CO+       -->   CO        +   H+                    Rate:  39%
-   HCO+      +   e-        -->   CO        +   H                     Rate:  14%
+   C+        +   OH        -->   CO        +   H+                    Rate:  49%
+   H         +   CO+       -->   CO        +   H+                    Rate:  40%
+   HCO+      +   e-        -->   CO        +   H                     Rate:  10%
+   C+        +   O2        -->   CO        +   O+                    Rate:   1%
 
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
 Abundance        = 1.809E-10
-Formation Rate   = 8.661E-20 s-1
+Formation Rate   = 8.265E-20 s-1
 Destruction Rate = 8.483E-20 s-1
 
 --------------------------------------------------------------------------------
@@ -2188,7 +2190,7 @@ Species = C+
 
 Abundance        = 9.999E-05
 Formation Rate   = 4.315E-18 s-1
-Destruction Rate = 4.310E-18 s-1
+Destruction Rate = 4.311E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -2204,7 +2206,7 @@ Species = C
 
 Abundance        = 8.195E-09
 Formation Rate   = 4.209E-18 s-1
-Destruction Rate = 4.214E-18 s-1
+Destruction Rate = 4.215E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -2223,7 +2225,7 @@ Species = O
 
 Abundance        = 2.999E-04
 Formation Rate   = 2.546E-16 s-1
-Destruction Rate = 2.541E-16 s-1
+Destruction Rate = 2.542E-16 s-1
 
 --------------------------------------------------------------------------------
 
@@ -2237,7 +2239,7 @@ Species = CO
 
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
-Abundance        = 2.534E-10
+Abundance        = 2.533E-10
 Formation Rate   = 1.099E-19 s-1
 Destruction Rate = 1.095E-19 s-1
 
@@ -2264,8 +2266,8 @@ Species = C+
    C+        +   H2O       -->   HCO+      +   H                     Rate:  -1%
 
 Abundance        = 9.999E-05
-Formation Rate   = 4.324E-18 s-1
-Destruction Rate = 4.338E-18 s-1
+Formation Rate   = 4.317E-18 s-1
+Destruction Rate = 4.300E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -2281,8 +2283,8 @@ Species = C
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
 Abundance        = 8.602E-09
-Formation Rate   = 4.229E-18 s-1
-Destruction Rate = 4.216E-18 s-1
+Formation Rate   = 4.192E-18 s-1
+Destruction Rate = 4.209E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -2300,8 +2302,8 @@ Species = O
    H+        +   O         -->   O+        +   H                     Rate:-100%
 
 Abundance        = 2.999E-04
-Formation Rate   = 2.277E-16 s-1
-Destruction Rate = 2.250E-16 s-1
+Formation Rate   = 2.284E-16 s-1
+Destruction Rate = 2.292E-16 s-1
 
 --------------------------------------------------------------------------------
 
@@ -2311,12 +2313,13 @@ Species = CO
 
    C+        +   OH        -->   CO        +   H+                    Rate:  47%
    H         +   CO+       -->   CO        +   H+                    Rate:  37%
-   HCO+      +   e-        -->   CO        +   H                     Rate:  16%
+   HCO+      +   e-        -->   CO        +   H                     Rate:  15%
+   C+        +   O2        -->   CO        +   O+                    Rate:   1%
 
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
 Abundance        = 2.934E-10
-Formation Rate   = 1.232E-19 s-1
+Formation Rate   = 1.229E-19 s-1
 Destruction Rate = 1.226E-19 s-1
 
 --------------------------------------------------------------------------------
@@ -2342,7 +2345,7 @@ Species = C+
    C+        +   O2        -->   CO        +   O+                    Rate:  -1%
 
 Abundance        = 9.999E-05
-Formation Rate   = 4.355E-18 s-1
+Formation Rate   = 4.356E-18 s-1
 Destruction Rate = 4.351E-18 s-1
 
 --------------------------------------------------------------------------------
@@ -2360,7 +2363,7 @@ Species = C
 
 Abundance        = 9.064E-09
 Formation Rate   = 4.235E-18 s-1
-Destruction Rate = 4.240E-18 s-1
+Destruction Rate = 4.241E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -2394,7 +2397,7 @@ Species = CO
 
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
-Abundance        = 3.354E-10
+Abundance        = 3.353E-10
 Formation Rate   = 1.357E-19 s-1
 Destruction Rate = 1.352E-19 s-1
 
@@ -2497,8 +2500,8 @@ Species = C+
    H         +   C+        -->   CH+       +   PHOTON                Rate:  -1%
 
 Abundance        = 9.999E-05
-Formation Rate   = 4.401E-18 s-1
-Destruction Rate = 4.522E-18 s-1
+Formation Rate   = 4.334E-18 s-1
+Destruction Rate = 4.207E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -2514,8 +2517,8 @@ Species = C
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
 Abundance        = 1.018E-08
-Formation Rate   = 4.387E-18 s-1
-Destruction Rate = 4.267E-18 s-1
+Formation Rate   = 4.071E-18 s-1
+Destruction Rate = 4.200E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -2523,19 +2526,18 @@ Gridpoint =     36, t = 1.0E+7 yr, Av = 2.8E-1 mag
 n_H = 4.2E+1 cm-3, T_gas = 2.2E+2 K
 Species = O         
 
-   H         +   O+        -->   O         +   H+                    Rate:  70%
+   H         +   O+        -->   O         +   H+                    Rate:  72%
    OH        +   PHOTON    -->   O         +   H                     Rate:  16%
-   H2O+      +   e-        -->   O         +   H         +   H       Rate:   9%
+   H2O+      +   e-        -->   O         +   H         +   H       Rate:   8%
    OH+       +   e-        -->   O         +   H                     Rate:   2%
    H2O+      +   e-        -->   O         +   H2                    Rate:   1%
    O2        +   PHOTON    -->   O         +   O                     Rate:   1%
-   H3O+      +   e-        -->   O         +   H2        +   H       Rate:   1%
 
    H+        +   O         -->   O+        +   H                     Rate:-100%
 
 Abundance        = 2.999E-04
-Formation Rate   = 1.632E-16 s-1
-Destruction Rate = 1.502E-16 s-1
+Formation Rate   = 1.668E-16 s-1
+Destruction Rate = 1.770E-16 s-1
 
 --------------------------------------------------------------------------------
 
@@ -2543,14 +2545,14 @@ Gridpoint =     36, t = 1.0E+7 yr, Av = 2.8E-1 mag
 n_H = 4.2E+1 cm-3, T_gas = 2.2E+2 K
 Species = CO        
 
-   C+        +   OH        -->   CO        +   H+                    Rate:  46%
-   H         +   CO+       -->   CO        +   H+                    Rate:  34%
-   HCO+      +   e-        -->   CO        +   H                     Rate:  20%
+   C+        +   OH        -->   CO        +   H+                    Rate:  47%
+   H         +   CO+       -->   CO        +   H+                    Rate:  35%
+   HCO+      +   e-        -->   CO        +   H                     Rate:  18%
 
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
 Abundance        = 4.419E-10
-Formation Rate   = 1.674E-19 s-1
+Formation Rate   = 1.633E-19 s-1
 Destruction Rate = 1.647E-19 s-1
 
 --------------------------------------------------------------------------------
@@ -3083,7 +3085,7 @@ Species = O
    H+        +   O         -->   O+        +   H                     Rate:-100%
 
 Abundance        = 2.999E-04
-Formation Rate   = 9.846E-17 s-1
+Formation Rate   = 9.847E-17 s-1
 Destruction Rate = 9.675E-17 s-1
 
 --------------------------------------------------------------------------------
@@ -3297,7 +3299,7 @@ Species = C
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
-Abundance        = 1.855E-08
+Abundance        = 1.854E-08
 Formation Rate   = 4.362E-18 s-1
 Destruction Rate = 4.359E-18 s-1
 
@@ -3318,7 +3320,7 @@ Species = O
 
 Abundance        = 2.999E-04
 Formation Rate   = 7.929E-17 s-1
-Destruction Rate = 7.753E-17 s-1
+Destruction Rate = 7.754E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -3560,7 +3562,7 @@ Species = O
 
 Abundance        = 2.999E-04
 Formation Rate   = 6.262E-17 s-1
-Destruction Rate = 6.089E-17 s-1
+Destruction Rate = 6.090E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -3726,7 +3728,7 @@ Species = O
 
 Abundance        = 2.999E-04
 Formation Rate   = 5.262E-17 s-1
-Destruction Rate = 5.095E-17 s-1
+Destruction Rate = 5.096E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -3766,8 +3768,8 @@ Species = C+
    H         +   C+        -->   CH+       +   PHOTON                Rate:  -1%
 
 Abundance        = 9.996E-05
-Formation Rate   = 5.382E-18 s-1
-Destruction Rate = 5.387E-18 s-1
+Formation Rate   = 5.377E-18 s-1
+Destruction Rate = 5.382E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -3786,9 +3788,9 @@ Species = C
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
-Abundance        = 3.323E-08
-Formation Rate   = 5.127E-18 s-1
-Destruction Rate = 5.126E-18 s-1
+Abundance        = 3.320E-08
+Formation Rate   = 5.123E-18 s-1
+Destruction Rate = 5.121E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -3809,8 +3811,8 @@ Species = O
    H3+       +   O         -->   OH+       +   H2                    Rate:  -1%
 
 Abundance        = 3.000E-04
-Formation Rate   = 4.783E-17 s-1
-Destruction Rate = 4.629E-17 s-1
+Formation Rate   = 4.784E-17 s-1
+Destruction Rate = 4.623E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -3820,13 +3822,14 @@ Species = CO
 
    C+        +   OH        -->   CO        +   H+                    Rate:  45%
    HCO+      +   e-        -->   CO        +   H                     Rate:  38%
-   H         +   CO+       -->   CO        +   H+                    Rate:  17%
+   H         +   CO+       -->   CO        +   H+                    Rate:  16%
+   C+        +   O2        -->   CO        +   O+                    Rate:   1%
 
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
 Abundance        = 1.766E-09
-Formation Rate   = 3.250E-19 s-1
-Destruction Rate = 3.232E-19 s-1
+Formation Rate   = 3.253E-19 s-1
+Destruction Rate = 3.233E-19 s-1
 
 --------------------------------------------------------------------------------
 
@@ -3848,8 +3851,8 @@ Species = C+
    C+        +   OH        -->   CO        +   H+                    Rate:  -3%
 
 Abundance        = 9.996E-05
-Formation Rate   = 5.626E-18 s-1
-Destruction Rate = 5.601E-18 s-1
+Formation Rate   = 5.640E-18 s-1
+Destruction Rate = 5.644E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -3857,19 +3860,18 @@ Gridpoint =     53, t = 1.0E+7 yr, Av = 4.8E-1 mag
 n_H = 6.1E+1 cm-3, T_gas = 1.9E+2 K
 Species = C         
 
-   C+        +   e-        -->   C         +   PHOTON                Rate:  82%
+   C+        +   e-        -->   C         +   PHOTON                Rate:  83%
    CO        +   PHOTON    -->   O         +   C                     Rate:   6%
    CH        +   PHOTON    -->   C         +   H                     Rate:   4%
    CH2+      +   e-        -->   C         +   H         +   H       Rate:   3%
    CH3+      +   e-        -->   C         +   H2        +   H       Rate:   3%
    H         +   CH        -->   C         +   H2                    Rate:   1%
-   CH2+      +   e-        -->   C         +   H2                    Rate:   1%
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
-Abundance        = 3.798E-08
-Formation Rate   = 5.337E-18 s-1
-Destruction Rate = 5.366E-18 s-1
+Abundance        = 3.782E-08
+Formation Rate   = 5.381E-18 s-1
+Destruction Rate = 5.380E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -3890,8 +3892,8 @@ Species = O
    H3+       +   O         -->   OH+       +   H2                    Rate:  -1%
 
 Abundance        = 3.000E-04
-Formation Rate   = 4.316E-17 s-1
-Destruction Rate = 4.272E-17 s-1
+Formation Rate   = 4.328E-17 s-1
+Destruction Rate = 4.179E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -3906,9 +3908,9 @@ Species = CO
 
    CO        +   PHOTON    -->   O         +   C                     Rate:-100%
 
-Abundance        = 1.939E-09
-Formation Rate   = 3.318E-19 s-1
-Destruction Rate = 3.323E-19 s-1
+Abundance        = 1.940E-09
+Formation Rate   = 3.347E-19 s-1
+Destruction Rate = 3.328E-19 s-1
 
 --------------------------------------------------------------------------------
 
@@ -4453,7 +4455,7 @@ Species = C
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
-Abundance        = 8.463E-08
+Abundance        = 8.462E-08
 Formation Rate   = 6.422E-18 s-1
 Destruction Rate = 6.419E-18 s-1
 
@@ -4538,7 +4540,7 @@ Species = C
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
-Abundance        = 9.403E-08
+Abundance        = 9.402E-08
 Formation Rate   = 6.487E-18 s-1
 Destruction Rate = 6.493E-18 s-1
 
@@ -4580,7 +4582,7 @@ Species = CO
    He+       +   CO        -->   O         +   C+        +   He      Rate:  -1%
 
 Abundance        = 3.552E-09
-Formation Rate   = 3.306E-19 s-1
+Formation Rate   = 3.307E-19 s-1
 Destruction Rate = 3.291E-19 s-1
 
 --------------------------------------------------------------------------------
@@ -4839,7 +4841,7 @@ Species = CO
    CO        +   PHOTON    -->   O         +   C                     Rate: -99%
    He+       +   CO        -->   O         +   C+        +   He      Rate:  -1%
 
-Abundance        = 4.848E-09
+Abundance        = 4.847E-09
 Formation Rate   = 3.432E-19 s-1
 Destruction Rate = 3.414E-19 s-1
 
@@ -5555,8 +5557,8 @@ Species = C+
    C+        +   OH        -->   CO        +   H+                    Rate:  -1%
 
 Abundance        = 9.900E-05
-Formation Rate   = 1.961E-17 s-1
-Destruction Rate = 1.961E-17 s-1
+Formation Rate   = 1.963E-17 s-1
+Destruction Rate = 1.963E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -5574,9 +5576,9 @@ Species = C
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:-100%
 
-Abundance        = 9.796E-07
-Formation Rate   = 1.957E-17 s-1
-Destruction Rate = 1.957E-17 s-1
+Abundance        = 9.793E-07
+Formation Rate   = 1.959E-17 s-1
+Destruction Rate = 1.959E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -5599,8 +5601,8 @@ Species = O
    O         +   OH        -->   O2        +   H                     Rate:  -1%
 
 Abundance        = 3.000E-04
-Formation Rate   = 8.180E-18 s-1
-Destruction Rate = 7.817E-18 s-1
+Formation Rate   = 8.173E-18 s-1
+Destruction Rate = 7.847E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -5608,19 +5610,20 @@ Gridpoint =     73, t = 1.0E+7 yr, Av = 9.1E-1 mag
 n_H = 1.6E+2 cm-3, T_gas = 9.4E+1 K
 Species = CO        
 
-   HCO+      +   e-        -->   CO        +   H                     Rate:  53%
+   HCO+      +   e-        -->   CO        +   H                     Rate:  52%
    C+        +   OH        -->   CO        +   H+                    Rate:  43%
    CH2       +   O         -->   CO        +   H         +   H       Rate:   1%
    H         +   CO+       -->   CO        +   H+                    Rate:   1%
    CH        +   O         -->   CO        +   H                     Rate:   1%
    CH2       +   O         -->   CO        +   H2                    Rate:   1%
+   C+        +   O2        -->   CO        +   O+                    Rate:   1%
 
    CO        +   PHOTON    -->   O         +   C                     Rate: -98%
    He+       +   CO        -->   O         +   C+        +   He      Rate:  -2%
 
-Abundance        = 2.095E-08
-Formation Rate   = 4.643E-19 s-1
-Destruction Rate = 4.615E-19 s-1
+Abundance        = 2.091E-08
+Formation Rate   = 4.634E-19 s-1
+Destruction Rate = 4.610E-19 s-1
 
 --------------------------------------------------------------------------------
 
@@ -5642,8 +5645,8 @@ Species = C+
    C+        +   OH        -->   CO        +   H+                    Rate:  -1%
 
 Abundance        = 9.846E-05
-Formation Rate   = 2.677E-17 s-1
-Destruction Rate = 2.677E-17 s-1
+Formation Rate   = 2.676E-17 s-1
+Destruction Rate = 2.675E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -5662,8 +5665,8 @@ Species = C
    C         +   CRPHOT    -->   C+        +   e-                    Rate:  -1%
 
 Abundance        = 1.508E-06
-Formation Rate   = 2.674E-17 s-1
-Destruction Rate = 2.674E-17 s-1
+Formation Rate   = 2.672E-17 s-1
+Destruction Rate = 2.672E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -5687,8 +5690,8 @@ Species = O
    O         +   OH        -->   O2        +   H                     Rate:  -1%
 
 Abundance        = 3.000E-04
-Formation Rate   = 7.034E-18 s-1
-Destruction Rate = 6.767E-18 s-1
+Formation Rate   = 7.018E-18 s-1
+Destruction Rate = 6.879E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -5707,9 +5710,9 @@ Species = CO
    CO        +   PHOTON    -->   O         +   C                     Rate: -97%
    He+       +   CO        -->   O         +   C+        +   He      Rate:  -3%
 
-Abundance        = 2.967E-08
-Formation Rate   = 5.362E-19 s-1
-Destruction Rate = 5.334E-19 s-1
+Abundance        = 2.959E-08
+Formation Rate   = 5.332E-19 s-1
+Destruction Rate = 5.323E-19 s-1
 
 --------------------------------------------------------------------------------
 
@@ -5902,9 +5905,9 @@ Species = C+
    C+        +   OH        -->   CO+       +   H                     Rate:  -1%
    C+        +   OH        -->   CO        +   H+                    Rate:  -1%
 
-Abundance        = 9.619E-05
-Formation Rate   = 3.814E-17 s-1
-Destruction Rate = 3.814E-17 s-1
+Abundance        = 9.618E-05
+Formation Rate   = 3.806E-17 s-1
+Destruction Rate = 3.801E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -5923,9 +5926,9 @@ Species = C
    C         +   PHOTON    -->   C+        +   e-                    Rate: -99%
    C         +   CRPHOT    -->   C+        +   e-                    Rate:  -1%
 
-Abundance        = 3.737E-06
-Formation Rate   = 3.811E-17 s-1
-Destruction Rate = 3.811E-17 s-1
+Abundance        = 3.748E-06
+Formation Rate   = 3.798E-17 s-1
+Destruction Rate = 3.804E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -5949,8 +5952,8 @@ Species = O
    CH2       +   O         -->   CO        +   H         +   H       Rate:  -1%
 
 Abundance        = 2.999E-04
-Formation Rate   = 4.759E-18 s-1
-Destruction Rate = 4.646E-18 s-1
+Formation Rate   = 4.724E-18 s-1
+Destruction Rate = 4.794E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -5961,17 +5964,16 @@ Species = CO
    HCO+      +   e-        -->   CO        +   H                     Rate:  50%
    C+        +   OH        -->   CO        +   H+                    Rate:  40%
    CH2       +   O         -->   CO        +   H         +   H       Rate:   4%
-   CH        +   O         -->   CO        +   H                     Rate:   2%
+   CH        +   O         -->   CO        +   H                     Rate:   3%
    CH2       +   O         -->   CO        +   H2                    Rate:   2%
-   H         +   CO+       -->   CO        +   H+                    Rate:   1%
    C+        +   O2        -->   CO        +   O+                    Rate:   1%
 
    CO        +   PHOTON    -->   O         +   C                     Rate: -93%
    He+       +   CO        -->   O         +   C+        +   He      Rate:  -7%
 
-Abundance        = 6.583E-08
-Formation Rate   = 5.611E-19 s-1
-Destruction Rate = 5.596E-19 s-1
+Abundance        = 6.548E-08
+Formation Rate   = 5.542E-19 s-1
+Destruction Rate = 5.559E-19 s-1
 
 --------------------------------------------------------------------------------
 
@@ -6170,8 +6172,8 @@ Species = C+
    C+        +   OH        -->   CO+       +   H                     Rate:  -1%
 
 Abundance        = 9.346E-05
-Formation Rate   = 3.590E-17 s-1
-Destruction Rate = 3.587E-17 s-1
+Formation Rate   = 3.602E-17 s-1
+Destruction Rate = 3.601E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -6189,8 +6191,8 @@ Species = C
    C         +   CRPHOT    -->   C+        +   e-                    Rate:  -2%
 
 Abundance        = 6.427E-06
-Formation Rate   = 3.583E-17 s-1
-Destruction Rate = 3.586E-17 s-1
+Formation Rate   = 3.598E-17 s-1
+Destruction Rate = 3.599E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -6208,16 +6210,17 @@ Species = O
    H3O+      +   e-        -->   O         +   H2        +   H       Rate:   1%
    H         +   O+        -->   O         +   H+                    Rate:   1%
 
-   H+        +   O         -->   O+        +   H                     Rate: -77%
+   H+        +   O         -->   O+        +   H                     Rate: -76%
    H3+       +   O         -->   OH+       +   H2                    Rate: -18%
    O         +   CRP       -->   O+        +   e-                    Rate:  -2%
    O         +   OH        -->   O2        +   H                     Rate:  -1%
    CH2       +   O         -->   CO        +   H         +   H       Rate:  -1%
    CH        +   O         -->   CO        +   H                     Rate:  -1%
+   CH2       +   O         -->   CO        +   H2                    Rate:  -1%
 
 Abundance        = 2.999E-04
-Formation Rate   = 3.303E-18 s-1
-Destruction Rate = 3.273E-18 s-1
+Formation Rate   = 3.305E-18 s-1
+Destruction Rate = 3.182E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -6237,7 +6240,7 @@ Species = CO
    CO        +   CRPHOT    -->   O         +   C                     Rate:  -1%
 
 Abundance        = 1.044E-07
-Formation Rate   = 4.357E-19 s-1
+Formation Rate   = 4.373E-19 s-1
 Destruction Rate = 4.355E-19 s-1
 
 --------------------------------------------------------------------------------
@@ -6339,7 +6342,7 @@ Destruction Rate = 3.984E-19 s-1
 --------------------------------------------------------------------------------
 
 Gridpoint =     82, t = 1.0E+7 yr, Av = 1.4E+0 mag
-n_H = 2.1E+2 cm-3, T_gas = 4.4E+1 K
+n_H = 2.1E+2 cm-3, T_gas = 4.3E+1 K
 Species = C+        
 
    C         +   PHOTON    -->   C+        +   e-                    Rate:  97%
@@ -6350,14 +6353,14 @@ Species = C+
    H2        +   C+        -->   CH2+      +   PHOTON                Rate: -16%
    C+        +   OH        -->   CO+       +   H                     Rate:  -1%
 
-Abundance        = 9.086E-05
-Formation Rate   = 3.523E-17 s-1
-Destruction Rate = 3.527E-17 s-1
+Abundance        = 9.089E-05
+Formation Rate   = 3.505E-17 s-1
+Destruction Rate = 3.504E-17 s-1
 
 --------------------------------------------------------------------------------
 
 Gridpoint =     82, t = 1.0E+7 yr, Av = 1.4E+0 mag
-n_H = 2.1E+2 cm-3, T_gas = 4.4E+1 K
+n_H = 2.1E+2 cm-3, T_gas = 4.3E+1 K
 Species = C         
 
    C+        +   e-        -->   C         +   PHOTON                Rate:  83%
@@ -6370,14 +6373,14 @@ Species = C
    C         +   PHOTON    -->   C+        +   e-                    Rate: -98%
    C         +   CRPHOT    -->   C+        +   e-                    Rate:  -2%
 
-Abundance        = 9.004E-06
-Formation Rate   = 3.523E-17 s-1
-Destruction Rate = 3.519E-17 s-1
+Abundance        = 8.973E-06
+Formation Rate   = 3.500E-17 s-1
+Destruction Rate = 3.502E-17 s-1
 
 --------------------------------------------------------------------------------
 
 Gridpoint =     82, t = 1.0E+7 yr, Av = 1.4E+0 mag
-n_H = 2.1E+2 cm-3, T_gas = 4.4E+1 K
+n_H = 2.1E+2 cm-3, T_gas = 4.3E+1 K
 Species = O         
 
    OH        +   PHOTON    -->   O         +   H                     Rate:  62%
@@ -6390,8 +6393,8 @@ Species = O
    H3O+      +   e-        -->   O         +   H2        +   H       Rate:   1%
    H         +   O+        -->   O         +   H+                    Rate:   1%
 
-   H+        +   O         -->   O+        +   H                     Rate: -67%
-   H3+       +   O         -->   OH+       +   H2                    Rate: -25%
+   H+        +   O         -->   O+        +   H                     Rate: -69%
+   H3+       +   O         -->   OH+       +   H2                    Rate: -23%
    O         +   CRP       -->   O+        +   e-                    Rate:  -3%
    O         +   OH        -->   O2        +   H                     Rate:  -1%
    CH2       +   O         -->   CO        +   H         +   H       Rate:  -1%
@@ -6400,28 +6403,29 @@ Species = O
    CH3+      +   O         -->   HCO+      +   H2                    Rate:  -1%
 
 Abundance        = 2.999E-04
-Formation Rate   = 2.513E-18 s-1
-Destruction Rate = 2.296E-18 s-1
+Formation Rate   = 2.479E-18 s-1
+Destruction Rate = 2.424E-18 s-1
 
 --------------------------------------------------------------------------------
 
 Gridpoint =     82, t = 1.0E+7 yr, Av = 1.4E+0 mag
-n_H = 2.1E+2 cm-3, T_gas = 4.4E+1 K
+n_H = 2.1E+2 cm-3, T_gas = 4.3E+1 K
 Species = CO        
 
-   HCO+      +   e-        -->   CO        +   H                     Rate:  48%
+   HCO+      +   e-        -->   CO        +   H                     Rate:  47%
    C+        +   OH        -->   CO        +   H+                    Rate:  37%
    CH2       +   O         -->   CO        +   H         +   H       Rate:   6%
    CH        +   O         -->   CO        +   H                     Rate:   4%
    CH2       +   O         -->   CO        +   H2                    Rate:   4%
    C+        +   O2        -->   CO        +   O+                    Rate:   1%
+   H         +   CO+       -->   CO        +   H+                    Rate:   1%
 
    CO        +   PHOTON    -->   O         +   C                     Rate: -78%
    He+       +   CO        -->   O         +   C+        +   He      Rate: -22%
 
-Abundance        = 1.303E-07
-Formation Rate   = 3.711E-19 s-1
-Destruction Rate = 3.671E-19 s-1
+Abundance        = 1.287E-07
+Formation Rate   = 3.639E-19 s-1
+Destruction Rate = 3.632E-19 s-1
 
 --------------------------------------------------------------------------------
 
@@ -6442,8 +6446,8 @@ Species = C+
    C+        +   OH        -->   CO+       +   H                     Rate:  -1%
 
 Abundance        = 8.913E-05
-Formation Rate   = 3.520E-17 s-1
-Destruction Rate = 3.519E-17 s-1
+Formation Rate   = 3.527E-17 s-1
+Destruction Rate = 3.527E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -6462,8 +6466,8 @@ Species = C
    C         +   CRPHOT    -->   C+        +   e-                    Rate:  -3%
 
 Abundance        = 1.072E-05
-Formation Rate   = 3.515E-17 s-1
-Destruction Rate = 3.517E-17 s-1
+Formation Rate   = 3.523E-17 s-1
+Destruction Rate = 3.524E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -6481,17 +6485,18 @@ Species = O
    H3O+      +   e-        -->   O         +   H2        +   H       Rate:   1%
    CO+       +   e-        -->   O         +   C                     Rate:   1%
 
-   H+        +   O         -->   O+        +   H                     Rate: -64%
+   H+        +   O         -->   O+        +   H                     Rate: -63%
    H3+       +   O         -->   OH+       +   H2                    Rate: -28%
    O         +   CRP       -->   O+        +   e-                    Rate:  -4%
    O         +   OH        -->   O2        +   H                     Rate:  -1%
    CH2       +   O         -->   CO        +   H         +   H       Rate:  -1%
    CH2       +   O         -->   CO        +   H2                    Rate:  -1%
    CH        +   O         -->   CO        +   H                     Rate:  -1%
+   CH3+      +   O         -->   HCO+      +   H2                    Rate:  -1%
 
 Abundance        = 2.998E-04
-Formation Rate   = 2.111E-18 s-1
-Destruction Rate = 2.057E-18 s-1
+Formation Rate   = 2.112E-18 s-1
+Destruction Rate = 2.027E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -6502,16 +6507,17 @@ Species = CO
    HCO+      +   e-        -->   CO        +   H                     Rate:  46%
    C+        +   OH        -->   CO        +   H+                    Rate:  36%
    CH2       +   O         -->   CO        +   H         +   H       Rate:   7%
-   CH2       +   O         -->   CO        +   H2                    Rate:   5%
+   CH2       +   O         -->   CO        +   H2                    Rate:   4%
    CH        +   O         -->   CO        +   H                     Rate:   4%
    C+        +   O2        -->   CO        +   O+                    Rate:   1%
    H         +   CO+       -->   CO        +   H+                    Rate:   1%
+   C         +   OH        -->   CO        +   H                     Rate:   1%
 
    CO        +   PHOTON    -->   O         +   C                     Rate: -73%
    He+       +   CO        -->   O         +   C+        +   He      Rate: -27%
 
 Abundance        = 1.416E-07
-Formation Rate   = 3.364E-19 s-1
+Formation Rate   = 3.370E-19 s-1
 Destruction Rate = 3.356E-19 s-1
 
 --------------------------------------------------------------------------------
@@ -6598,7 +6604,7 @@ Species = CO
    CO        +   PHOTON    -->   O         +   C                     Rate: -67%
    He+       +   CO        -->   O         +   C+        +   He      Rate: -33%
 
-Abundance        = 1.514E-07
+Abundance        = 1.513E-07
 Formation Rate   = 3.081E-19 s-1
 Destruction Rate = 3.058E-19 s-1
 
@@ -6891,9 +6897,9 @@ Species = C+
    C+        +   e-        -->   C         +   PHOTON                Rate: -83%
    H2        +   C+        -->   CH2+      +   PHOTON                Rate: -17%
 
-Abundance        = 7.159E-05
-Formation Rate   = 3.648E-17 s-1
-Destruction Rate = 3.651E-17 s-1
+Abundance        = 7.164E-05
+Formation Rate   = 3.643E-17 s-1
+Destruction Rate = 3.641E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -6910,9 +6916,9 @@ Species = C
    C         +   PHOTON    -->   C+        +   e-                    Rate: -93%
    C         +   CRPHOT    -->   C+        +   e-                    Rate:  -7%
 
-Abundance        = 2.816E-05
-Formation Rate   = 3.650E-17 s-1
-Destruction Rate = 3.648E-17 s-1
+Abundance        = 2.812E-05
+Formation Rate   = 3.641E-17 s-1
+Destruction Rate = 3.643E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -6929,7 +6935,7 @@ Species = O
    OH+       +   e-        -->   O         +   H                     Rate:   2%
    H3O+      +   e-        -->   O         +   H2        +   H       Rate:   1%
 
-   H3+       +   O         -->   OH+       +   H2                    Rate: -67%
+   H3+       +   O         -->   OH+       +   H2                    Rate: -66%
    H+        +   O         -->   O+        +   H                     Rate: -10%
    O         +   CRP       -->   O+        +   e-                    Rate:  -8%
    CH2       +   O         -->   CO        +   H         +   H       Rate:  -5%
@@ -6938,10 +6944,11 @@ Species = O
    O         +   OH        -->   O2        +   H                     Rate:  -2%
    CH3+      +   O         -->   HCO+      +   H2                    Rate:  -1%
    CH        +   O         -->   HCO+      +   e-                    Rate:  -1%
+   O         +   CH5+      -->   H3O+      +   CH2                   Rate:  -1%
 
 Abundance        = 2.998E-04
-Formation Rate   = 9.909E-19 s-1
-Destruction Rate = 9.492E-19 s-1
+Formation Rate   = 9.856E-19 s-1
+Destruction Rate = 9.529E-19 s-1
 
 --------------------------------------------------------------------------------
 
@@ -6949,21 +6956,22 @@ Gridpoint =     88, t = 1.0E+7 yr, Av = 1.7E+0 mag
 n_H = 2.6E+2 cm-3, T_gas = 2.8E+1 K
 Species = CO        
 
-   HCO+      +   e-        -->   CO        +   H                     Rate:  36%
+   HCO+      +   e-        -->   CO        +   H                     Rate:  35%
    C+        +   OH        -->   CO        +   H+                    Rate:  25%
    CH2       +   O         -->   CO        +   H         +   H       Rate:  17%
    CH2       +   O         -->   CO        +   H2                    Rate:  10%
    CH        +   O         -->   CO        +   H                     Rate:  10%
    C+        +   O2        -->   CO        +   O+                    Rate:   1%
    C         +   OH        -->   CO        +   H                     Rate:   1%
+   H         +   CO+       -->   CO        +   H+                    Rate:   1%
 
    He+       +   CO        -->   O         +   C+        +   He      Rate: -63%
    CO        +   PHOTON    -->   O         +   C                     Rate: -36%
    H3+       +   CO        -->   HCO+      +   H2                    Rate:  -1%
 
-Abundance        = 2.367E-07
-Formation Rate   = 2.949E-19 s-1
-Destruction Rate = 2.933E-19 s-1
+Abundance        = 2.355E-07
+Formation Rate   = 2.929E-19 s-1
+Destruction Rate = 2.925E-19 s-1
 
 --------------------------------------------------------------------------------
 
@@ -7075,9 +7083,9 @@ Species = C+
    H2        +   C+        -->   CH2+      +   PHOTON                Rate: -17%
    C+        +   OH        -->   CO+       +   H                     Rate:  -1%
 
-Abundance        = 6.324E-05
-Formation Rate   = 3.089E-17 s-1
-Destruction Rate = 3.089E-17 s-1
+Abundance        = 6.322E-05
+Formation Rate   = 3.087E-17 s-1
+Destruction Rate = 3.085E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -7095,9 +7103,9 @@ Species = C
    C         +   CRPHOT    -->   C+        +   e-                    Rate: -10%
    H3+       +   C         -->   CH+       +   H2                    Rate:  -1%
 
-Abundance        = 3.648E-05
-Formation Rate   = 3.090E-17 s-1
-Destruction Rate = 3.091E-17 s-1
+Abundance        = 3.649E-05
+Formation Rate   = 3.087E-17 s-1
+Destruction Rate = 3.088E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -7117,8 +7125,8 @@ Species = O
    H3+       +   O         -->   OH+       +   H2                    Rate: -72%
    O         +   CRP       -->   O+        +   e-                    Rate:  -8%
    CH2       +   O         -->   CO        +   H         +   H       Rate:  -5%
-   CH        +   O         -->   CO        +   H                     Rate:  -3%
    H+        +   O         -->   O+        +   H                     Rate:  -3%
+   CH        +   O         -->   CO        +   H                     Rate:  -3%
    CH2       +   O         -->   CO        +   H2                    Rate:  -3%
    O         +   OH        -->   O2        +   H                     Rate:  -2%
    CH3+      +   O         -->   HCO+      +   H2                    Rate:  -1%
@@ -7127,8 +7135,8 @@ Species = O
    H         +   O         -->   OH        +   PHOTON                Rate:  -1%
 
 Abundance        = 2.997E-04
-Formation Rate   = 9.579E-19 s-1
-Destruction Rate = 9.350E-19 s-1
+Formation Rate   = 9.567E-19 s-1
+Destruction Rate = 9.351E-19 s-1
 
 --------------------------------------------------------------------------------
 
@@ -7136,20 +7144,21 @@ Gridpoint =     90, t = 1.0E+7 yr, Av = 1.9E+0 mag
 n_H = 2.6E+2 cm-3, T_gas = 2.5E+1 K
 Species = CO        
 
-   HCO+      +   e-        -->   CO        +   H                     Rate:  36%
+   HCO+      +   e-        -->   CO        +   H                     Rate:  35%
    C+        +   OH        -->   CO        +   H+                    Rate:  26%
    CH2       +   O         -->   CO        +   H         +   H       Rate:  17%
    CH        +   O         -->   CO        +   H                     Rate:  10%
    CH2       +   O         -->   CO        +   H2                    Rate:  10%
    C         +   OH        -->   CO        +   H                     Rate:   1%
+   C+        +   O2        -->   CO        +   O+                    Rate:   1%
 
    He+       +   CO        -->   O         +   C+        +   He      Rate: -77%
    CO        +   PHOTON    -->   O         +   C                     Rate: -22%
    H3+       +   CO        -->   HCO+      +   H2                    Rate:  -1%
 
-Abundance        = 2.725E-07
-Formation Rate   = 3.010E-19 s-1
-Destruction Rate = 3.006E-19 s-1
+Abundance        = 2.719E-07
+Formation Rate   = 3.004E-19 s-1
+Destruction Rate = 3.004E-19 s-1
 
 --------------------------------------------------------------------------------
 
@@ -7265,8 +7274,8 @@ Species = C+
    C+        +   OH        -->   CO+       +   H                     Rate:  -1%
 
 Abundance        = 5.522E-05
-Formation Rate   = 2.498E-17 s-1
-Destruction Rate = 2.497E-17 s-1
+Formation Rate   = 2.502E-17 s-1
+Destruction Rate = 2.502E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -7285,8 +7294,8 @@ Species = C
    H3+       +   C         -->   CH+       +   H2                    Rate:  -1%
 
 Abundance        = 4.448E-05
-Formation Rate   = 2.503E-17 s-1
-Destruction Rate = 2.504E-17 s-1
+Formation Rate   = 2.508E-17 s-1
+Destruction Rate = 2.508E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -7315,8 +7324,8 @@ Species = O
    CH        +   O         -->   HCO+      +   e-                    Rate:  -1%
 
 Abundance        = 2.997E-04
-Formation Rate   = 9.762E-19 s-1
-Destruction Rate = 9.659E-19 s-1
+Formation Rate   = 9.765E-19 s-1
+Destruction Rate = 9.653E-19 s-1
 
 --------------------------------------------------------------------------------
 
@@ -7328,14 +7337,15 @@ Species = CO
    C+        +   OH        -->   CO        +   H+                    Rate:  27%
    CH2       +   O         -->   CO        +   H         +   H       Rate:  16%
    CH        +   O         -->   CO        +   H                     Rate:  10%
-   CH2       +   O         -->   CO        +   H2                    Rate:  10%
+   CH2       +   O         -->   CO        +   H2                    Rate:   9%
+   C         +   OH        -->   CO        +   H                     Rate:   1%
 
    He+       +   CO        -->   O         +   C+        +   He      Rate: -86%
    CO        +   PHOTON    -->   O         +   C                     Rate: -13%
    H3+       +   CO        -->   HCO+      +   H2                    Rate:  -1%
 
-Abundance        = 2.907E-07
-Formation Rate   = 3.070E-19 s-1
+Abundance        = 2.906E-07
+Formation Rate   = 3.075E-19 s-1
 Destruction Rate = 3.075E-19 s-1
 
 --------------------------------------------------------------------------------
@@ -7357,9 +7367,9 @@ Species = C+
    H2        +   C+        -->   CH2+      +   PHOTON                Rate: -19%
    C+        +   OH        -->   CO+       +   H                     Rate:  -1%
 
-Abundance        = 5.161E-05
-Formation Rate   = 2.269E-17 s-1
-Destruction Rate = 2.279E-17 s-1
+Abundance        = 5.148E-05
+Formation Rate   = 2.236E-17 s-1
+Destruction Rate = 2.234E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -7371,16 +7381,17 @@ Species = C
    CH        +   PHOTON    -->   C         +   H                     Rate:  10%
    CH3+      +   e-        -->   C         +   H2        +   H       Rate:   5%
    CH2+      +   e-        -->   C         +   H         +   H       Rate:   3%
-   CH2+      +   e-        -->   C         +   H2                    Rate:   1%
    H         +   CH        -->   C         +   H2                    Rate:   1%
+   CH2+      +   e-        -->   C         +   H2                    Rate:   1%
 
-   C         +   PHOTON    -->   C+        +   e-                    Rate: -80%
+   C         +   PHOTON    -->   C+        +   e-                    Rate: -79%
    C         +   CRPHOT    -->   C+        +   e-                    Rate: -19%
    H3+       +   C         -->   CH+       +   H2                    Rate:  -1%
+   H2        +   C         -->   CH2       +   PHOTON                Rate:  -1%
 
-Abundance        = 4.808E-05
-Formation Rate   = 2.287E-17 s-1
-Destruction Rate = 2.276E-17 s-1
+Abundance        = 4.822E-05
+Formation Rate   = 2.242E-17 s-1
+Destruction Rate = 2.244E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -7403,11 +7414,11 @@ Species = O
    CH        +   O         -->   CO        +   H                     Rate:  -3%
    CH2       +   O         -->   CO        +   H2                    Rate:  -3%
    O         +   OH        -->   O2        +   H                     Rate:  -3%
-   CH3+      +   O         -->   HCO+      +   H2                    Rate:  -1%
+   H+        +   O         -->   O+        +   H                     Rate:  -1%
 
 Abundance        = 2.997E-04
-Formation Rate   = 9.949E-19 s-1
-Destruction Rate = 9.847E-19 s-1
+Formation Rate   = 9.928E-19 s-1
+Destruction Rate = 9.881E-19 s-1
 
 --------------------------------------------------------------------------------
 
@@ -7415,20 +7426,21 @@ Gridpoint =     93, t = 1.0E+7 yr, Av = 2.0E+0 mag
 n_H = 2.4E+2 cm-3, T_gas = 2.1E+1 K
 Species = CO        
 
-   HCO+      +   e-        -->   CO        +   H                     Rate:  38%
+   HCO+      +   e-        -->   CO        +   H                     Rate:  37%
    C+        +   OH        -->   CO        +   H+                    Rate:  27%
    CH2       +   O         -->   CO        +   H         +   H       Rate:  15%
-   CH        +   O         -->   CO        +   H                     Rate:   9%
+   CH        +   O         -->   CO        +   H                     Rate:  10%
    CH2       +   O         -->   CO        +   H2                    Rate:   9%
    C         +   OH        -->   CO        +   H                     Rate:   1%
    C+        +   O2        -->   CO        +   O+                    Rate:   1%
 
-   He+       +   CO        -->   O         +   C+        +   He      Rate: -90%
+   He+       +   CO        -->   O         +   C+        +   He      Rate: -89%
    CO        +   PHOTON    -->   O         +   C                     Rate: -10%
+   H3+       +   CO        -->   HCO+      +   H2                    Rate:  -1%
 
-Abundance        = 2.967E-07
-Formation Rate   = 3.145E-19 s-1
-Destruction Rate = 3.113E-19 s-1
+Abundance        = 2.947E-07
+Formation Rate   = 3.103E-19 s-1
+Destruction Rate = 3.110E-19 s-1
 
 --------------------------------------------------------------------------------
 
@@ -7543,8 +7555,8 @@ Species = C+
    C+        +   OH        -->   CO+       +   H                     Rate:  -1%
 
 Abundance        = 4.423E-05
-Formation Rate   = 1.805E-17 s-1
-Destruction Rate = 1.804E-17 s-1
+Formation Rate   = 1.810E-17 s-1
+Destruction Rate = 1.811E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -7563,9 +7575,9 @@ Species = C
    C         +   CRPHOT    -->   C+        +   e-                    Rate: -27%
    H3+       +   C         -->   CH+       +   H2                    Rate:  -2%
 
-Abundance        = 5.545E-05
-Formation Rate   = 1.818E-17 s-1
-Destruction Rate = 1.819E-17 s-1
+Abundance        = 5.546E-05
+Formation Rate   = 1.825E-17 s-1
+Destruction Rate = 1.824E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -7585,14 +7597,14 @@ Species = O
    H3+       +   O         -->   OH+       +   H2                    Rate: -78%
    O         +   CRP       -->   O+        +   e-                    Rate:  -7%
    CH2       +   O         -->   CO        +   H         +   H       Rate:  -4%
-   O         +   OH        -->   O2        +   H                     Rate:  -3%
    CH        +   O         -->   CO        +   H                     Rate:  -3%
+   O         +   OH        -->   O2        +   H                     Rate:  -3%
    CH2       +   O         -->   CO        +   H2                    Rate:  -3%
    CH3+      +   O         -->   HCO+      +   H2                    Rate:  -1%
    O         +   CH5+      -->   H3O+      +   CH2                   Rate:  -1%
 
 Abundance        = 2.997E-04
-Formation Rate   = 1.044E-18 s-1
+Formation Rate   = 1.045E-18 s-1
 Destruction Rate = 1.053E-18 s-1
 
 --------------------------------------------------------------------------------
@@ -7613,7 +7625,7 @@ Species = CO
    CO        +   PHOTON    -->   O         +   C                     Rate:  -6%
 
 Abundance        = 3.033E-07
-Formation Rate   = 3.260E-19 s-1
+Formation Rate   = 3.271E-19 s-1
 Destruction Rate = 3.276E-19 s-1
 
 --------------------------------------------------------------------------------
@@ -7657,7 +7669,7 @@ Species = C
    C         +   CRPHOT    -->   C+        +   e-                    Rate: -31%
    H3+       +   C         -->   CH+       +   H2                    Rate:  -3%
 
-Abundance        = 5.861E-05
+Abundance        = 5.862E-05
 Formation Rate   = 1.651E-17 s-1
 Destruction Rate = 1.653E-17 s-1
 
@@ -7733,9 +7745,9 @@ Species = C+
    C+        +   OH        -->   CO+       +   H                     Rate:  -1%
    C+        +   OH        -->   CO        +   H+                    Rate:  -1%
 
-Abundance        = 3.816E-05
-Formation Rate   = 1.489E-17 s-1
-Destruction Rate = 1.489E-17 s-1
+Abundance        = 3.819E-05
+Formation Rate   = 1.483E-17 s-1
+Destruction Rate = 1.478E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -7756,9 +7768,9 @@ Species = C
    H3+       +   C         -->   CH+       +   H2                    Rate:  -3%
    H2        +   C         -->   CH2       +   PHOTON                Rate:  -1%
 
-Abundance        = 6.152E-05
-Formation Rate   = 1.509E-17 s-1
-Destruction Rate = 1.509E-17 s-1
+Abundance        = 6.150E-05
+Formation Rate   = 1.498E-17 s-1
+Destruction Rate = 1.503E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -7785,7 +7797,7 @@ Species = O
    O         +   CH5+      -->   H3O+      +   CH2                   Rate:  -1%
 
 Abundance        = 2.997E-04
-Formation Rate   = 1.099E-18 s-1
+Formation Rate   = 1.096E-18 s-1
 Destruction Rate = 1.117E-18 s-1
 
 --------------------------------------------------------------------------------
@@ -7794,8 +7806,8 @@ Gridpoint =     97, t = 1.0E+7 yr, Av = 2.3E+0 mag
 n_H = 2.3E+2 cm-3, T_gas = 1.7E+1 K
 Species = CO        
 
-   HCO+      +   e-        -->   CO        +   H                     Rate:  40%
-   C+        +   OH        -->   CO        +   H+                    Rate:  29%
+   HCO+      +   e-        -->   CO        +   H                     Rate:  39%
+   C+        +   OH        -->   CO        +   H+                    Rate:  30%
    CH2       +   O         -->   CO        +   H         +   H       Rate:  12%
    CH        +   O         -->   CO        +   H                     Rate:   9%
    CH2       +   O         -->   CO        +   H2                    Rate:   7%
@@ -7806,9 +7818,9 @@ Species = CO
    CO        +   PHOTON    -->   O         +   C                     Rate:  -3%
    H3+       +   CO        -->   HCO+      +   H2                    Rate:  -1%
 
-Abundance        = 3.007E-07
-Formation Rate   = 3.427E-19 s-1
-Destruction Rate = 3.439E-19 s-1
+Abundance        = 2.998E-07
+Formation Rate   = 3.399E-19 s-1
+Destruction Rate = 3.438E-19 s-1
 
 --------------------------------------------------------------------------------
 
@@ -8077,7 +8089,7 @@ Species = O
    CH3+      +   O         -->   HCO+      +   H2                    Rate:  -1%
 
 Abundance        = 2.997E-04
-Formation Rate   = 1.213E-18 s-1
+Formation Rate   = 1.214E-18 s-1
 Destruction Rate = 1.253E-18 s-1
 
 --------------------------------------------------------------------------------
@@ -8122,9 +8134,9 @@ Species = C+
    C+        +   OH        -->   CO        +   H+                    Rate:  -1%
    C+        +   H2O       -->   HCO+      +   H                     Rate:  -1%
 
-Abundance        = 2.834E-05
-Formation Rate   = 1.085E-17 s-1
-Destruction Rate = 1.086E-17 s-1
+Abundance        = 2.833E-05
+Formation Rate   = 1.084E-17 s-1
+Destruction Rate = 1.083E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -8146,7 +8158,7 @@ Species = C
    H2        +   C         -->   CH2       +   PHOTON                Rate:  -1%
 
 Abundance        = 7.131E-05
-Formation Rate   = 1.117E-17 s-1
+Formation Rate   = 1.113E-17 s-1
 Destruction Rate = 1.115E-17 s-1
 
 --------------------------------------------------------------------------------
@@ -8175,7 +8187,7 @@ Species = O
    CH3+      +   O         -->   HCO+      +   H2                    Rate:  -1%
 
 Abundance        = 2.996E-04
-Formation Rate   = 1.271E-18 s-1
+Formation Rate   = 1.270E-18 s-1
 Destruction Rate = 1.319E-18 s-1
 
 --------------------------------------------------------------------------------
@@ -8196,9 +8208,9 @@ Species = CO
    CO        +   PHOTON    -->   O         +   C                     Rate:  -1%
    H3+       +   CO        -->   HCO+      +   H2                    Rate:  -1%
 
-Abundance        = 3.413E-07
-Formation Rate   = 4.296E-19 s-1
-Destruction Rate = 4.317E-19 s-1
+Abundance        = 3.405E-07
+Formation Rate   = 4.280E-19 s-1
+Destruction Rate = 4.316E-19 s-1
 
 --------------------------------------------------------------------------------
 
@@ -8222,9 +8234,9 @@ Species = C+
    C+        +   H2O       -->   HCO+      +   H                     Rate:  -1%
    C+        +   CH        -->   CH+       +   C                     Rate:  -1%
 
-Abundance        = 2.558E-05
+Abundance        = 2.557E-05
 Formation Rate   = 1.035E-17 s-1
-Destruction Rate = 1.036E-17 s-1
+Destruction Rate = 1.035E-17 s-1
 
 --------------------------------------------------------------------------------
 
@@ -8244,8 +8256,8 @@ Species = C
    H3+       +   C         -->   CH+       +   H2                    Rate:  -7%
    H2        +   C         -->   CH2       +   PHOTON                Rate:  -1%
 
-Abundance        = 7.402E-05
-Formation Rate   = 1.069E-17 s-1
+Abundance        = 7.403E-05
+Formation Rate   = 1.067E-17 s-1
 Destruction Rate = 1.068E-17 s-1
 
 --------------------------------------------------------------------------------
@@ -8295,9 +8307,9 @@ Species = CO
    He+       +   CO        -->   O         +   C+        +   He      Rate: -99%
    CO        +   PHOTON    -->   O         +   C                     Rate:  -1%
 
-Abundance        = 3.861E-07
-Formation Rate   = 5.000E-19 s-1
-Destruction Rate = 5.031E-19 s-1
+Abundance        = 3.852E-07
+Formation Rate   = 4.988E-19 s-1
+Destruction Rate = 5.029E-19 s-1
 
 --------------------------------------------------------------------------------
 
@@ -8322,7 +8334,7 @@ Species = C+
 
 Abundance        = 2.254E-05
 Formation Rate   = 9.988E-18 s-1
-Destruction Rate = 9.973E-18 s-1
+Destruction Rate = 9.972E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -8403,7 +8415,7 @@ Destruction Rate = 6.224E-19 s-1
 --------------------------------------------------------------------------------
 
 Gridpoint =    104, t = 1.0E+7 yr, Av = 2.7E+0 mag
-n_H = 3.7E+2 cm-3, T_gas = 1.2E+1 K
+n_H = 3.7E+2 cm-3, T_gas = 1.1E+1 K
 Species = C+        
 
    C         +   CRPHOT    -->   C+        +   e-                    Rate:  72%
@@ -8419,13 +8431,13 @@ Species = C+
    C+        +   CH        -->   CH+       +   C                     Rate:  -1%
 
 Abundance        = 1.957E-05
-Formation Rate   = 9.725E-18 s-1
-Destruction Rate = 9.721E-18 s-1
+Formation Rate   = 9.728E-18 s-1
+Destruction Rate = 9.700E-18 s-1
 
 --------------------------------------------------------------------------------
 
 Gridpoint =    104, t = 1.0E+7 yr, Av = 2.7E+0 mag
-n_H = 3.7E+2 cm-3, T_gas = 1.2E+1 K
+n_H = 3.7E+2 cm-3, T_gas = 1.1E+1 K
 Species = C         
 
    C+        +   e-        -->   C         +   PHOTON                Rate:  63%
@@ -8442,14 +8454,14 @@ Species = C
    H2        +   C         -->   CH2       +   PHOTON                Rate:  -1%
    C         +   CH5+      -->   CH4       +   CH+                   Rate:  -1%
 
-Abundance        = 7.981E-05
-Formation Rate   = 1.008E-17 s-1
-Destruction Rate = 1.012E-17 s-1
+Abundance        = 7.982E-05
+Formation Rate   = 1.005E-17 s-1
+Destruction Rate = 1.013E-17 s-1
 
 --------------------------------------------------------------------------------
 
 Gridpoint =    104, t = 1.0E+7 yr, Av = 2.7E+0 mag
-n_H = 3.7E+2 cm-3, T_gas = 1.2E+1 K
+n_H = 3.7E+2 cm-3, T_gas = 1.1E+1 K
 Species = O         
 
    He+       +   CO        -->   O         +   C+        +   He      Rate:  45%
@@ -8473,18 +8485,18 @@ Species = O
    CH        +   O         -->   HCO+      +   e-                    Rate:  -1%
 
 Abundance        = 2.993E-04
-Formation Rate   = 1.769E-18 s-1
+Formation Rate   = 1.768E-18 s-1
 Destruction Rate = 1.896E-18 s-1
 
 --------------------------------------------------------------------------------
 
 Gridpoint =    104, t = 1.0E+7 yr, Av = 2.7E+0 mag
-n_H = 3.7E+2 cm-3, T_gas = 1.2E+1 K
+n_H = 3.7E+2 cm-3, T_gas = 1.1E+1 K
 Species = CO        
 
-   HCO+      +   e-        -->   CO        +   H                     Rate:  41%
+   HCO+      +   e-        -->   CO        +   H                     Rate:  40%
    C+        +   OH        -->   CO        +   H+                    Rate:  29%
-   CH        +   O         -->   CO        +   H                     Rate:  10%
+   CH        +   O         -->   CO        +   H                     Rate:  11%
    CH2       +   O         -->   CO        +   H         +   H       Rate:  10%
    CH2       +   O         -->   CO        +   H2                    Rate:   6%
    C         +   OH        -->   CO        +   H                     Rate:   3%
@@ -8493,9 +8505,9 @@ Species = CO
    He+       +   CO        -->   O         +   C+        +   He      Rate: -99%
    H3+       +   CO        -->   HCO+      +   H2                    Rate:  -1%
 
-Abundance        = 5.981E-07
-Formation Rate   = 7.957E-19 s-1
-Destruction Rate = 8.049E-19 s-1
+Abundance        = 5.964E-07
+Formation Rate   = 7.932E-19 s-1
+Destruction Rate = 8.045E-19 s-1
 
 --------------------------------------------------------------------------------
 
@@ -8519,9 +8531,9 @@ Species = C+
    C+        +   H2O       -->   HCO+      +   H                     Rate:  -1%
    C+        +   CH        -->   CH+       +   C                     Rate:  -1%
 
-Abundance        = 1.694E-05
-Formation Rate   = 9.565E-18 s-1
-Destruction Rate = 9.542E-18 s-1
+Abundance        = 1.693E-05
+Formation Rate   = 9.570E-18 s-1
+Destruction Rate = 9.560E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -8544,9 +8556,9 @@ Species = C
    C         +   CH5+      -->   CH4       +   CH+                   Rate:  -1%
    C         +   OH        -->   CO        +   H                     Rate:  -1%
 
-Abundance        = 8.223E-05
-Formation Rate   = 9.868E-18 s-1
-Destruction Rate = 9.978E-18 s-1
+Abundance        = 8.224E-05
+Formation Rate   = 9.887E-18 s-1
+Destruction Rate = 9.982E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -8574,8 +8586,8 @@ Species = O
    CH        +   O         -->   HCO+      +   e-                    Rate:  -1%
 
 Abundance        = 2.991E-04
-Formation Rate   = 2.058E-18 s-1
-Destruction Rate = 2.244E-18 s-1
+Formation Rate   = 2.059E-18 s-1
+Destruction Rate = 2.242E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -8593,8 +8605,8 @@ Species = CO
    He+       +   CO        -->   O         +   C+        +   He      Rate: -99%
    H3+       +   CO        -->   HCO+      +   H2                    Rate:  -1%
 
-Abundance        = 8.081E-07
-Formation Rate   = 1.048E-18 s-1
+Abundance        = 8.070E-07
+Formation Rate   = 1.049E-18 s-1
 Destruction Rate = 1.064E-18 s-1
 
 --------------------------------------------------------------------------------
@@ -8612,15 +8624,16 @@ Species = C+
    He+       +   CO        -->   O         +   C+        +   He      Rate:  14%
    C         +   PHOTON    -->   C+        +   e-                    Rate:   8%
 
-   C+        +   e-        -->   C         +   PHOTON                Rate: -59%
+   C+        +   e-        -->   C         +   PHOTON                Rate: -58%
    H2        +   C+        -->   CH2+      +   PHOTON                Rate: -32%
    C+        +   OH        -->   CO+       +   H                     Rate:  -4%
    C+        +   OH        -->   CO        +   H+                    Rate:  -4%
    C+        +   H2O       -->   HCO+      +   H                     Rate:  -1%
+   C+        +   CH        -->   CH+       +   C                     Rate:  -1%
 
-Abundance        = 1.521E-05
-Formation Rate   = 9.483E-18 s-1
-Destruction Rate = 9.517E-18 s-1
+Abundance        = 1.518E-05
+Formation Rate   = 9.474E-18 s-1
+Destruction Rate = 9.450E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -8636,16 +8649,15 @@ Species = C
    CH2+      +   e-        -->   C         +   H2                    Rate:   1%
    C+        +   CH        -->   CH+       +   C                     Rate:   1%
 
-   C         +   CRPHOT    -->   C+        +   e-                    Rate: -74%
+   C         +   CRPHOT    -->   C+        +   e-                    Rate: -75%
    H3+       +   C         -->   CH+       +   H2                    Rate: -13%
    C         +   PHOTON    -->   C+        +   e-                    Rate:  -8%
    H2        +   C         -->   CH2       +   PHOTON                Rate:  -2%
    C         +   CH5+      -->   CH4       +   CH+                   Rate:  -2%
-   C         +   OH        -->   CO        +   H                     Rate:  -1%
 
-Abundance        = 8.370E-05
-Formation Rate   = 9.771E-18 s-1
-Destruction Rate = 9.881E-18 s-1
+Abundance        = 8.373E-05
+Formation Rate   = 9.703E-18 s-1
+Destruction Rate = 9.872E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -8654,13 +8666,12 @@ n_H = 5.1E+2 cm-3, T_gas = 1.0E+1 K
 Species = O         
 
    He+       +   CO        -->   O         +   C+        +   He      Rate:  57%
-   OH        +   PHOTON    -->   O         +   H                     Rate:  31%
+   OH        +   PHOTON    -->   O         +   H                     Rate:  32%
    H2O+      +   e-        -->   O         +   H         +   H       Rate:   7%
    O2+       +   e-        -->   O         +   O                     Rate:   1%
    H2O+      +   e-        -->   O         +   H2                    Rate:   1%
    H3O+      +   e-        -->   O         +   H2        +   H       Rate:   1%
    OH+       +   e-        -->   O         +   H                     Rate:   1%
-   CO+       +   e-        -->   O         +   C                     Rate:   1%
 
    H3+       +   O         -->   OH+       +   H2                    Rate: -72%
    CH        +   O         -->   CO        +   H                     Rate:  -6%
@@ -8673,8 +8684,8 @@ Species = O
    CH        +   O         -->   HCO+      +   e-                    Rate:  -1%
 
 Abundance        = 2.988E-04
-Formation Rate   = 2.327E-18 s-1
-Destruction Rate = 2.574E-18 s-1
+Formation Rate   = 2.326E-18 s-1
+Destruction Rate = 2.576E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -8693,9 +8704,9 @@ Species = CO
    He+       +   CO        -->   O         +   C+        +   He      Rate: -99%
    H3+       +   CO        -->   HCO+      +   H2                    Rate:  -1%
 
-Abundance        = 1.069E-06
-Formation Rate   = 1.327E-18 s-1
-Destruction Rate = 1.342E-18 s-1
+Abundance        = 1.065E-06
+Formation Rate   = 1.318E-18 s-1
+Destruction Rate = 1.341E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -8720,9 +8731,9 @@ Species = C+
    C+        +   H2O       -->   HCO+      +   H                     Rate:  -2%
    C+        +   CH        -->   CH+       +   C                     Rate:  -1%
 
-Abundance        = 1.433E-05
+Abundance        = 1.430E-05
 Formation Rate   = 9.424E-18 s-1
-Destruction Rate = 9.414E-18 s-1
+Destruction Rate = 9.390E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -8746,9 +8757,9 @@ Species = C
    H2        +   C         -->   CH2       +   PHOTON                Rate:  -2%
    C         +   OH        -->   CO        +   H                     Rate:  -1%
 
-Abundance        = 8.432E-05
-Formation Rate   = 9.562E-18 s-1
-Destruction Rate = 9.786E-18 s-1
+Abundance        = 8.436E-05
+Formation Rate   = 9.539E-18 s-1
+Destruction Rate = 9.783E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -8776,8 +8787,8 @@ Species = O
    CH3+      +   O         -->   HCO+      +   H2                    Rate:  -1%
 
 Abundance        = 2.986E-04
-Formation Rate   = 2.506E-18 s-1
-Destruction Rate = 2.821E-18 s-1
+Formation Rate   = 2.505E-18 s-1
+Destruction Rate = 2.816E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -8796,9 +8807,9 @@ Species = CO
    H3+       +   CO        -->   HCO+      +   H2                    Rate:  -1%
    CH5+      +   CO        -->   HCO+      +   CH4                   Rate:  -1%
 
-Abundance        = 1.324E-06
-Formation Rate   = 1.547E-18 s-1
-Destruction Rate = 1.576E-18 s-1
+Abundance        = 1.317E-06
+Formation Rate   = 1.542E-18 s-1
+Destruction Rate = 1.574E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -8823,9 +8834,9 @@ Species = C+
    C+        +   H2O       -->   HCO+      +   H                     Rate:  -2%
    C+        +   CH        -->   CH+       +   C                     Rate:  -1%
 
-Abundance        = 1.425E-05
-Formation Rate   = 9.340E-18 s-1
-Destruction Rate = 9.320E-18 s-1
+Abundance        = 1.421E-05
+Formation Rate   = 9.342E-18 s-1
+Destruction Rate = 9.302E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -8850,9 +8861,9 @@ Species = C
    C         +   OH        -->   CO        +   H                     Rate:  -1%
    C         +   CRP       -->   C+        +   e-                    Rate:  -1%
 
-Abundance        = 8.425E-05
-Formation Rate   = 9.368E-18 s-1
-Destruction Rate = 9.648E-18 s-1
+Abundance        = 8.430E-05
+Formation Rate   = 9.350E-18 s-1
+Destruction Rate = 9.645E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -8879,8 +8890,8 @@ Species = O
    CH        +   O         -->   HCO+      +   e-                    Rate:  -1%
 
 Abundance        = 2.984E-04
-Formation Rate   = 2.547E-18 s-1
-Destruction Rate = 2.897E-18 s-1
+Formation Rate   = 2.545E-18 s-1
+Destruction Rate = 2.889E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -8899,9 +8910,9 @@ Species = CO
    H3+       +   CO        -->   HCO+      +   H2                    Rate:  -1%
    CH5+      +   CO        -->   HCO+      +   CH4                   Rate:  -1%
 
-Abundance        = 1.473E-06
-Formation Rate   = 1.657E-18 s-1
-Destruction Rate = 1.694E-18 s-1
+Abundance        = 1.464E-06
+Formation Rate   = 1.653E-18 s-1
+Destruction Rate = 1.692E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -8925,9 +8936,9 @@ Species = C+
    C+        +   OH        -->   CO        +   H+                    Rate:  -5%
    C+        +   H2O       -->   HCO+      +   H                     Rate:  -2%
 
-Abundance        = 1.469E-05
-Formation Rate   = 9.210E-18 s-1
-Destruction Rate = 9.204E-18 s-1
+Abundance        = 1.464E-05
+Formation Rate   = 9.213E-18 s-1
+Destruction Rate = 9.160E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -8938,11 +8949,10 @@ Species = C
    C+        +   e-        -->   C         +   PHOTON                Rate:  56%
    CH        +   PHOTON    -->   C         +   H                     Rate:  20%
    CH3+      +   e-        -->   C         +   H2        +   H       Rate:  13%
-   H         +   CH        -->   C         +   H2                    Rate:   5%
+   H         +   CH        -->   C         +   H2                    Rate:   6%
    CH2+      +   e-        -->   C         +   H         +   H       Rate:   3%
    C+        +   CH        -->   CH+       +   C                     Rate:   1%
    CH2+      +   e-        -->   C         +   H2                    Rate:   1%
-   CH+       +   e-        -->   C         +   H                     Rate:   1%
 
    C         +   CRPHOT    -->   C+        +   e-                    Rate: -78%
    H3+       +   C         -->   CH+       +   H2                    Rate: -14%
@@ -8951,9 +8961,9 @@ Species = C
    C         +   PHOTON    -->   C+        +   e-                    Rate:  -1%
    C         +   OH        -->   CO        +   H                     Rate:  -1%
 
-Abundance        = 8.378E-05
-Formation Rate   = 9.179E-18 s-1
-Destruction Rate = 9.458E-18 s-1
+Abundance        = 8.384E-05
+Formation Rate   = 9.135E-18 s-1
+Destruction Rate = 9.455E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -8979,8 +8989,8 @@ Species = O
    CH        +   O         -->   HCO+      +   e-                    Rate:  -1%
 
 Abundance        = 2.984E-04
-Formation Rate   = 2.481E-18 s-1
-Destruction Rate = 2.832E-18 s-1
+Formation Rate   = 2.478E-18 s-1
+Destruction Rate = 2.825E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -8988,20 +8998,21 @@ Gridpoint =    109, t = 1.0E+7 yr, Av = 3.3E+0 mag
 n_H = 5.0E+2 cm-3, T_gas = 1.0E+1 K
 Species = CO        
 
-   HCO+      +   e-        -->   CO        +   H                     Rate:  42%
+   HCO+      +   e-        -->   CO        +   H                     Rate:  41%
    C+        +   OH        -->   CO        +   H+                    Rate:  27%
    CH        +   O         -->   CO        +   H                     Rate:  14%
    CH2       +   O         -->   CO        +   H         +   H       Rate:   8%
    CH2       +   O         -->   CO        +   H2                    Rate:   5%
    C         +   OH        -->   CO        +   H                     Rate:   4%
+   H         +   CO+       -->   CO        +   H+                    Rate:   1%
 
    He+       +   CO        -->   O         +   C+        +   He      Rate: -98%
    H3+       +   CO        -->   HCO+      +   H2                    Rate:  -1%
    CH5+      +   CO        -->   HCO+      +   CH4                   Rate:  -1%
 
-Abundance        = 1.501E-06
-Formation Rate   = 1.668E-18 s-1
-Destruction Rate = 1.705E-18 s-1
+Abundance        = 1.489E-06
+Formation Rate   = 1.658E-18 s-1
+Destruction Rate = 1.702E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -9019,14 +9030,15 @@ Species = C+
    C         +   PHOTON    -->   C+        +   e-                    Rate:   1%
 
    C+        +   e-        -->   C         +   PHOTON                Rate: -58%
-   H2        +   C+        -->   CH2+      +   PHOTON                Rate: -30%
+   H2        +   C+        -->   CH2+      +   PHOTON                Rate: -29%
    C+        +   OH        -->   CO+       +   H                     Rate:  -5%
    C+        +   OH        -->   CO        +   H+                    Rate:  -5%
    C+        +   H2O       -->   HCO+      +   H                     Rate:  -2%
+   C+        +   CH        -->   CH+       +   C                     Rate:  -1%
 
-Abundance        = 1.629E-05
-Formation Rate   = 8.825E-18 s-1
-Destruction Rate = 8.783E-18 s-1
+Abundance        = 1.624E-05
+Formation Rate   = 8.830E-18 s-1
+Destruction Rate = 8.790E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -9049,8 +9061,8 @@ Species = C
    C         +   PHOTON    -->   C+        +   e-                    Rate:  -1%
    C         +   OH        -->   CO        +   H                     Rate:  -1%
 
-Abundance        = 8.241E-05
-Formation Rate   = 8.754E-18 s-1
+Abundance        = 8.248E-05
+Formation Rate   = 8.761E-18 s-1
 Destruction Rate = 9.016E-18 s-1
 
 --------------------------------------------------------------------------------
@@ -9069,17 +9081,18 @@ Species = O
    CO+       +   e-        -->   O         +   C                     Rate:   1%
 
    H3+       +   O         -->   OH+       +   H2                    Rate: -69%
-   O         +   CH5+      -->   H3O+      +   CH2                   Rate:  -8%
+   O         +   CH5+      -->   H3O+      +   CH2                   Rate:  -7%
    CH        +   O         -->   CO        +   H                     Rate:  -7%
    O         +   OH        -->   O2        +   H                     Rate:  -5%
    CH2       +   O         -->   CO        +   H         +   H       Rate:  -4%
    O         +   CRP       -->   O+        +   e-                    Rate:  -3%
    CH2       +   O         -->   CO        +   H2                    Rate:  -3%
    CH        +   O         -->   HCO+      +   e-                    Rate:  -1%
+   CH3+      +   O         -->   HCO+      +   H2                    Rate:  -1%
 
 Abundance        = 2.986E-04
-Formation Rate   = 2.188E-18 s-1
-Destruction Rate = 2.489E-18 s-1
+Formation Rate   = 2.187E-18 s-1
+Destruction Rate = 2.479E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -9098,9 +9111,9 @@ Species = CO
    He+       +   CO        -->   O         +   C+        +   He      Rate: -99%
    H3+       +   CO        -->   HCO+      +   H2                    Rate:  -1%
 
-Abundance        = 1.264E-06
+Abundance        = 1.254E-06
 Formation Rate   = 1.445E-18 s-1
-Destruction Rate = 1.484E-18 s-1
+Destruction Rate = 1.482E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -9124,9 +9137,9 @@ Species = C+
    C+        +   H2O       -->   HCO+      +   H                     Rate:  -1%
    C+        +   CH        -->   CH+       +   C                     Rate:  -1%
 
-Abundance        = 2.343E-05
-Formation Rate   = 7.521E-18 s-1
-Destruction Rate = 7.498E-18 s-1
+Abundance        = 2.333E-05
+Formation Rate   = 7.531E-18 s-1
+Destruction Rate = 7.494E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -9149,9 +9162,9 @@ Species = C
    C         +   PHOTON    -->   C+        +   e-                    Rate:  -1%
    C         +   OH        -->   CO        +   H                     Rate:  -1%
 
-Abundance        = 7.590E-05
-Formation Rate   = 7.544E-18 s-1
-Destruction Rate = 7.637E-18 s-1
+Abundance        = 7.601E-05
+Formation Rate   = 7.542E-18 s-1
+Destruction Rate = 7.646E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -9179,9 +9192,9 @@ Species = O
    CH        +   O         -->   HCO+      +   e-                    Rate:  -1%
    CH3+      +   O         -->   HCO+      +   H2                    Rate:  -1%
 
-Abundance        = 2.992E-04
-Formation Rate   = 1.371E-18 s-1
-Destruction Rate = 1.510E-18 s-1
+Abundance        = 2.993E-04
+Formation Rate   = 1.370E-18 s-1
+Destruction Rate = 1.506E-18 s-1
 
 --------------------------------------------------------------------------------
 
@@ -9199,9 +9212,9 @@ Species = CO
    He+       +   CO        -->   O         +   C+        +   He      Rate: -99%
    H3+       +   CO        -->   HCO+      +   H2                    Rate:  -1%
 
-Abundance        = 6.516E-07
-Formation Rate   = 7.646E-19 s-1
-Destruction Rate = 7.842E-19 s-1
+Abundance        = 6.435E-07
+Formation Rate   = 7.632E-19 s-1
+Destruction Rate = 7.836E-19 s-1
 
 --------------------------------------------------------------------------------
 
@@ -9211,7 +9224,7 @@ Destruction Rate = 7.842E-19 s-1
 --------------------------------------------------------------------------------
 
 Gridpoint =    112, t = 1.0E+7 yr, Av = 3.5E+0 mag
-n_H = 3.0E+2 cm-3, T_gas = 1.2E+1 K
+n_H = 3.0E+2 cm-3, T_gas = 1.1E+1 K
 Species = C+        
 
    C         +   CRPHOT    -->   C+        +   e-                    Rate:  85%
@@ -9225,14 +9238,14 @@ Species = C+
    C+        +   H2O       -->   HCO+      +   H                     Rate:  -2%
    C+        +   CH        -->   CH+       +   C                     Rate:  -1%
 
-Abundance        = 1.925E-05
-Formation Rate   = 8.219E-18 s-1
-Destruction Rate = 8.179E-18 s-1
+Abundance        = 1.917E-05
+Formation Rate   = 8.227E-18 s-1
+Destruction Rate = 8.194E-18 s-1
 
 --------------------------------------------------------------------------------
 
 Gridpoint =    112, t = 1.0E+7 yr, Av = 3.5E+0 mag
-n_H = 3.0E+2 cm-3, T_gas = 1.2E+1 K
+n_H = 3.0E+2 cm-3, T_gas = 1.1E+1 K
 Species = C         
 
    C+        +   e-        -->   C         +   PHOTON                Rate:  63%
@@ -9251,14 +9264,14 @@ Species = C
    C         +   PHOTON    -->   C+        +   e-                    Rate:  -1%
    C         +   OH        -->   CO        +   H                     Rate:  -1%
 
-Abundance        = 7.980E-05
-Formation Rate   = 8.190E-18 s-1
-Destruction Rate = 8.366E-18 s-1
+Abundance        = 7.989E-05
+Formation Rate   = 8.205E-18 s-1
+Destruction Rate = 8.371E-18 s-1
 
 --------------------------------------------------------------------------------
 
 Gridpoint =    112, t = 1.0E+7 yr, Av = 3.5E+0 mag
-n_H = 3.0E+2 cm-3, T_gas = 1.2E+1 K
+n_H = 3.0E+2 cm-3, T_gas = 1.1E+1 K
 Species = O         
 
    He+       +   CO        -->   O         +   C+        +   He      Rate:  63%
@@ -9279,13 +9292,13 @@ Species = O
    CH        +   O         -->   HCO+      +   e-                    Rate:  -1%
 
 Abundance        = 2.990E-04
-Formation Rate   = 1.769E-18 s-1
-Destruction Rate = 1.985E-18 s-1
+Formation Rate   = 1.768E-18 s-1
+Destruction Rate = 1.977E-18 s-1
 
 --------------------------------------------------------------------------------
 
 Gridpoint =    112, t = 1.0E+7 yr, Av = 3.5E+0 mag
-n_H = 3.0E+2 cm-3, T_gas = 1.2E+1 K
+n_H = 3.0E+2 cm-3, T_gas = 1.1E+1 K
 Species = CO        
 
    HCO+      +   e-        -->   CO        +   H                     Rate:  45%
@@ -9298,9 +9311,9 @@ Species = CO
    He+       +   CO        -->   O         +   C+        +   He      Rate: -99%
    H3+       +   CO        -->   HCO+      +   H2                    Rate:  -1%
 
-Abundance        = 9.258E-07
-Formation Rate   = 1.097E-18 s-1
-Destruction Rate = 1.127E-18 s-1
+Abundance        = 9.165E-07
+Formation Rate   = 1.098E-18 s-1
+Destruction Rate = 1.126E-18 s-1
 
 --------------------------------------------------------------------------------
 
