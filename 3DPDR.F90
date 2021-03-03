@@ -518,6 +518,7 @@ DO II=1,CHEMITERATIONS
   DO pp=1,pdr_ptot
    p=IDlist_pdr(pp)
    pdr(p)%abundance = dummy_abundance(:,pp)
+   pdr(p)%gas_temperature = dummy_temperature(pp)
   enddo
 #ifdef OPENMP
 !$OMP END PARALLEL DO
@@ -747,6 +748,8 @@ allocate(CIIevalpop(0:nrays-1,0:maxpoints,1:CII_nlev))
 allocate(CIevalpop(0:nrays-1,0:maxpoints,1:CI_nlev))
 allocate(OIevalpop(0:nrays-1,0:maxpoints,1:OI_nlev))
 allocate(C12Oevalpop(0:nrays-1,0:maxpoints,1:C12O_nlev))
+allocate(eval_temp(0:nrays-1,0:maxpoints))
+allocate(eval_vel(0:nrays-1,0:maxpoints))
 CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0 
        ! Specify the evaluation points along each ray from the current pdrpoint
        do j=0,nrays-1
@@ -766,6 +769,12 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
           enddo !pdr(p)%epray(j)
        enddo
  
+       do j=0,nrays-1
+          do i=0,pdr(p)%epray(j)
+		eval_temp(j,i)=pdr(int(pdr(p)%projected(j,i)))%gas_temperature
+                eval_vel(j,i)=pdr(int(pdr(p)%projected(j,i)))%velocity
+          enddo !pdr(p)%epray(j)
+       enddo 
        !
        ! Use the LVG (escape probability) method to determine the transition matrices and solve for the level populations
 ! CII calculations -------------------------------------------------
@@ -778,6 +787,7 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
        call escape_probability(transition_CII, dusttemperature(pp), nrays, CII_nlev,nfreq, &
               &CII_A_COEFFS, CII_B_COEFFS, CII_C_COEFFS, &
               &CII_frequencies, CIIevalpop, maxpoints, &
+              &eval_temp, eval_vel,&
               &gastemperature(pp), v_turb, pdr(p)%velocity, pdr(p)%epray, pdr(p)%CII_pop, &
               &pdr(p)%epoint, CII_weights,CII_cool(pp),dummyarray_CII, &
               &dummyarray_CII_tau,1,pdr(p)%rho,metallicity,dummyarray_CII_beta)
@@ -803,6 +813,7 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
        call escape_probability(transition_CI, dusttemperature(pp), nrays, CI_nlev, nfreq, &
               &CI_A_COEFFS, CI_B_COEFFS, CI_C_COEFFS, &
               &CI_frequencies, CIevalpop, maxpoints, &
+              &eval_temp, eval_vel,&
               &gastemperature(pp), v_turb, pdr(p)%velocity, pdr(p)%epray, pdr(p)%CI_pop, &
               &pdr(p)%epoint,CI_weights,CI_cool(pp),dummyarray_CI, &
 	      &dummyarray_CI_tau,2,pdr(p)%rho,metallicity,dummyarray_CI_beta)
@@ -828,6 +839,7 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
        call escape_probability(transition_OI, dusttemperature(pp), nrays, OI_nlev, nfreq, &
               &OI_A_COEFFS, OI_B_COEFFS, OI_C_COEFFS, &
               &OI_frequencies, OIevalpop, maxpoints, &
+              &eval_temp, eval_vel,&
               &gastemperature(pp), v_turb, pdr(p)%velocity, pdr(p)%epray, pdr(p)%OI_pop, &
               &pdr(p)%epoint,OI_weights,OI_cool(pp),dummyarray_OI, &
               &dummyarray_OI_tau,3,pdr(p)%rho,metallicity,dummyarray_OI_beta)
@@ -853,6 +865,7 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
        call escape_probability(transition_C12O, dusttemperature(pp), nrays, C12O_nlev, nfreq,&
               &C12O_A_COEFFS, C12O_B_COEFFS, C12O_C_COEFFS, &
               &C12O_frequencies, C12Oevalpop, maxpoints, &
+              &eval_temp, eval_vel,&
               &gastemperature(pp), v_turb, pdr(p)%velocity, pdr(p)%epray, pdr(p)%C12O_pop, &
               &pdr(p)%epoint,C12O_weights,C12O_cool(pp),dummyarray_C12O, &
               &dummyarray_C12O_tau,4,pdr(p)%rho,metallicity,dummyarray_C12O_beta)
@@ -908,7 +921,8 @@ deallocate(CIIevalpop)
 deallocate(CIevalpop)
 deallocate(OIevalpop)
 deallocate(C12Oevalpop)
-
+deallocate(eval_temp)
+deallocate(eval_vel)
 
 enddo !particles
 #ifdef OPENMP

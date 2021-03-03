@@ -2,7 +2,8 @@
 
 subroutine escape_probability(transition, dust_temperature, nrays, nlev,nfreq, &
                    &A_COEFFS, B_COEFFS, C_COEFFS, &
-                   &frequencies,s_evalpop, maxpoints, Tguess, v_turb, v_gas, &
+                   &frequencies,s_evalpop, maxpoints,&
+                   & T_evalpoint, vel_evalpoint, Tguess, v_turb, v_gas, &
                    &s_jjr, s_pop, s_evalpoint, weights,cooling_rate,line,tau,&
                    &coolant,density,metallicity,bbeta)
 
@@ -27,6 +28,8 @@ real(kind=dp), intent(in) :: C_COEFFS(1:nlev, 1:nlev)
 real(kind=dp), intent(in) :: frequencies(1:nlev, 1:nlev)
 real(kind=dp), intent(in) :: s_evalpop(0:nrays-1,0:maxpoints,1:nlev)
 real(kind=dp), intent(in) :: s_evalpoint(1:3,0:nrays-1,0:maxpoints)
+real(kind=dp), intent(in) :: T_evalpoint(0:nrays-1,0:maxpoints)
+real(kind=dp), intent(in) :: vel_evalpoint(0:nrays-1,0:maxpoints)
 real(kind=dp) :: Tguess, v_turb, v_gas !, intent(in)
 real(kind=dp), intent(in) :: weights(1:nlev)
 real(kind=dp), intent(in) :: s_pop(1:nlev)

@@ -216,6 +216,7 @@ MODULE maincode_module
      real(kind=dp) :: smoo                         !smoothing length (if SPH = .TRUE. in params.dat)
      real(kind=dp) :: x,y,z                        !position of element
      real(kind=dp) :: velocity			   !radial velocity of element
+     real(kind=dp) :: gas_temperature              !current gas temperature of element
      integer(kind=i4b) :: etype                    !element type (1 = PDR, 2 = ION, 3 = DARK)
 #ifdef DUST2
      real(kind=dp) :: dust_t
@@ -230,6 +231,8 @@ MODULE maincode_module
   real(kind=dp), allocatable :: CIevalpop(:,:,:)
   real(kind=dp), allocatable :: OIevalpop(:,:,:)
   real(kind=dp), allocatable :: C12Oevalpop(:,:,:)
+  real(kind=dp), allocatable :: eval_temp(:,:) !tempterature in evaluation points
+  real(kind=dp), allocatable :: eval_vel(:,:) !velocity in evaluation points
 
   integer(kind=i4b)::levpop_iteration
   real(kind=dp) :: rho_min
