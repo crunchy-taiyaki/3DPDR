@@ -15,17 +15,17 @@ end type
 
  contains
 
- subroutine solve_rt(this,directory,x,av,v_gas,abun,Tgas,Tdust,rho,pop_i,pop_j,metallicity,gas_to_dust)
+ subroutine solve_rt(this,directory,x,av,v_gas,abun,Tgas,Tdust,rho,pop_i,pop_j,metallicity,gas_to_dust,&
+                        &nfreq,min_gas_velocity, max_gas_velocity)
  class (line), intent(in) :: this
  character(len=80), intent(in) :: directory
  real(8), intent(in) :: x(1:),av(1:),v_gas(1:),abun(1:),Tgas(1:),Tdust(1:),rho(1:),pop_i(1:),pop_j(1:)
  real(8), intent(in) :: metallicity, gas_to_dust
+ integer, intent(in) :: nfreq
+ real(8), intent(in) :: min_gas_velocity, max_gas_velocity
  integer :: ptot !total point number
- integer, parameter :: nfreq = 100
- real(8), parameter :: max_gas_velocity = 20.0
  real(8), parameter :: rho_grain = 2.0D0
  real(8), parameter :: v_turb = 1.0d5 !cm/s
- !real(8), parameter :: v_gas = 0. !cm/s
  real(8) :: tmp
  real(8), allocatable :: ngrain(:), emissivity(:)
  real(8), allocatable :: BB(:),BB_dust(:)
@@ -53,7 +53,7 @@ end type
 mh = this%proton_number*mhp
 sigma_ptot=(this%freq0/c)*sqrt(kb*Tgas(ptot-1)/mh+v_turb**2/2.)
   do ifreq=0,nfreq-1
-    velocities(ifreq) = -max_gas_velocity + ifreq*2.0*max_gas_velocity/(nfreq-1)
+    velocities(ifreq) = min_gas_velocity + ifreq*(max_gas_velocity-min_gas_velocity)/(nfreq-1)
   enddo
   freq = this%freq0/(1.+velocities*1e5/c)
   tau_incr(:) = 0.
@@ -144,3 +144,4 @@ write(6,'(A10,2X,5ES11.3)') this%spec,N(ptot-2),Tex(ptot-2),tau(ptot-2,nfreq/2),
 end subroutine solve_rt	
 
 end module line_transfer
+
