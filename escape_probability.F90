@@ -63,8 +63,8 @@ real(kind=dp) :: field(1:nlev,1:nlev)
 real(kind=dp) :: emissivity, bb_ij_dust, ngrain, rho_grain
 
 v_gas = v_gas
-min_gas_velocity = -5.0
-max_gas_velocity = 15.0
+min_gas_velocity = -10.0
+max_gas_velocity = 20.0
 line=0.0D0
 cooling_rate = 0.0D0
 field=0.0D0
