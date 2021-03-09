@@ -3,7 +3,7 @@
 ===========================|-------------------------
 ./model                    !Input directory (20 char. max.)
 1Dslab10_10.dat		   !Input file (20 char. max.)
-./res/1Dslab10_10vel       !Output directory (20 char. max.)
+./res/1Dslab10_10vel100    !Output directory (20 char. max.)
 	     		   !Output file (20 char. max)
 0			   !HEALPix level of refinement
 0.8			   !Theta critical (0<phi<pi/2)
