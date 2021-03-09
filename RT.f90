@@ -7,7 +7,7 @@ character(len=40) :: velocity_flag
 character(len=100) :: directory
 character(len=150) :: filevel,filepdr,filepop
 integer::ptot,p,id,vv,j,ifreq,nfreq
-real :: dummy
+real :: dummy, dummy_vel
 double precision,allocatable::x(:),av(:),init_velocities(:),Tgas(:),Tdust(:)
 double precision,allocatable::rho(:),abun(:,:),CIIpop(:,:),CIpop(:,:),OIpop(:,:),COpop(:,:)
 double precision :: metallicity, gas_to_dust, min_gas_velocity, max_gas_velocity
@@ -95,7 +95,8 @@ enddo
 
 if (velocity_flag.eq.'y') then
   do p=1,ptot
-    read(3,*)dummy,dummy,dummy,dummy,init_velocities(p)
+    read(3,*)dummy,dummy,dummy,dummy,dummy_vel
+    init_velocities(p) = dummy_vel
     write(6,*)init_velocities(p)
   enddo
 else
