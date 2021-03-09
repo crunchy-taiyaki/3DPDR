@@ -32,7 +32,7 @@ MODULE maincode_module
   INTEGER(KIND=I4B) :: NLEV,NTEMP
   integer(kind=i4b) :: iteration, ITERTOT
   integer(kind=i4b) :: iterstep     ! output interval (per how many iterations)
-  integer(kind=i4b) :: nfreq = 5
+  integer(kind=i4b) :: nfreq = 40
   integer(kind=i4b) :: NSPEC, NREAC
   integer(kind=i4b) :: CII_NLEV, CII_NTEMP   !CII cooling variables
   integer(kind=i4b) :: CI_NLEV, CI_NTEMP     !CI cooling variables
@@ -147,11 +147,12 @@ MODULE maincode_module
   real(kind=dp), allocatable :: C12O_HE(:,:,:),C12O_H2(:,:,:)
   real(kind=dp), allocatable :: C12O_PH2(:,:,:),C12O_OH2(:,:,:)
 
-  character(len=20) :: input
+  character(len=27) :: input
   character(len=20) :: inputchem
   character(len=20) :: C12Oinput, CIIinput, CIinput, OIinput
-  character(len=20)  :: output
-  character(len=20) :: directory,indir
+  character(len=40)  :: output
+  character(len=27) :: directory
+  character(len=27) :: indir
 
   type columndens_node
      real(kind=dp), pointer :: columndens_point(:,:)
@@ -198,18 +199,6 @@ MODULE maincode_module
      real(kind=dp), pointer :: OI_line(:,:)        !OI line cooling
      real(kind=dp), pointer :: C12O_line(:,:)      !C12O line cooling
 !=====================================================================
-
-     real(kind=dp), pointer :: CII_line_profile(:,:,:)       !CII
-     real(kind=dp), pointer :: CI_line_profile(:,:,:)        !CI
-     real(kind=dp), pointer :: OI_line_profile(:,:,:)        !OI
-     real(kind=dp), pointer :: C12O_line_profile(:,:,:)      !C12O
-
-     real(kind=dp), pointer :: CII_field_profile(:,:,:)       !CII
-     real(kind=dp), pointer :: CI_field_profile(:,:,:)        !CI
-     real(kind=dp), pointer :: OI_field_profile(:,:,:)        !OI
-     real(kind=dp), pointer :: C12O_field_profile(:,:,:)      !C12O
-!===============
-!===============
      real(kind=dp), pointer :: CII_optdepth(:,:,:)       !CII line cooling
      real(kind=dp), pointer :: CI_optdepth(:,:,:)        !CI line cooling
      real(kind=dp), pointer :: OI_optdepth(:,:,:)        !OI line cooling
@@ -226,6 +215,8 @@ MODULE maincode_module
      real(kind=dp) :: rho                          !density of element
      real(kind=dp) :: smoo                         !smoothing length (if SPH = .TRUE. in params.dat)
      real(kind=dp) :: x,y,z                        !position of element
+     real(kind=dp) :: velocity			   !radial velocity of element
+     real(kind=dp) :: gas_temperature              !current gas temperature of element
      integer(kind=i4b) :: etype                    !element type (1 = PDR, 2 = ION, 3 = DARK)
 #ifdef DUST2
      real(kind=dp) :: dust_t
@@ -240,6 +231,8 @@ MODULE maincode_module
   real(kind=dp), allocatable :: CIevalpop(:,:,:)
   real(kind=dp), allocatable :: OIevalpop(:,:,:)
   real(kind=dp), allocatable :: C12Oevalpop(:,:,:)
+  real(kind=dp), allocatable :: eval_temp(:,:) !tempterature in evaluation points
+  real(kind=dp), allocatable :: eval_vel(:,:) !velocity in evaluation points
 
   integer(kind=i4b)::levpop_iteration
   real(kind=dp) :: rho_min
@@ -260,8 +253,8 @@ real(kind=dp)::CII_percentage,CI_percentage
 real(kind=dp)::levpop_percentage
 #endif
 real(kind=dp) :: rad_tot
-character(len=52) :: out_file, out_file2 !new line
-character(len=40) :: input_file !new line
+character(len=60) :: out_file, out_file2 !new line
+character(len=60) :: input_file !new line
 character(len=7) :: file_ext
 character(len=6) :: file_numb
 real(kind=dp),allocatable :: CII_cool(:)
@@ -271,16 +264,10 @@ real(kind=dp),allocatable :: C12O_cool(:)
 real(kind=dp),allocatable :: total_cooling_rate(:)
 real(kind=dp),allocatable :: dummyarray_CII(:,:), dummyarray_CI(:,:)
 real(kind=dp),allocatable :: dummyarray_OI(:,:), dummyarray_C12O(:,:)
-
-real(kind=dp),allocatable :: dummyarray_CII_profile(:,:,:), dummyarray_CI_profile(:,:,:)
-real(kind=dp),allocatable :: dummyarray_OI_profile(:,:,:), dummyarray_C12O_profile(:,:,:)
-
-real(kind=dp),allocatable :: dummyarray_CII_field_profile(:,:,:), dummyarray_CI_field_profile(:,:,:)
-real(kind=dp),allocatable :: dummyarray_OI_field_profile(:,:,:), dummyarray_C12O_field_profile(:,:,:)
-
 !=================
 real(kind=dp),allocatable :: dummyarray_CII_tau(:,:,:), dummyarray_CI_tau(:,:,:)
 real(kind=dp),allocatable :: dummyarray_OI_tau(:,:,:), dummyarray_C12O_tau(:,:,:)
+
 real(kind=dp),allocatable :: dummyarray_CII_beta(:,:,:),dummyarray_CI_beta(:,:,:)
 real(kind=dp),allocatable :: dummyarray_OI_beta(:,:,:),dummyarray_C12O_beta(:,:,:)
 real(kind=dp),allocatable :: dummycoef(:,:,:), dummystep(:)
@@ -306,7 +293,7 @@ integer(kind=i4b) :: pdr_ptot,ion_ptot,dark_ptot
 integer(kind=i4b),allocatable :: IDlist_pdr(:),IDlist_ion(:),IDlist_dark(:)
 real(kind=DP), allocatable :: pdrpoint(:,:)      ! coordinates of pdr element 
 integer(kind=i4b) :: pp
-real(kind=dp) :: xpos,ypos,zpos,denst
+real(kind=dp) :: xpos,ypos,zpos,denst,radial_velocity
 !================================
 !================================
 !================================

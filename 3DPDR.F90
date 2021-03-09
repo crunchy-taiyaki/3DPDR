@@ -24,7 +24,8 @@ integer(kind=i4b)::NRGR,NRH2,NRHD,NRCO,NRCI,NRSI
 real(kind=dp)::uvfieldaux
 real(kind=dp),allocatable::prev_cooling(:)
 !reversing rows declaration
-real(kind=dp),allocatable::x_rev(:),y_rev(:),z_rev(:),n_rev(:)
+real(kind=dp),allocatable::x_rev(:),y_rev(:),z_rev(:),n_rev(:),radial_velocity_rev(:)
+character(len=1)::velocity_flag
 
 
 write(6,*) '=============================================================================='
@@ -130,11 +131,13 @@ write(6,*) 'TEMP_FIX'
 #ifdef GUESS_TEMP
 write(6,*) 'GUESS_TEMP'
 #endif
+write(6,*) 'enter velocity_flag (y/n)'
+read(*,*) velocity_flag
 write(6,*) ''
 write(6,*) 'Reading initial conditions file'
 
-input_file = trim(adjustl(indir))//'/'//trim(adjustl(input)) !new line!
-open(unit=2,file=input_file,status='old') !new line
+input_file = trim(adjustl(indir))//'/'//trim(adjustl(input))
+open(unit=2,file=input_file,status='old')
 
 
 !finds how many grid points are in the file
@@ -166,7 +169,13 @@ minimum_density=1.0D10
 open(unit=2,file=input_file,status='old')
 
 do p=1,grand_ptot
-    read(2,*) xpos,ypos,zpos,denst
+    if (velocity_flag .eq. 'y') then
+      read(2,*) xpos,ypos,zpos,denst,radial_velocity
+      radial_velocity = radial_velocity
+    else
+      read(2,*) xpos,ypos,zpos,denst 
+      radial_velocity = 0.
+    endif
     if (denst.le.rho_min) then
       ion_ptot = ion_ptot + 1
       pdr(p)%etype = 2 !IONIZED
@@ -174,6 +183,7 @@ do p=1,grand_ptot
       pdr(p)%y=ypos
       pdr(p)%z=zpos
       pdr(p)%rho=denst
+      pdr(p)%velocity = radial_velocity
       IDlist_ion(ion_ptot)=p
     endif
     if ((denst.gt.rho_min).AND.(denst.le.rho_max)) then
@@ -183,6 +193,7 @@ do p=1,grand_ptot
       pdr(p)%y=ypos
       pdr(p)%z=zpos
       pdr(p)%rho=denst
+      pdr(p)%velocity = radial_velocity
       if (denst.gt.maximum_density) maximum_density=denst
       if (denst.lt.minimum_density) minimum_density=denst
       IDlist_pdr(pdr_ptot)=p
@@ -194,6 +205,7 @@ do p=1,grand_ptot
       pdr(p)%y=ypos
       pdr(p)%z=zpos
       pdr(p)%rho=denst
+      pdr(p)%velocity = radial_velocity
       IDlist_dark(dark_ptot)=p
     endif
 enddo
@@ -210,22 +222,26 @@ allocate(x_rev(1:pdr_ptot))
 allocate(y_rev(1:pdr_ptot))
 allocate(z_rev(1:pdr_ptot))
 allocate(n_rev(1:pdr_ptot))
+allocate(radial_velocity_rev(1:pdr_ptot))
 do pp=1,pdr_ptot-2
   p=IDlist_pdr(pp)
   x_rev(pp)=pdr(p)%x
   y_rev(pp)=pdr(p)%y
   z_rev(pp)=pdr(p)%z
   n_rev(pp)=pdr(p)%rho
+  radial_velocity_rev(pp)=pdr(p)%velocity
 enddo
 x_rev(pdr_ptot-1)=pdr(IDlist_pdr(pdr_ptot))%x
 y_rev(pdr_ptot-1)=pdr(IDlist_pdr(pdr_ptot))%y
 z_rev(pdr_ptot-1)=pdr(IDlist_pdr(pdr_ptot))%z
 n_rev(pdr_ptot-1)=pdr(IDlist_pdr(pdr_ptot))%rho
+radial_velocity_rev(pdr_ptot-1)=pdr(IDlist_pdr(pdr_ptot))%velocity
 
 x_rev(pdr_ptot)=pdr(IDlist_pdr(pdr_ptot-1))%x
 y_rev(pdr_ptot)=pdr(IDlist_pdr(pdr_ptot-1))%y
 z_rev(pdr_ptot)=pdr(IDlist_pdr(pdr_ptot-1))%z
 n_rev(pdr_ptot)=pdr(IDlist_pdr(pdr_ptot-1))%rho
+radial_velocity_rev(pdr_ptot)=pdr(IDlist_pdr(pdr_ptot-1))%velocity
 
 !updates..
 do pp=1,pdr_ptot
@@ -234,6 +250,7 @@ do pp=1,pdr_ptot
   pdr(p)%y=y_rev(pp)
   pdr(p)%z=z_rev(pp)
   pdr(p)%rho=n_rev(pp)
+  pdr(p)%velocity=radial_velocity_rev(pp)
 enddo
 !end reversing...
 
@@ -361,15 +378,6 @@ do pp=1,pdr_ptot
     allocate(pdr(p)%CI_optdepth(1:CI_nlev,1:CI_nlev,0:nrays-1))
     allocate(pdr(p)%OI_optdepth(1:OI_nlev,1:OI_nlev,0:nrays-1))
     allocate(pdr(p)%C12O_optdepth(1:C12O_nlev,1:C12O_nlev,0:nrays-1))
-!==========
-    allocate(pdr(p)%CII_line_profile(1:CII_nlev,1:CII_nlev,0:nfreq-1))
-    allocate(pdr(p)%CI_line_profile(1:CI_nlev,1:CI_nlev,0:nfreq-1))
-    allocate(pdr(p)%OI_line_profile(1:OI_nlev,1:OI_nlev,0:nfreq-1))
-    allocate(pdr(p)%C12O_line_profile(1:C12O_nlev,1:C12O_nlev,0:nfreq-1))
-    allocate(pdr(p)%CII_field_profile(1:CII_nlev,1:CII_nlev,0:nfreq-1))
-    allocate(pdr(p)%CI_field_profile(1:CI_nlev,1:CI_nlev,0:nfreq-1))
-    allocate(pdr(p)%OI_field_profile(1:OI_nlev,1:OI_nlev,0:nfreq-1))
-    allocate(pdr(p)%C12O_field_profile(1:C12O_nlev,1:C12O_nlev,0:nfreq-1))
 enddo
 !Allocating for the ONE molecular element------
 if (dark_ptot.gt.0) then
@@ -511,6 +519,7 @@ DO II=1,CHEMITERATIONS
   DO pp=1,pdr_ptot
    p=IDlist_pdr(pp)
    pdr(p)%abundance = dummy_abundance(:,pp)
+   pdr(p)%gas_temperature = dummy_temperature(pp)
   enddo
 #ifdef OPENMP
 !$OMP END PARALLEL DO
@@ -633,7 +642,9 @@ DO ITERATION=1,ITERTOT
 !$OMP PARALLEL DO DEFAULT(SHARED) PRIVATE (pp,p)
 #endif
        DO pp=1,pdr_ptot
-       	  if (converged(pp)) cycle
+#ifdef THERMALBALANCE
+         if (converged(pp)) cycle
+#endif
           p=IDlist_pdr(pp)
           pdr(p)%abundance = dummy_abundance(:,pp)
        enddo
@@ -688,7 +699,6 @@ DO ITERATION=1,ITERTOT
 !$OMP PRIVATE(CII_C_COEFFS,CI_C_COEFFS,OI_C_COEFFS,C12O_C_COEFFS) &
 !$OMP PRIVATE(transition_CII,transition_CI,transition_OI,transition_C12O) &
 !$OMP PRIVATE(dummyarray_CII,dummyarray_CI,dummyarray_OI,dummyarray_C12O) &
-!$OMP PRIVATE(dummyarray_CII_profile,dummyarray_CI_profile,dummyarray_OI_profile,dummyarray_C12O_profile) &
 !$OMP PRIVATE(dummyarray_CII_tau,dummyarray_CI_tau,dummyarray_OI_tau,dummyarray_C12O_tau)&
 !$OMP PRIVATE(dummyarray_CII_field_profile,dummyarray_CI_field_profile,dummyarray_OI_field_profile,dummyarray_C12O_field_profile)&
 !$OMP PRIVATE(dummyarray_CII_beta,dummyarray_CI_beta,dummyarray_OI_beta,dummyarray_C12O_beta) &
@@ -720,20 +730,11 @@ allocate(dummyarray_CI(1:CI_nlev,1:CI_nlev))
 allocate(dummyarray_OI(1:OI_nlev,1:OI_nlev))
 allocate(dummyarray_C12O(1:C12O_nlev,1:C12O_nlev))
 !========
-allocate(dummyarray_CII_profile(1:CII_nlev,1:CII_nlev,0:nfreq-1))
-allocate(dummyarray_CI_profile(1:CI_nlev,1:CI_nlev,0:nfreq-1))
-allocate(dummyarray_OI_profile(1:OI_nlev,1:OI_nlev,0:nfreq-1))
-allocate(dummyarray_C12O_profile(1:C12O_nlev,1:C12O_nlev,0:nfreq-1))
-allocate(dummyarray_CII_field_profile(1:CII_nlev,1:CII_nlev,0:nfreq-1))
-allocate(dummyarray_CI_field_profile(1:CI_nlev,1:CI_nlev,0:nfreq-1))
-allocate(dummyarray_OI_field_profile(1:OI_nlev,1:OI_nlev,0:nfreq-1))
-allocate(dummyarray_C12O_field_profile(1:C12O_nlev,1:C12O_nlev,0:nfreq-1))
-
-!========
 allocate(dummyarray_CII_tau(1:CII_nlev,1:CII_nlev,0:nrays-1))
 allocate(dummyarray_CI_tau(1:CI_nlev,1:CI_nlev,0:nrays-1))
 allocate(dummyarray_OI_tau(1:OI_nlev,1:OI_nlev,0:nrays-1))
 allocate(dummyarray_C12O_tau(1:C12O_nlev,1:C12O_nlev,0:nrays-1))
+
 allocate(dummyarray_C12O_beta(1:C12O_nlev,1:C12O_nlev,0:nrays-1))
 allocate(dummyarray_CII_beta(1:CII_nlev,1:CII_nlev,0:nrays-1))
 allocate(dummyarray_CI_beta(1:CI_nlev,1:CI_nlev,0:nrays-1))
@@ -749,6 +750,8 @@ allocate(CIIevalpop(0:nrays-1,0:maxpoints,1:CII_nlev))
 allocate(CIevalpop(0:nrays-1,0:maxpoints,1:CI_nlev))
 allocate(OIevalpop(0:nrays-1,0:maxpoints,1:OI_nlev))
 allocate(C12Oevalpop(0:nrays-1,0:maxpoints,1:C12O_nlev))
+allocate(eval_temp(0:nrays-1,0:maxpoints))
+allocate(eval_vel(0:nrays-1,0:maxpoints))
 CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0 
        ! Specify the evaluation points along each ray from the current pdrpoint
        do j=0,nrays-1
@@ -768,6 +771,12 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
           enddo !pdr(p)%epray(j)
        enddo
  
+       do j=0,nrays-1
+          do i=0,pdr(p)%epray(j)
+		eval_temp(j,i)=pdr(int(pdr(p)%projected(j,i)))%gas_temperature
+                eval_vel(j,i)=pdr(int(pdr(p)%projected(j,i)))%velocity
+          enddo !pdr(p)%epray(j)
+       enddo 
        !
        ! Use the LVG (escape probability) method to determine the transition matrices and solve for the level populations
 ! CII calculations -------------------------------------------------
@@ -777,18 +786,16 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
           & CII_C_COEFFS,pdr(p)%abundance(NH)*pdr(p)%rho,pdr(p)%abundance(NPROTON)*pdr(p)%rho, &
           & pdr(p)%abundance(NELECT)*pdr(p)%rho, pdr(p)%abundance(NHE)*pdr(p)%rho,pdr(p)%abundance(NH2)*pdr(p)%rho,&
           & 1)
-
        call escape_probability(transition_CII, dusttemperature(pp), nrays, CII_nlev,nfreq, &
               &CII_A_COEFFS, CII_B_COEFFS, CII_C_COEFFS, &
               &CII_frequencies, CIIevalpop, maxpoints, &
-              &gastemperature(pp), v_turb, pdr(p)%epray, pdr(p)%CII_pop, &
-              &pdr(p)%epoint, CII_weights,CII_cool(pp),dummyarray_CII,dummyarray_CII_profile, &
-              &dummyarray_CII_tau,dummyarray_CII_field_profile,1,pdr(p)%rho,metallicity,dummyarray_CII_beta)
+              &eval_temp, eval_vel,&
+              &gastemperature(pp), v_turb, pdr(p)%velocity, pdr(p)%epray, pdr(p)%CII_pop, &
+              &pdr(p)%epoint, CII_weights,CII_cool(pp),dummyarray_CII, &
+              &dummyarray_CII_tau,1,pdr(p)%rho,metallicity,dummyarray_CII_beta)
        pdr(p)%CII_line=dummyarray_CII
        pdr(p)%CII_line_profile=dummyarray_CII_profile
        pdr(p)%CII_optdepth=dummyarray_CII_tau
-       pdr(p)%CII_field_profile=dummyarray_CII_field_profile
-
        call solvlevpop(CII_nlev,transition_CII,pdr(p)%abundance(NCx)*pdr(p)%rho,CIIsolution)!,1)
        CII_solution(pp,:)=CIIsolution
 #ifdef CO_FIX
@@ -809,9 +816,10 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
        call escape_probability(transition_CI, dusttemperature(pp), nrays, CI_nlev, nfreq, &
               &CI_A_COEFFS, CI_B_COEFFS, CI_C_COEFFS, &
               &CI_frequencies, CIevalpop, maxpoints, &
-              &gastemperature(pp), v_turb, pdr(p)%epray, pdr(p)%CI_pop, &
+              &eval_temp, eval_vel,&
+              &gastemperature(pp), v_turb, pdr(p)%velocity, pdr(p)%epray, pdr(p)%CI_pop, &
               &pdr(p)%epoint,CI_weights,CI_cool(pp),dummyarray_CI, &
-	      &dummyarray_CI_profile,dummyarray_CI_tau,dummyarray_CI_field_profile,2,pdr(p)%rho,metallicity,dummyarray_CI_beta)
+	      &dummyarray_CI_tau,2,pdr(p)%rho,metallicity,dummyarray_CI_beta)
        pdr(p)%CI_line=dummyarray_CI
        pdr(p)%CI_line_profile=dummyarray_CI_profile
        pdr(p)%CI_optdepth=dummyarray_CI_tau
@@ -836,9 +844,10 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
        call escape_probability(transition_OI, dusttemperature(pp), nrays, OI_nlev, nfreq, &
               &OI_A_COEFFS, OI_B_COEFFS, OI_C_COEFFS, &
               &OI_frequencies, OIevalpop, maxpoints, &
-              &gastemperature(pp), v_turb, pdr(p)%epray, pdr(p)%OI_pop, &
-              &pdr(p)%epoint,OI_weights,OI_cool(pp),dummyarray_OI,dummyarray_OI_profile, &
-              & dummyarray_OI_tau,dummyarray_OI_field_profile,3,pdr(p)%rho,metallicity,dummyarray_OI_beta)
+              &eval_temp, eval_vel,&
+              &gastemperature(pp), v_turb, pdr(p)%velocity, pdr(p)%epray, pdr(p)%OI_pop, &
+              &pdr(p)%epoint,OI_weights,OI_cool(pp),dummyarray_OI, &
+              &dummyarray_OI_tau,3,pdr(p)%rho,metallicity,dummyarray_OI_beta)
        pdr(p)%OI_line=dummyarray_OI
        pdr(p)%OI_line_profile=dummyarray_OI_profile
        pdr(p)%OI_optdepth=dummyarray_OI_tau
@@ -863,9 +872,10 @@ CIIevalpop=0.0D0; CIevalpop=0.0D0; OIevalpop=0.0D0; C12Oevalpop=0.0D0
        call escape_probability(transition_C12O, dusttemperature(pp), nrays, C12O_nlev, nfreq,&
               &C12O_A_COEFFS, C12O_B_COEFFS, C12O_C_COEFFS, &
               &C12O_frequencies, C12Oevalpop, maxpoints, &
-              &gastemperature(pp), v_turb, pdr(p)%epray, pdr(p)%C12O_pop, &
-              &pdr(p)%epoint,C12O_weights,C12O_cool(pp),dummyarray_C12O,dummyarray_C12O_profile,&
-              &dummyarray_C12O_tau,dummyarray_C12O_field_profile,4,pdr(p)%rho,metallicity,dummyarray_C12O_beta)
+              &eval_temp, eval_vel,&
+              &gastemperature(pp), v_turb, pdr(p)%velocity, pdr(p)%epray, pdr(p)%C12O_pop, &
+              &pdr(p)%epoint,C12O_weights,C12O_cool(pp),dummyarray_C12O, &
+              &dummyarray_C12O_tau,4,pdr(p)%rho,metallicity,dummyarray_C12O_beta)
        pdr(p)%C12O_line=dummyarray_C12O
        pdr(p)%C12O_line_profile=dummyarray_C12O_profile
        pdr(p)%C12O_optdepth=dummyarray_C12O_tau
@@ -900,19 +910,11 @@ deallocate(dummyarray_CI)
 deallocate(dummyarray_OI)
 deallocate(dummyarray_C12O)
 !============
-deallocate(dummyarray_CII_profile)
-deallocate(dummyarray_CI_profile)
-deallocate(dummyarray_OI_profile)
-deallocate(dummyarray_C12O_profile)
-deallocate(dummyarray_CII_field_profile)
-deallocate(dummyarray_CI_field_profile)
-deallocate(dummyarray_OI_field_profile)
-deallocate(dummyarray_C12O_field_profile)
-!============
 deallocate(dummyarray_CII_tau)
 deallocate(dummyarray_CI_tau)
 deallocate(dummyarray_OI_tau)
 deallocate(dummyarray_C12O_tau)
+
 deallocate(dummyarray_C12O_beta)
 deallocate(dummyarray_CII_beta)
 deallocate(dummyarray_CI_beta)
@@ -928,7 +930,8 @@ deallocate(CIIevalpop)
 deallocate(CIevalpop)
 deallocate(OIevalpop)
 deallocate(C12Oevalpop)
-
+deallocate(eval_temp)
+deallocate(eval_vel)
 
 enddo !particles
 #ifdef OPENMP
@@ -1294,19 +1297,23 @@ if (iteration.ge.1) then
 !-------------------------------------
 !OUTPUT FOR CHEMICAL ANALYSIS
 !-------------------------------------
- 
-!   do pp=1,pdr_ptot
-!      p=IDlist_pdr(pp)
-!      call analyse_chemistry(p, end_time, pdr(p)%rho, previousgastemperature(pp), &
-!        &12, pdr(p)%AV(6), nspec, species,pdr(p)%abundance(1:nspec),nreac, reactant, &
-!        & product, dummy_rate(:,pp))
-!!      write(6,*)
-!   enddo
+   out_file = trim(adjustl(directory))//'/'//"chem_analyse"
+   out_file2 = trim(adjustl(out_file))//"]"
+   write(6,'(" Writing file [",A)') out_file2
+   open(unit=12,file=out_file,status='replace') 
+   do pp=1,pdr_ptot
+      p=IDlist_pdr(pp)
+      call analyse_chemistry(p, end_time, pdr(p)%rho, previousgastemperature(pp), &
+        &12, pdr(p)%AV(6), nspec, species,pdr(p)%abundance(1:nspec),nreac, reactant, &
+        & product, dummy_rate(:,pp))
+      write(12,*)
+   enddo
+   close(12)
 
 !-------------------------------------
 !OUTPUT FOR ABUNDANCES AND TEMPERATURE
 !-------------------------------------
-   out_file = trim(adjustl(directory))//'/'//trim(adjustl(output))//".pdr.fin"
+   out_file = trim(adjustl(directory))//'/'//"pdr.fin"
    out_file2 = trim(adjustl(out_file))//"]"
    write(6,'(" Writing file [",A)') out_file2
    open(unit=21,file=out_file,status='replace')
@@ -1343,7 +1350,7 @@ if (iteration.ge.1) then
 
 if (ion_ptot.gt.0) then
 
-   out_file = trim(adjustl(directory))//'/'//trim(adjustl(output))//".ion.fin"
+   out_file = trim(adjustl(directory))//'/'//"ion.fin"
    out_file2 = trim(adjustl(out_file))//"]"
    write(6,'(" Writing file [",A)') out_file2
    close(21);open(unit=21,file=out_file,status='replace')
@@ -1362,7 +1369,7 @@ endif
 
 if (dark_ptot.gt.0) then
 
-   out_file = trim(adjustl(directory))//'/'//trim(adjustl(output))//".mol.fin"
+   out_file = trim(adjustl(directory))//'/'//"mol.fin"
    out_file2 = trim(adjustl(out_file))//"]"
    write(6,'(" Writing file [",A)') out_file2
    close(21);open(unit=21,file=out_file,status='replace')
@@ -1388,7 +1395,7 @@ close(21)
 !---------------------------
 !OUTPUT FOR COOLING FUNCTION
 !---------------------------
-   out_file = trim(adjustl(directory))//'/'//trim(adjustl(output))//trim(adjustl(".cool"))//".fin"
+   out_file = trim(adjustl(directory))//'/'//trim(adjustl("cool"))//".fin"
    out_file2 = trim(adjustl(out_file))//"]"
    write(6,'(" Writing file [",A)') out_file2
    open(unit=13,file=out_file,status='replace')
@@ -1411,7 +1418,7 @@ close(21)
 !---------------------------
 !OUTPUT FOR HEATING FUNCTION
 !---------------------------
-   out_file = trim(adjustl(directory))//'/'//trim(adjustl(output))//trim(adjustl(".heat"))//".fin"
+   out_file = trim(adjustl(directory))//'/'//trim(adjustl("heat"))//".fin"
    out_file2 = trim(adjustl(out_file))//"]"
    write(6,'(" Writing file [",A)') out_file2
    open(unit=14,file=out_file,status='replace')
@@ -1433,15 +1440,15 @@ close(21)
 !---------------------------
 !OUTPUT FOR TRANSITION LINES
 !---------------------------
-   out_file = trim(adjustl(directory))//'/'//trim(adjustl(output))//trim(adjustl(".line"))//".fin"
+   out_file = trim(adjustl(directory))//'/'//trim(adjustl("line"))//".fin"
    out_file2 = trim(adjustl(out_file))//"]"
    write(6,'(" Writing file [",A)') out_file2
-   open(unit=16,file=out_file,status='replace')
+   open(unit=15,file=out_file,status='replace')
 
    do pp=1,pdr_ptot-2
       p=IDlist_pdr(pp)
 #ifdef PSEUDO_1D
-      write(16,'(I9,200ES11.3)') pp, pdr(p)%x, pdr(p)%AV(6), &    !ID,x,AV(6)
+      write(15,'(I9,200ES11.3)') pp, pdr(p)%x, pdr(p)%AV(6), &    !ID,x,AV(6)
       &pdr(p)%CII_line(2,1),&                                          !CII line
       &pdr(p)%CI_line(2,1), pdr(p)%CI_line(3,1), pdr(p)%CI_line(3,2),& !CI line
       &pdr(p)%OI_line(2,1), pdr(p)%OI_line(3,1), pdr(p)%OI_line(3,2),& !OI line
@@ -1449,7 +1456,7 @@ close(21)
       &pdr(p)%C12O_line(6,5), pdr(p)%C12O_line(7,6), pdr(p)%C12O_line(8,7), pdr(p)%C12O_line(9,8), &
       &pdr(p)%C12O_line(10,9), pdr(p)%C12O_line(11,10)     !CO line
 #else
-      write(16,'(I9,200ES11.3)') pp, pdr(p)%x, pdr(p)%y, pdr(p)%z, &    !ID,x,y,z
+      write(15,'(I9,200ES11.3)') pp, pdr(p)%x, pdr(p)%y, pdr(p)%z, &    !ID,x,y,z
       &pdr(p)%CII_line(2,1),&                                          !CII line
       &pdr(p)%CI_line(2,1), pdr(p)%CI_line(3,1), pdr(p)%CI_line(3,2),& !CI line
       &pdr(p)%OI_line(2,1), pdr(p)%OI_line(3,1), pdr(p)%OI_line(3,2),& !OI line
@@ -1461,7 +1468,7 @@ close(21)
       pp=pdr_ptot
       p=IDlist_pdr(pp)
 #ifdef PSEUDO_1D
-      write(16,'(I9,200ES11.3)') pp, pdr(p)%x, pdr(p)%AV(6), &    !ID,x,AV(6)
+      write(15,'(I9,200ES11.3)') pp, pdr(p)%x, pdr(p)%AV(6), &    !ID,x,AV(6)
       &pdr(p)%CII_line(2,1),&                                          !CII line
       &pdr(p)%CI_line(2,1), pdr(p)%CI_line(3,1), pdr(p)%CI_line(3,2),& !CI line
       &pdr(p)%OI_line(2,1), pdr(p)%OI_line(3,1), pdr(p)%OI_line(3,2),& !OI line
@@ -1469,7 +1476,7 @@ close(21)
       &pdr(p)%C12O_line(6,5), pdr(p)%C12O_line(7,6), pdr(p)%C12O_line(8,7), pdr(p)%C12O_line(9,8), &
       &pdr(p)%C12O_line(10,9), pdr(p)%C12O_line(11,10)     !CO line
 #else
-      write(16,'(I9,200ES11.3)') pp, pdr(p)%x, pdr(p)%y, pdr(p)%z, &    !ID,x,y,z
+      write(15,'(I9,200ES11.3)') pp, pdr(p)%x, pdr(p)%y, pdr(p)%z, &    !ID,x,y,z
       &pdr(p)%CII_line(2,1),&                                          !CII line
       &pdr(p)%CI_line(2,1), pdr(p)%CI_line(3,1), pdr(p)%CI_line(3,2),& !CI line
       &pdr(p)%OI_line(2,1), pdr(p)%OI_line(3,1), pdr(p)%OI_line(3,2),& !OI line
@@ -1480,7 +1487,7 @@ close(21)
       pp=pdr_ptot-1
       p=IDlist_pdr(pp)
 #ifdef PSEUDO_1D
-      write(16,'(I9,200ES11.3)') pp, pdr(p)%x, pdr(p)%AV(6), &    !ID,x,AV(6)
+      write(15,'(I9,200ES11.3)') pp, pdr(p)%x, pdr(p)%AV(6), &    !ID,x,AV(6)
       &pdr(p)%CII_line(2,1),&                                          !CII line
       &pdr(p)%CI_line(2,1), pdr(p)%CI_line(3,1), pdr(p)%CI_line(3,2),& !CI line
       &pdr(p)%OI_line(2,1), pdr(p)%OI_line(3,1), pdr(p)%OI_line(3,2),& !OI line
@@ -1488,7 +1495,7 @@ close(21)
       &pdr(p)%C12O_line(6,5), pdr(p)%C12O_line(7,6), pdr(p)%C12O_line(8,7), pdr(p)%C12O_line(9,8), &
       &pdr(p)%C12O_line(10,9), pdr(p)%C12O_line(11,10)     !CO line
 #else
-      write(16,'(I9,200ES11.3)') pp, pdr(p)%x, pdr(p)%y, pdr(p)%z, &    !ID,x,y,z
+      write(15,'(I9,200ES11.3)') pp, pdr(p)%x, pdr(p)%y, pdr(p)%z, &    !ID,x,y,z
       &pdr(p)%CII_line(2,1),&                                          !CII line
       &pdr(p)%CI_line(2,1), pdr(p)%CI_line(3,1), pdr(p)%CI_line(3,2),& !CI line
       &pdr(p)%OI_line(2,1), pdr(p)%OI_line(3,1), pdr(p)%OI_line(3,2),& !OI line
@@ -1496,36 +1503,9 @@ close(21)
       &pdr(p)%C12O_line(7,6), pdr(p)%C12O_line(8,7), pdr(p)%C12O_line(9,8), pdr(p)%C12O_line(10,9), pdr(p)%C12O_line(11,10),&     !CO line
       &pdr(p)%AV(:)
 #endif
-   close(16)
-!-----------------------------------------
-!OUTPUT FOR TRANSIT LINE PROFILES
-!-----------------------------------------
-open(unit=16,file='CII_2.1_line_profile.dat',status='replace')
-do pp=1,pdr_ptot
-      p=IDlist_pdr(pp)
-      write(16,*)pp, pdr(p)%CII_line(2,1), pdr(p)%CII_line_profile(2,1,:)
-enddo
-   close(16)
-open(unit=16,file='CI_2.1_line_profile.dat',status='replace')
-do pp=1,pdr_ptot
-      p=IDlist_pdr(pp)
-      write(16,*)pp, pdr(p)%CI_line(2,1), pdr(p)%CI_line_profile(2,1,:)
-enddo
-   close(16)
-open(unit=16,file='OI_2.1_line_profile.dat',status='replace')
-do pp=1,pdr_ptot
-      p=IDlist_pdr(pp)
-      write(16,*)pp, pdr(p)%OI_line(2,1), pdr(p)%OI_line_profile(2,1,:)
-enddo
-   close(16)
-open(unit=16,file='C12O_2.1_line_profile.dat',status='replace')
-do pp=1,pdr_ptot
-      p=IDlist_pdr(pp)
-      write(16,*)pp, pdr(p)%C12O_line(2,1), pdr(p)%C12O_line_profile(2,1,:)
-enddo
-   close(16)
+   close(15)
 !-------------------------------
-!END OUTPUT FOR TRANSIT LINE PROFILES
+!END OUTPUT FOR TRANSITION LINES
 !-------------------------------
 !-----------------------------------------
 !OUTPUT FOR FIELD PROFILES
@@ -1558,11 +1538,10 @@ enddo
 !END OUTPUT FOR FIELD PROFILES
 !-------------------------------
 
-
 !---------------------------
-!OUTPUT FOR OPTICAL DEPTHS
+!OUTPUT FOR POPULATION LEVELS
 !---------------------------
-   out_file = trim(adjustl(directory))//'/'//trim(adjustl(output))//trim(adjustl(".spop"))//".fin"
+   out_file = trim(adjustl(directory))//'/'//trim(adjustl("spop"))//".fin"
    out_file2 = trim(adjustl(out_file))//"]"
    write(6,'(" Writing file [",A)') out_file2
    open(unit=16,file=out_file,status='replace')
@@ -1573,16 +1552,15 @@ enddo
    enddo
    close(16)
 !-------------------------------
-!END OUTPUT FOR OPTICAL DEPTHS
+!END OUTPUT FOR POPULATION LEVELS
 !-------------------------------
-
 
 
 #ifdef PSEUDO_1D
 !---------------------------
 !OUTPUT FOR OPTICAL DEPTHS
 !---------------------------
-   out_file = trim(adjustl(directory))//'/'//trim(adjustl(output))//trim(adjustl(".opdp"))//".fin"
+   out_file = trim(adjustl(directory))//'/'//trim(adjustl("opdp"))//".fin"
    out_file2 = trim(adjustl(out_file))//"]"
    write(6,'(" Writing file [",A)') out_file2
    open(unit=16,file=out_file,status='replace')
@@ -1604,8 +1582,6 @@ enddo
 !-------------------------------
 #endif
 
-
-!==============
 endif
 
 write(6,*) ''
